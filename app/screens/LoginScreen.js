@@ -4,7 +4,7 @@ import { View, StyleSheet, TouchableOpacity } from 'react-native';
 import {BlackText, colors} from '../config/theme';
 import {GradientSvg1, GradientSvg2} from '../assets/components/Gradients';
 import Logo from '../assets/components/Logo';
-import {BlackButton} from '../assets/components/Buttons';
+import Button from '../assets/components/Buttons';
 
 
 function LoginScreen() {
@@ -20,9 +20,10 @@ function LoginScreen() {
                 <Logo />
             </View>
             <View style={styles.buttonContainer}>
-                <BlackButton
-                    title="Login"
+                <Button
                     onPress={console.log('button 1 pressed')}
+                    variant='login'
+                    title='Login'
                 />
                 <TouchableOpacity>
                     <BlackText style={{fontSize:14, textDecorationLine:'underline'}} onPress={console.log('button 2 pressed')}>forgot password</BlackText>

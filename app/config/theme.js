@@ -14,54 +14,30 @@ export const fades = {
   secondary: 0.35,
 };
 
-export const BlackText = (props) => {
-    const [fontLoaded, setFontLoaded] = useState(false);
-  
-    useEffect(() => {
-      async function loadFont() {
-        await Font.loadAsync({
-          'jost-bold': require('../assets/fonts/Jost-Bold.ttf'),
-        });
-  
-        setFontLoaded(true);
-      }
-  
-      loadFont();
-    }, []);
-  
-    if (!fontLoaded) {
-      return <Text>Loading...</Text>;
-    }
-  
-    return (
-      <Text style={{ ...props.style, fontFamily: 'jost-bold' }}>
-        {props.children}
-      </Text>
-    );
-  };
+export const CustomText = (props) => {
+  const [fontLoaded, setFontLoaded] = useState(false);
 
-  export const WhiteText = (props) => {
-    const [fontLoaded, setFontLoaded] = useState(false);
-  
-    useEffect(() => {
-      async function loadFont() {
-        await Font.loadAsync({
-          'jost-bold': require('../assets/fonts/Jost-Bold.ttf'),
-        });
-  
-        setFontLoaded(true);
-      }
-  
-      loadFont();
-    }, []);
-  
-    if (!fontLoaded) {
-      return <Text>Loading...</Text>;
+  useEffect(() => {
+    async function loadFont() {
+      await Font.loadAsync({
+        'jost-bold': require('../assets/fonts/Jost-Bold.ttf'),
+      });
+
+      setFontLoaded(true);
     }
-  
-    return (
-      <Text style={{ ...props.style, fontFamily: 'jost-bold', color: colors.white }}>
-        {props.children}
-      </Text>
-    );
-  };
+
+    loadFont();
+  }, []);
+
+  if (!fontLoaded) {
+    return <Text>Loading...</Text>;
+  }
+
+  const { color, style, children } = props;
+
+  return (
+    <Text style={{ ...style, fontFamily: 'jost-bold', color }}>
+      {children}
+    </Text>
+  );
+};

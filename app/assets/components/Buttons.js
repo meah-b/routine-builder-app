@@ -1,19 +1,40 @@
 import React from 'react';
-import { Pressable, StyleSheet } from 'react-native';
+import { TouchableOpacity, StyleSheet } from 'react-native';
 
-import {colors, WhiteText} from '../../config/theme';
+import {colors, CustomText} from '../../config/theme';
 
-const BlackButton = ({ title, onPress }) => (
-    <Pressable style={styles.blackButton} onPress={onPress}>
-      <WhiteText style={styles.buttonText}> {title} </WhiteText>
-    </Pressable>
+export default function Button ({ 
+  onPress,
+  variant,
+  title,
+}) {
+  return (
+    <TouchableOpacity 
+      style={[
+        styles.container, 
+        variant === 'login' ? styles.loginContainer : null,
+        variant === 'black' ? { ...styles.standardContainer, backgroundColor: colors.black} : null,
+        variant === 'white' ? { ...styles.standardContainer, backgroundColor: colors.white} : null,
+      ]} 
+      onPress={onPress}>
+      <CustomText 
+        style={[
+          styles.text,
+          variant === 'login' ? { ...styles.text, color: colors.white} : null,
+          variant === 'black' ? { ...styles.text, color: colors.white} : null,
+          variant === 'white' ? { ...styles.text, color: colors.black} : null,
+        ]}> 
+        {title} 
+      </CustomText>
+    </TouchableOpacity>
   );
-  
+}
+
   const styles = StyleSheet.create({
-    blackButton: {
+    loginContainer: {
       backgroundColor: colors.black,
-      width: 300,
       height: 50,
+      paddingHorizontal: 20,
       borderRadius: 15,
       marginVertical: 5,
       justifyContent: 'center',
@@ -23,10 +44,19 @@ const BlackButton = ({ title, onPress }) => (
       shadowRadius: 5,
       elevation: 5,
     },
-    buttonText: {
+    standardContainer: {
+      height: 43,
+      borderRadius: 15,
+      marginVertical: 5,
+      justifyContent: 'center',
+      shadowColor: colors.black,
+      shadowOffset: {width: 0, height: 2},
+      shadowOpacity: 0.5,
+      shadowRadius: 5,
+      elevation: 5,
+    },
+    text: {
       fontSize: 18,
       textAlign: 'center',
     },
 });
-  
-export { BlackButton };
