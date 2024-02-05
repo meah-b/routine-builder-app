@@ -1,5 +1,6 @@
 import React from 'react';
 import { View, StyleSheet, TouchableOpacity } from 'react-native';
+import AntIcon from "react-native-vector-icons/AntDesign";
 
 import {CustomText, colors} from '../config/theme';
 import {GradientSvg1, GradientSvg2} from '../assets/components/Gradients';
@@ -18,11 +19,12 @@ function LoginScreen() {
                 <TxtInput variant={"username"}/>
                 <TxtInput variant={"password"}/>
             </View>
-            <View style={styles.buttonContainer}>
+            <View style={styles.loginButtonContainer}>
                 <Button
                     onPress={console.log('button 1 pressed')}
                     variant='login'
                     title='Login'
+                    style
                 />
                 <TouchableOpacity>
                     <CustomText 
@@ -32,25 +34,38 @@ function LoginScreen() {
                 </TouchableOpacity>
             </View>
             <View style={styles.alternateContainer}>
-                <View style={styles.line}></View>
-                <CustomText style={{fontSize:14}}>or sign in with</CustomText>
-                <View style={styles.line}></View>
+                <View style={styles.row}>
+                    <View style={styles.line}></View>
+                    <CustomText style={{fontSize:14}}>or sign in with</CustomText>
+                    <View style={styles.line}></View>
+                </View>
+                <TouchableOpacity style={styles.tempInputView}>
+                    <AntIcon style={{left:20}} 
+                        name={'google'}
+                        size={20} 
+                    />
+                    <CustomText style={{left:60, position: 'absolute', fontSize: 16}}>Continue with Google</CustomText>
+                </TouchableOpacity>
+                <View style={styles.row}>
+                    <CustomText style={{fontSize:14}}>Don't have an account? </CustomText>
+                    <TouchableOpacity>
+                        <CustomText 
+                            style={{fontSize:14, textDecorationLine:'underline', color: colors.purple}} 
+                            onPress={console.log('button 2 pressed')}>Sign up
+                        </CustomText>
+                    </TouchableOpacity>
+                </View>
             </View>
         </View>
     );
 }
+
 const styles = StyleSheet.create({
     alternateContainer: {
         position: 'absolute',
-        bottom: 190,
-        flexDirection: "row", 
+        bottom: 70,
+        flexDirection: "column", 
         alignItems: 'center',
-        marginTop: 5,
-    },
-    buttonContainer: {
-        flexDirection: "column",
-        alignItems: 'center',
-        marginBottom: 15,
     },
     container: {
         flex: 1,
@@ -58,7 +73,7 @@ const styles = StyleSheet.create({
         backgroundColor: colors.white,
         alignItems: 'center',
         justifyContent: 'center',
-        },
+    },
     gradient1: {
         position: 'absolute',
         top: 0, 
@@ -81,7 +96,12 @@ const styles = StyleSheet.create({
         height: 1,
         backgroundColor: 'black', 
         marginHorizontal: 10,
-      },
+    },
+    loginButtonContainer: {
+        flexDirection: "column",
+        alignItems: 'center',
+        marginBottom: 15,
+    },
     loginContainer: {
         flexDirection: "column",
         alignItems: 'center',
@@ -92,6 +112,23 @@ const styles = StyleSheet.create({
         right: 0,
         top: 120, 
         alignItems: 'center',
+    },
+    row:{
+        flexDirection: 'row',
+        alignItems: 'center',
+    },
+    tempInputView:{
+        backgroundColor: colors.white,
+        borderRadius:15,
+        height: 50,
+        width: 285,
+        marginVertical: 20,
+        justifyContent: 'center',
+        shadowColor: colors.black,
+        shadowOffset: {width: 0, height: 2},
+        shadowOpacity: 0.5,
+        shadowRadius: 5,
+        elevation: 5,
     },
 });
 

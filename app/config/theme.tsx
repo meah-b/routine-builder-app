@@ -8,13 +8,8 @@ export const colors = {
     grey200: "#9C9C9C",
     black: "#000",
     fade1: 'rgba(255, 255, 255, 0.7)',
-    fade2: 0.35,
-};
-
-
-export const fades = {
-  primary: 0.7,
-  secondary: 0.35,
+    fade2: 'rgba(255, 255, 255, 0.35)',
+    purple: "#6F00FF",
 };
 
 export const CustomText = (props) => {
@@ -36,10 +31,10 @@ export const CustomText = (props) => {
     return <Text>Loading...</Text>;
   }
 
-  const { color, style, children } = props;
+  const { style, children } = props;
 
   return (
-    <Text style={[{ fontFamily: 'jost-bold', color }, style]}>
+    <Text style={[{ fontFamily: 'jost-bold'}, style]}>
       {children}
     </Text>
   );

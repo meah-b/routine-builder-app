@@ -7,13 +7,15 @@ export default function Button ({
   onPress,
   variant,
   title,
+  style,
 }) {
   return (
     <TouchableOpacity 
       style={[
         variant === 'login' ? styles.loginContainer : null,
-        variant === 'black' ? { ...styles.standardContainer, backgroundColor: colors.black} : null,
-        variant === 'white' ? { ...styles.standardContainer, backgroundColor: colors.white} : null,
+        variant === 'black' ? { ...styles.standardContainer, backgroundColor: colors.black, ...style} : null,
+        variant === 'white' ? { ...styles.standardContainer, backgroundColor: colors.white, ...style} : null,
+        variant === 'google' ? { ...styles.standardContainer, backgroundColor: colors.white, ...style} : null,
       ]} 
       onPress={onPress}>
       <CustomText 
@@ -22,6 +24,7 @@ export default function Button ({
           variant === 'login' ? { ...styles.text, color: colors.white} : null,
           variant === 'black' ? { ...styles.text, color: colors.white} : null,
           variant === 'white' ? { ...styles.text, color: colors.black} : null,
+          variant === 'google' ? { ...styles.text, color: colors.black} : null,
         ]}> 
         {title} 
       </CustomText>
