@@ -2,6 +2,7 @@ import React from 'react';
 import { View, StyleSheet, TouchableOpacity } from 'react-native';
 import AntIcon from "react-native-vector-icons/AntDesign";
 
+
 import {CustomText, colors} from '../config/theme';
 import {GradientSvg1, GradientSvg2} from '../assets/components/Gradients';
 import Logo from '../assets/components/Logo';
@@ -9,7 +10,7 @@ import Button from '../assets/components/Buttons';
 import TxtInput from '../assets/components/TextInput';
 
 
-function LoginScreen() {
+export default function LoginScreen({navigation}) {
     return (
         <View style={styles.container}>
             <View style={styles.gradient1}><GradientSvg1/></View>
@@ -21,7 +22,7 @@ function LoginScreen() {
             </View>
             <View style={styles.loginButtonContainer}>
                 <Button
-                    onPress={console.log('button 1 pressed')}
+                    onPress={() => navigation.navigate('Home')}
                     variant='login'
                     title='Login'
                     style
@@ -132,4 +133,3 @@ const styles = StyleSheet.create({
     },
 });
 
-export default LoginScreen;
