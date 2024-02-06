@@ -5,7 +5,7 @@ import AntIcon from "react-native-vector-icons/AntDesign";
 
 import {CustomText, colors} from '../config/theme';
 import {GradientSvg1, GradientSvg2} from '../assets/components/Gradients';
-import Logo from '../assets/components/Logo';
+import {Logo} from '../assets/components/Logo';
 import Button from '../assets/components/Buttons';
 import TxtInput from '../assets/components/TextInput';
 
@@ -30,14 +30,14 @@ export default function LoginScreen({navigation}) {
                 <TouchableOpacity>
                     <CustomText 
                         style={{fontSize:14, textDecorationLine:'underline'}} 
-                        onPress={console.log('button 2 pressed')}>forgot password
+                        onPress={console.log('button 2 pressed')} bold>forgot password
                     </CustomText>
                 </TouchableOpacity>
             </View>
             <View style={styles.alternateContainer}>
                 <View style={styles.row}>
                     <View style={styles.line}></View>
-                    <CustomText style={{fontSize:14}}>or sign in with</CustomText>
+                    <CustomText style={{fontSize:14}}bold>or sign in with</CustomText>
                     <View style={styles.line}></View>
                 </View>
                 <TouchableOpacity style={styles.tempInputView}>
@@ -45,14 +45,14 @@ export default function LoginScreen({navigation}) {
                         name={'google'}
                         size={20} 
                     />
-                    <CustomText style={{left:60, position: 'absolute', fontSize: 16}}>Continue with Google</CustomText>
+                    <CustomText style={{left:60, position: 'absolute', fontSize: 16}}bold>Continue with Google</CustomText>
                 </TouchableOpacity>
                 <View style={styles.row}>
-                    <CustomText style={{fontSize:14}}>Don't have an account? </CustomText>
+                    <CustomText style={{fontSize:14}}bold>Don't have an account? </CustomText>
                     <TouchableOpacity>
                         <CustomText 
                             style={{fontSize:14, textDecorationLine:'underline', color: colors.purple}} 
-                            onPress={console.log('button 2 pressed')}>Sign up
+                            onPress={console.log('button 2 pressed')}bold>Sign up
                         </CustomText>
                     </TouchableOpacity>
                 </View>

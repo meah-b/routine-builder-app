@@ -9,7 +9,9 @@ export const colors = {
     black: "#000",
     fade1: 'rgba(255, 255, 255, 0.7)',
     fade2: 'rgba(255, 255, 255, 0.35)',
-    purple: "#6F00FF",
+    purple: "#9747FF",
+    pink: "#FFBBF8",
+    gradient: ['#9747FF', '#FFBBF8'],
 };
 
 export const CustomText = (props) => {
@@ -19,6 +21,7 @@ export const CustomText = (props) => {
     async function loadFont() {
       await Font.loadAsync({
         'jost-bold': require('../assets/fonts/Jost-Bold.ttf'),
+        'jost-regular': require('../assets/fonts/Jost-Regular.ttf'),
       });
 
       setFontLoaded(true);
@@ -31,10 +34,11 @@ export const CustomText = (props) => {
     return <Text>Loading...</Text>;
   }
 
-  const { style, children } = props;
+  const { style, children, bold } = props;
+  const fontFamily = bold ? 'jost-bold' : 'jost-regular';
 
   return (
-    <Text style={[{ fontFamily: 'jost-bold'}, style]}>
+    <Text style={[{ fontFamily }, style]}>
       {children}
     </Text>
   );
