@@ -25,7 +25,7 @@ export default function Button ({
           variant === 'black' ? { ...styles.text, color: colors.white} : null,
           variant === 'white' ? { ...styles.text, color: colors.black} : null,
           variant === 'google' ? { ...styles.text, color: colors.black} : null,
-        ]}> 
+        ]} bold> 
         {title} 
       </CustomText>
     </TouchableOpacity>
