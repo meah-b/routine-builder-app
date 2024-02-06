@@ -1,16 +1,26 @@
 import React from 'react';
-import { StyleSheet, View } from 'react-native'
+import { StyleSheet, View } from 'react-native';
+import {LinearGradient} from 'expo-linear-gradient';
 
-import { CustomText } from '../config/theme'
+import { CustomText, colors } from '../config/theme';
+import SectionCard from '../assets/components/SectionCard';
+import Header from '../assets/components/Header';
 
 export default function HomeScreen({navigation}) {
     return (
-        <View style={styles.container}>
-            <CustomText style={{fontSize: 30}}>Home</CustomText>
-        </View>
-    )
+        <LinearGradient
+            colors={colors.gradient}
+            style={styles.container}>
+            <Header></Header>
+            <View style={{marginTop: 90}}>
+                <SectionCard variant="Skills" navigation></SectionCard>
+                <SectionCard variant="Connections" navigation></SectionCard>
+                <SectionCard variant="Routines" navigation></SectionCard>
+                <SectionCard variant="Builder" navigation></SectionCard>
+            </View>
+        </LinearGradient>
+    );
 }
-
 
 const styles = StyleSheet.create({
     container: {
@@ -18,4 +28,4 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
     },
-})
+});
