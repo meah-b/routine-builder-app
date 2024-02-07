@@ -1,14 +1,19 @@
 import React from 'react';
 import { View, StyleSheet } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 
 import Button from './Buttons';
 import {colors, CustomText} from '../../config/theme';
 
+
 export default function SectionCard({
     variant,
-    navigation,
+    page,
 }) {
-    let title, subTitle, buttonTitle, padding;
+    const navigation = useNavigation();
+    const onPress = () => {navigation.navigate(page as never)}
+
+    let title: string, subTitle: string, buttonTitle: string, padding: number;
 
     if (variant === 'Skills') {
         title = 'Skills Library';
@@ -34,7 +39,7 @@ export default function SectionCard({
             <CustomText style={styles.title} bold>{title}</CustomText>
             <CustomText style={styles.subTitle}>{subTitle}</CustomText>
             <Button 
-                onPress={() => navigation.navigate('Home')}
+                onPress={onPress}
                 variant='black'
                 title={buttonTitle}
                 style={{ paddingHorizontal: variant === 'Builder' ? 118 : 100}}>
