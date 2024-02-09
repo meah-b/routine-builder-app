@@ -5,6 +5,7 @@ import {LinearGradient} from 'expo-linear-gradient';
 import { CustomText, colors } from '../config/theme';
 import Header from '../assets/components/Header';
 import HomeButton from '../assets/components/HomeButton';
+import RoutineSetUpForm from '../assets/components/RoutineSetUpForm';
 
 export default function RoutineBuilder() {
     return (
@@ -13,6 +14,7 @@ export default function RoutineBuilder() {
             style={styles.container}>
             <Header></Header>
             <CustomText style={styles.text} bold>Routine Builder</CustomText>
+            <RoutineSetUpForm></RoutineSetUpForm>
             <HomeButton></HomeButton>
         </LinearGradient>
     );
