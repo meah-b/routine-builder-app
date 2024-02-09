@@ -8,6 +8,8 @@ import SkillLibrary from './app/screens/SkillsLibrary';
 import ConnectionLibrary from './app/screens/ConnectionLibrary';  
 import RoutineLibrary from './app/screens/RoutineLibrary';
 import RoutineBuilder from './app/screens/RoutineBuilder';
+import Profile from './app/screens/Profile';
+import NotifScreen from './app/screens/NotificationScreen';
 
 
 const Stack = createNativeStackNavigator();
@@ -22,6 +24,8 @@ function App() {
         <Stack.Screen name='Connection Library' component={ConnectionLibrary} />
         <Stack.Screen name='Routine Library' component={RoutineLibrary} />
         <Stack.Screen name='Routine Builder' component={RoutineBuilder} />
+        <Stack.Screen name='Profile' component={Profile} />
+        <Stack.Screen name='Notif Screen' component={NotifScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );
