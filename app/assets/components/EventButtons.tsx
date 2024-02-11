@@ -4,13 +4,13 @@ import { StyleSheet, View } from 'react-native';
 import Button from './Buttons';
 
 export default function EventButtons ({variant}) {
-    const [selectedVariant, setSelectedVariant] = useState(variant === 'four' || variant === 'build' ? 'Vault' : 'Bars');
+    const [selectedVariant, setSelectedVariant] = useState(variant === 'build' ? '' : (variant === 'four' ? 'Vault' : 'Bars'));
     const handleButtonPress = (selectedVariant: string) => {
     setSelectedVariant(selectedVariant);
     };
 
     return (
-        <View style={styles.container}>
+        <View style={variant === 'build' ? styles.buildContainer : styles.container}>
             {(variant === 'four' || variant === 'build') && (
                 <Button
                     onPress={() => handleButtonPress('Vault')}
@@ -38,6 +38,21 @@ export default function EventButtons ({variant}) {
 }
 
 const styles = StyleSheet.create({
+    buildButton: {
+        width: 70,
+        height: 45,
+        marginHorizontal: 5,
+    },
+    buildContainer: {
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    button: {
+        width: 80,
+        height: 50,
+        marginHorizontal: 5,
+    },
     container: {
         flexDirection: 'row',
         justifyContent: 'center',
@@ -45,15 +60,5 @@ const styles = StyleSheet.create({
         position: 'absolute',
         top: 180,
         marginVertical: 10,
-    },
-    button: {
-        width: 80,
-        height: 50,
-        marginHorizontal: 5,
-    },
-    buildButton: {
-        width: 70,
-        height: 45,
-        marginHorizontal: 5,
     },
 });
