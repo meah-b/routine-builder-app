@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, ScrollView, StyleSheet, TouchableOpacity } from 'react-native';
 import AntIcon from "react-native-vector-icons/AntDesign";
 
 
@@ -12,7 +12,7 @@ import TxtInput from '../assets/components/TextInput';
 
 export default function LoginScreen({navigation}) {
     return (
-        <View style={styles.container}>
+        <ScrollView contentContainerStyle={styles.container} scrollEnabled={false}>
             <View style={styles.gradient1}><GradientSvg1/></View>
             <View style={styles.gradient2}><GradientSvg2/></View>
             <View style={styles.logo}><Logo/></View>
@@ -57,7 +57,7 @@ export default function LoginScreen({navigation}) {
                     </TouchableOpacity>
                 </View>
             </View>
-        </View>
+        </ScrollView>
     );
 }
 
