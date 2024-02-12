@@ -3,7 +3,7 @@ import { TouchableOpacity, StyleSheet } from 'react-native';
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 import { useNavigation } from '@react-navigation/native';
 
-import { colors } from '../../config/theme';
+import { colors } from '../../../config/theme';
 
 export default function HomeButton() {
   const navigation = useNavigation();
