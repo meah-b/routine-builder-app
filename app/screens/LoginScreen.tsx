@@ -6,7 +6,7 @@ import AntIcon from "react-native-vector-icons/AntDesign";
 import {CustomText, colors} from '../config/theme';
 import {GradientSvg1, GradientSvg2} from '../assets/components/Gradients';
 import {Logo} from '../assets/components/Logo';
-import Button from '../assets/components/Buttons';
+import Button from '../assets/components/buttons/Buttons';
 import TxtInput from '../assets/components/TextInput';
 
 

@@ -1,9 +1,8 @@
 import React from 'react';
 import { View, StyleSheet, TextInput, ScrollView } from 'react-native';
 
-import EventButtons from './EventButtons';
-import Button from './Buttons';
-import LevelButtons from './LevelButtons';
+import EventButtons from './buttons/EventButtons';
+import LevelButtons from './buttons/LevelButtons';
 import {colors, CustomText} from '../../config/theme';
 
 

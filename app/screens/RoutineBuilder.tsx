@@ -3,9 +3,9 @@ import { StyleSheet, View } from 'react-native';
 import {LinearGradient} from 'expo-linear-gradient';
 
 import { CustomText, colors } from '../config/theme';
-import Button from '../assets/components/Buttons';
+import Button from '../assets/components/buttons/Buttons';
 import Header from '../assets/components/Header';
-import HomeButton from '../assets/components/HomeButton';
+import HomeButton from '../assets/components/buttons/HomeButton';
 import RoutineSetUpForm from '../assets/components/RoutineSetUpForm';
 import RoutineBuilderForm from '../assets/components/RoutineBuilderForm';
 

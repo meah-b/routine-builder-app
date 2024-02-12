@@ -1,31 +1,34 @@
 import React from 'react';
 import { View, StyleSheet, ScrollView } from 'react-native';
 
-import Button from './Buttons';
-
+import Button from './buttons/Buttons';
+import BuilderDropDowns from './buttons/BuilderDropDowns';
 
 export default function RoutineBuilderForm() {
     return (
         <ScrollView contentContainerStyle={styles.container} scrollEnabled={false}>
-            <Button style={styles.addButton} title='edit' variant='black' onPress={() => console.log('Add Skill')}></Button>
+            <BuilderDropDowns/>
+            <Button
+                title="Calculate Start Value"
+                variant='black'
+                style={styles.button}
+                onPress={() => {}}/>
         </ScrollView>
     );
 }
 
 const styles = StyleSheet.create({
-    addButton: {
-        position: 'absolute',
-        height: 35,
-        width: 110,
-        top: 260,
-        left: 20,
+    button: {
+        width: 250,
+        height: 50,
     },
     container: {
         flex: 1,
         flexDirection: 'column',
         alignItems: 'center',
         height: 470,
-        width: 350,
+        width: 370,
+        paddingHorizontal: 5,
         marginTop: 190,
         marginBottom: 150,
     },

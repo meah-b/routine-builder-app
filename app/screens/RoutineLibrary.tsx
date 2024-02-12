@@ -5,9 +5,9 @@ import { useNavigation } from '@react-navigation/native';
 
 import { CustomText, colors } from '../config/theme';
 import Header from '../assets/components/Header';
-import HomeButton from '../assets/components/HomeButton';
-import EventButtons from '../assets/components/EventButtons';
-import Button from '../assets/components/Buttons';
+import HomeButton from '../assets/components/buttons/HomeButton';
+import EventButtons from '../assets/components/buttons/EventButtons';
+import Button from '../assets/components/buttons/Buttons';
 
 export default function RoutineLibrary() {
     const navigation = useNavigation();
