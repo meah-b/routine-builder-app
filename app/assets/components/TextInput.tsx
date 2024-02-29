@@ -17,7 +17,7 @@ export default function TxtInput({ variant }) {
           style={styles.inputText}
           editable
           placeholder={
-            variant === 'username' ? 'Username' : variant === 'password' ? 'Password' : variant === 'skill' ? 'Skill Name' : null
+            variant === 'username' ? 'Username' : variant === 'password' ? 'Password' : null
           }
           placeholderTextColor={colors.black}
           maxLength={12}
