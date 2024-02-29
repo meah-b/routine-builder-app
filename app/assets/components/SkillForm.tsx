@@ -1,8 +1,9 @@
 import React from "react";
-import { View, StyleSheet } from "react-native";
+import { View, StyleSheet, TextInput } from "react-native";
 
 import { colors, CustomText } from "../../config/theme";
-import TxtInput from './TextInput';
+import SkillDropDowns from "./buttons/SkillDropDowns";
+import Button from "./buttons/Buttons";
 
 
 interface SkillFormProps {
@@ -15,7 +16,22 @@ export default function SkillForm(props: SkillFormProps){
         <View style={styles.container}>
             <CustomText style={styles.h1} bold>{event}</CustomText>
             <CustomText style={styles.text} bold>Skill Name:</CustomText>
-            <TxtInput variant={"skill"}/>
+            <View style={styles.inputView}>
+                <TextInput
+                style={styles.inputText}
+                editable
+                placeholder='Skill Name'
+                placeholderTextColor={colors.grey200}
+                maxLength={12}
+                />
+            </View>
+            <SkillDropDowns variant="beam"/>
+            <Button
+            onPress={console.log('save button pressed')}
+            variant='black'
+            title='Save'
+            style={{width: 180, height: 50, marginTop: 15}}
+            />
         </View>
     )
 }
@@ -26,8 +42,8 @@ const styles = StyleSheet.create({
         borderRadius: 15,
         flexDirection: 'column',
         alignItems: 'center',
-        marginBottom: 100,
-        height: 450,
+        marginBottom: 80,
+        height: 490,
         width: 370,
         shadowColor: colors.black,
         shadowOffset: {width: 0, height: 2},
@@ -40,9 +56,29 @@ const styles = StyleSheet.create({
         fontSize: 25,
         marginTop: 20,
     },
+    inputView:{
+        backgroundColor: colors.white,
+        borderRadius:15,
+        height: 60,
+        width: 340,
+        justifyContent:"center",
+        marginVertical: 5,
+        shadowColor: colors.black,
+        shadowOffset: {width: 0, height: 2},
+        shadowOpacity: 0.2,
+        shadowRadius: 5,
+        elevation: 5,
+    },
+    inputText:{
+        marginLeft: 20,
+        color:colors.black,
+        fontSize: 16,
+    },
     text: {
         color: colors.black,
         fontSize: 18,
         marginTop: 20,
+        alignSelf: 'flex-start',
+        marginLeft: 20,
     },
 })
