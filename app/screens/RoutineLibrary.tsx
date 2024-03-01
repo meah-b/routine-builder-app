@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import { StyleSheet, View } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useNavigation } from '@react-navigation/native';
@@ -8,8 +8,10 @@ import Header from '../assets/components/Header';
 import HomeButton from '../assets/components/buttons/HomeButton';
 import EventButtons from '../assets/components/buttons/EventButtons';
 import Button from '../assets/components/buttons/Buttons';
+import RoutineList from '../assets/components/lists/RoutineList';
 
 export default function RoutineLibrary() {
+    const [selectedVariant, setSelectedVariant] = useState('Vault');
     const navigation = useNavigation();
 
     const handleAddRoutine = () => {
@@ -17,22 +19,27 @@ export default function RoutineLibrary() {
     };
 
     return (
-        <LinearGradient
-            colors={colors.gradient}
-            style={styles.container}
-        >
+        <LinearGradient colors={colors.gradient} style={styles.container}>
             <Header />
             <CustomText style={styles.text} bold>
                 Routine Library
             </CustomText>
-            <EventButtons variant="four" />
+            <EventButtons 
+            variant="four" 
+            selectedVariant={selectedVariant}
+            onPress1={() => setSelectedVariant('Vault')}
+            onPress2={() => setSelectedVariant('Bars')} 
+            onPress3={() => setSelectedVariant('Beam')} 
+            onPress4={() => setSelectedVariant('Floor')}
+            />
             <Button
                 style={styles.addButton}
                 title="Add Routine"
                 variant="black"
                 onPress={handleAddRoutine}
             />
-            <HomeButton />
+            <RoutineList></RoutineList>
+            <HomeButton/>
         </LinearGradient>
     );
 }
@@ -42,7 +49,7 @@ const styles = StyleSheet.create({
         position: 'absolute',
         height: 35,
         width: 140,
-        top: 260,
+        top: 255,
         left: 20,
     },
     container: {

@@ -3,7 +3,7 @@ import { StyleSheet, View } from 'react-native';
 import {LinearGradient} from 'expo-linear-gradient';
 
 import { colors } from '../config/theme';
-import SectionCard from '../assets/components/SectionCard';
+import SectionCard from '../assets/components/cards/SectionCard';
 import Header from '../assets/components/Header';
 
 export default function HomeScreen() {

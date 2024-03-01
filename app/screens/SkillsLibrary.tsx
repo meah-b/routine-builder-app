@@ -7,24 +7,34 @@ import Header from '../assets/components/Header';
 import HomeButton from '../assets/components/buttons/HomeButton';
 import EventButtons from '../assets/components/buttons/EventButtons';
 import Button from '../assets/components/buttons/Buttons';
-import SkillForm from '../assets/components/SkillForm';
+import SkillForm from '../assets/components/forms/SkillForm';
+import SkillList from '../assets/components/lists/SkillList';
 
 
 export default function SkillLibrary() {
     const [form, setForm] = useState(0);
+    const [selectedVariant, setSelectedVariant] = useState('Vault');
 
     function Form(){
         if (form === 0){
             return (
                 <View style={styles.container}>
                     <CustomText style={styles.h1} bold>Skill Library</CustomText>
-                    <EventButtons variant='four'></EventButtons>
+                    <EventButtons 
+                    variant='four' 
+                    selectedVariant={selectedVariant}
+                    onPress1={() => setSelectedVariant('Vault')} 
+                    onPress2={() => setSelectedVariant('Bars')} 
+                    onPress3={() => setSelectedVariant('Beam')} 
+                    onPress4={() => setSelectedVariant('Floor')}>
+                    </EventButtons>
                     <Button
                         style={styles.addButton}
                         title='Add Skill'
                         variant='black'
                         onPress={() => setForm(1)}
                     ></Button>
+                    <SkillList></SkillList>
                 </View>
             )
         } else {
@@ -37,16 +47,14 @@ export default function SkillLibrary() {
                         >back to skills library
                         </CustomText>
                     </TouchableOpacity>
-                    <SkillForm event="Beam" /> 
+                    <SkillForm event={selectedVariant} /> 
                 </View>
             )
         }
     }
 
     return (
-        <LinearGradient
-            colors={colors.gradient}
-            style={styles.container}>
+        <LinearGradient colors={colors.gradient} style={styles.container}>
             <Header></Header>
             <Form/>
             <HomeButton></HomeButton>
@@ -59,8 +67,8 @@ const styles = StyleSheet.create({
         position: 'absolute',
         height: 35,
         width: 110,
-        top: 260,
-        right: 65,
+        top: 255,
+        left: 10,
     },
     container: {
         flex: 1,
@@ -79,5 +87,4 @@ const styles = StyleSheet.create({
         textDecorationLine:'underline', 
         color: colors.black,
     }
-    
 });

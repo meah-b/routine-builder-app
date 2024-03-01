@@ -7,7 +7,7 @@ import {CustomText, colors} from '../config/theme';
 import {GradientSvg1, GradientSvg2} from '../assets/components/Gradients';
 import {Logo} from '../assets/components/Logo';
 import Button from '../assets/components/buttons/Buttons';
-import TxtInput from '../assets/components/TextInput';
+import TxtInput from '../assets/components/utilities/TextInput';
 
 
 export default function LoginScreen({navigation}) {

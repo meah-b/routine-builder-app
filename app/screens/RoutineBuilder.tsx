@@ -6,8 +6,8 @@ import { CustomText, colors } from '../config/theme';
 import Button from '../assets/components/buttons/Buttons';
 import Header from '../assets/components/Header';
 import HomeButton from '../assets/components/buttons/HomeButton';
-import RoutineSetUpForm from '../assets/components/RoutineSetUpForm';
-import RoutineBuilderForm from '../assets/components/RoutineBuilderForm';
+import RoutineSetUpForm from '../assets/components/forms/RoutineSetUpForm';
+import RoutineBuilderForm from '../assets/components/forms/RoutineBuilderForm';
 
 export default function RoutineBuilder() {
     const [isBuilding, setIsBuilding] = useState(false);
