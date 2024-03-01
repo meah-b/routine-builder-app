@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState} from "react";
 import { View, StyleSheet, TextInput } from "react-native";
 
 import { colors, CustomText } from "../../../config/theme";
@@ -11,7 +11,11 @@ interface SkillFormProps {
 }
 
 export default function SkillForm(props: SkillFormProps){
+    const [name, setName] = useState('');
+    const [difficulty, setDifficulty] = useState([]);
+    const [category, setCategory] = useState([]);
     const { event } = props;
+
     return (
         <View style={[styles.container, event === 'Vault' ? {height:400, marginBottom: 170,}: null]}>
             <CustomText style={styles.h1} bold>{event}</CustomText>
@@ -22,12 +26,25 @@ export default function SkillForm(props: SkillFormProps){
                 editable
                 placeholder='Skill Name'
                 placeholderTextColor={colors.grey200}
-                maxLength={12}
+                maxLength={20}
+                onChangeText={(text) => setName(text)}
+                value={name}
                 />
             </View>
-            <SkillDropDowns variant={event}/>
+            <SkillDropDowns 
+            variant={event} 
+            valueD={difficulty} 
+            onChangeD={setDifficulty}
+            valueC={category}
+            onChangeC={setCategory}/>
             <Button
-            onPress={console.log('save button pressed')}
+            onPress={() => {
+                if (name === '' || difficulty.length === 0 || category.length === 0) {
+                    alert('Please input all values!');
+                } else {
+                    console.log(name, difficulty, category);
+                }
+            }}
             variant='black'
             title='Save'
             style={{width: 180, height: 50, marginTop: 15}}

@@ -1,7 +1,8 @@
 import React, {useState} from 'react';
 import { View, ScrollView, StyleSheet, TouchableOpacity, ActivityIndicator, KeyboardAvoidingView } from 'react-native';
 import AntIcon from "react-native-vector-icons/AntDesign";
-import { firebase_auth } from '../Firebase/firebaseConfig';
+import { firebase_auth, firestore_db } from '../Firebase/firebaseConfig';
+import { collection, doc, setDoc } from 'firebase/firestore';
 
 import {CustomText, colors} from '../config/theme';
 import {GradientSvg1, GradientSvg2} from '../assets/components/utilities/Gradients';
@@ -31,16 +32,33 @@ export default function LoginScreen() {
 
     const signUp = async () => {
         setLoading(true);
-        try{
+        try {
             const response = await createUserWithEmailAndPassword(auth, email, password);
-            console.log(response);
+            const user = response.user;
+            const userDocRef = doc(firestore_db, "users", user.uid);
+    
+            const eventsRef = collection(userDocRef, "events");
+            await setDoc(doc(eventsRef, "vault"), {
+            });
+    
+            await setDoc(doc(eventsRef, "bars"), {
+            });
+    
+            await setDoc(doc(eventsRef, "beam"), {
+            });
+    
+            await setDoc(doc(eventsRef, "floor"), {
+            });
+    
         } catch (error) {
             console.log(error);
-            alert('Sign in failed: ' + error.message);
+            alert('Sign up failed: ' + error.message);
         } finally {
-            setLoading(false)
+            setLoading(false);
         }
-    }
+    };
+    
+    
 
     return (
         <ScrollView contentContainerStyle={styles.container} scrollEnabled={false}>

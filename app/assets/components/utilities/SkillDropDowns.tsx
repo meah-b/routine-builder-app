@@ -62,14 +62,15 @@ const floor_categories = [
 
 interface DropdownProps {
     variant: string;
+    valueD: any;
+    onChangeD: any;
+    valueC: any;
+    onChangeC: any;
 }
 
 export default function SkillDropDowns(props: DropdownProps) {
-    const { variant } = props;
+    const { variant, valueD, onChangeD, valueC, onChangeC } = props;
     
-    const [difficulty, setDifficulty] = React.useState([]);
-    const [category, setCategory] = React.useState([]);
-
     const renderDataItem = (item) => {
         return (
             <View style={styles.item}>
@@ -90,8 +91,8 @@ export default function SkillDropDowns(props: DropdownProps) {
                 labelField="label"
                 valueField="value"
                 placeholder="Select Difficulty Value"
-                value={difficulty}
-                onChange={setDifficulty}
+                value={valueD}
+                onChange={onChangeD}
                 renderItem={renderDataItem}
             />
             {(variant === 'Bars' || variant === 'Beam' || variant === 'Floor') && (
@@ -107,8 +108,8 @@ export default function SkillDropDowns(props: DropdownProps) {
                     labelField="label"
                     valueField="value"
                     placeholder="Select Category"
-                    value={category}
-                    onChange={setCategory}
+                    value={valueC}
+                    onChange={onChangeC}
                     renderItem={renderDataItem}
                 />
             )}
