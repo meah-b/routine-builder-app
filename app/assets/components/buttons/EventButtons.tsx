@@ -3,36 +3,32 @@ import { StyleSheet, View } from 'react-native';
 
 import Button from './Buttons';
 
-export default function EventButtons ({variant}) {
-    const [selectedVariant, setSelectedVariant] = useState(variant === 'build' ? '' : (variant === 'four' ? 'Vault' : 'Bars'));
-    const handleButtonPress = (selectedVariant: string) => {
-    setSelectedVariant(selectedVariant);
-    };
+export default function EventButtons ({variant, selectedVariant, onPress1, onPress2, onPress3, onPress4}) {
 
     return (
         <View style={variant === 'build' ? styles.buildContainer : styles.container}>
             {(variant === 'four' || variant === 'build') && (
                 <Button
-                    onPress={() => handleButtonPress('Vault')}
+                    onPress={onPress1}
                     variant={selectedVariant === 'Vault' ? 'black' : 'white'}
                     title='Vault'
                     style={variant === 'build' ? styles.buildButton : styles.button}/>
             )}
             <Button
-                onPress={() => handleButtonPress('Bars')}
+                onPress={onPress2}
                 variant={selectedVariant === 'Bars' ? 'black' : 'white'}
                 title='Bars'
-                style={variant === 'build' ? styles.buildButton : styles.button}/>
+                style={variant === 'build' ? styles.buildButton : variant === 'three' ? styles.threeButton : styles.button}/>
             <Button
-                onPress={() => handleButtonPress('Beam')}
+                onPress={onPress3}
                 variant={selectedVariant === 'Beam' ? 'black' : 'white'}
                 title='Beam'
-                style={variant === 'build' ? styles.buildButton : styles.button}/>
+                style={variant === 'build' ? styles.buildButton : variant === 'three' ? styles.threeButton : styles.button}/>
             <Button
-                onPress={() => handleButtonPress('Floor')}
+                onPress={onPress4}
                 variant={selectedVariant === 'Floor' ? 'black' : 'white'}
                 title='Floor'
-                style={variant === 'build' ? styles.buildButton : styles.button}/>
+                style={variant === 'build' ? styles.buildButton : variant === 'three' ? styles.threeButton : styles.button}/>
         </View>
     );
 }
@@ -60,5 +56,10 @@ const styles = StyleSheet.create({
         position: 'absolute',
         top: 180,
         marginVertical: 10,
+    },
+    threeButton: {
+        width: 110,
+        height: 50,
+        marginHorizontal: 5,
     },
 });
