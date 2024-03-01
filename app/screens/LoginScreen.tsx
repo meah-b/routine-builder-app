@@ -1,38 +1,78 @@
-import React from 'react';
-import { View, ScrollView, StyleSheet, TouchableOpacity } from 'react-native';
+import React, {useState} from 'react';
+import { View, ScrollView, StyleSheet, TouchableOpacity, ActivityIndicator, KeyboardAvoidingView } from 'react-native';
 import AntIcon from "react-native-vector-icons/AntDesign";
-
+import { firebase_auth } from '../Firebase/firebaseConfig';
 
 import {CustomText, colors} from '../config/theme';
-import {GradientSvg1, GradientSvg2} from '../assets/components/Gradients';
-import {Logo} from '../assets/components/Logo';
+import {GradientSvg1, GradientSvg2} from '../assets/components/utilities/Gradients';
+import {Logo} from '../assets/components/utilities/Logo';
 import Button from '../assets/components/buttons/Buttons';
 import TxtInput from '../assets/components/utilities/TextInput';
+import { signInWithEmailAndPassword, createUserWithEmailAndPassword } from 'firebase/auth';
 
+export default function LoginScreen() {
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [loading, setLoading] = useState(false);
+    const auth = firebase_auth;
 
-export default function LoginScreen({navigation}) {
+    const signIn = async () => {
+        setLoading(true);
+        try{
+            const response = await signInWithEmailAndPassword(auth, email, password);
+            console.log(response);
+        } catch (error) {
+            console.log(error);
+            alert('Sign in failed: ' + error.message);
+        } finally {
+            setLoading(false)
+        }
+    }
+
+    const signUp = async () => {
+        setLoading(true);
+        try{
+            const response = await createUserWithEmailAndPassword(auth, email, password);
+            console.log(response);
+        } catch (error) {
+            console.log(error);
+            alert('Sign in failed: ' + error.message);
+        } finally {
+            setLoading(false)
+        }
+    }
+
     return (
         <ScrollView contentContainerStyle={styles.container} scrollEnabled={false}>
             <View style={styles.gradient1}><GradientSvg1/></View>
             <View style={styles.gradient2}><GradientSvg2/></View>
             <View style={styles.logo}><Logo/></View>
             <View style={styles.loginContainer}>
-                <TxtInput variant={"username"}/>
-                <TxtInput variant={"password"}/>
+                <TxtInput 
+                variant={"email"} 
+                onChange={(text) => setEmail(text)}
+                value={email}/>
+                <TxtInput 
+                variant={"password"} 
+                onChange={(text) => setPassword(text)}
+                value={password}/>
             </View>
             <View style={styles.loginButtonContainer}>
+                { loading ? (
+                <ActivityIndicator size="large" color="#0000ff"/>
+                ) : ( <>
                 <Button
-                    onPress={() => navigation.navigate('Home')}
-                    variant='login'
+                    onPress={signIn}
+                    variant='black'
                     title='Login'
-                    style
+                    style={{width:140}}
                 />
-                <TouchableOpacity>
-                    <CustomText 
-                        style={{fontSize:14, textDecorationLine:'underline'}} 
-                        onPress={console.log('button 2 pressed')} bold>forgot password
-                    </CustomText>
-                </TouchableOpacity>
+                <Button
+                    onPress={signUp}
+                    variant='black'
+                    title='Sign Up'
+                    style={{width:140}}
+                /></>)}
             </View>
             <View style={styles.alternateContainer}>
                 <View style={styles.row}>
@@ -47,15 +87,6 @@ export default function LoginScreen({navigation}) {
                     />
                     <CustomText style={{left:60, position: 'absolute', fontSize: 16}}bold>Continue with Google</CustomText>
                 </TouchableOpacity>
-                <View style={styles.row}>
-                    <CustomText style={{fontSize:14}}bold>Don't have an account? </CustomText>
-                    <TouchableOpacity>
-                        <CustomText 
-                            style={{fontSize:14, textDecorationLine:'underline', color: colors.purple}} 
-                            onPress={console.log('button 2 pressed')}bold>Sign up
-                        </CustomText>
-                    </TouchableOpacity>
-                </View>
             </View>
         </ScrollView>
     );
@@ -99,9 +130,10 @@ const styles = StyleSheet.create({
         marginHorizontal: 10,
     },
     loginButtonContainer: {
-        flexDirection: "column",
+        flexDirection: "row",
         alignItems: 'center',
         marginBottom: 15,
+        gap: 5,
     },
     loginContainer: {
         flexDirection: "column",

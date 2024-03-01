@@ -4,7 +4,7 @@ import FontAwesome from "react-native-vector-icons/FontAwesome";
 import { useNavigation } from '@react-navigation/native';
 
 import { H1Logo } from './Logo';
-import { colors } from '../../config/theme';
+import { colors } from '../../../config/theme';
 
 export default function Header() {
     const navigation = useNavigation();

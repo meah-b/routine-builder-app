@@ -1,6 +1,8 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { User, onAuthStateChanged } from 'firebase/auth';
+import { firebase_auth } from './app/Firebase/firebaseConfig';
 
 import LoginScreen from './app/screens/LoginScreen';
 import HomeScreen from './app/screens/HomeScreen';
@@ -13,22 +15,39 @@ import NotifScreen from './app/screens/NotificationScreen';
 
 
 const Stack = createNativeStackNavigator();
+const InsideStack = createNativeStackNavigator();
 
-function App() {
+function InsideLayout() {
+  return (
+    <InsideStack.Navigator screenOptions={{ headerShown: false }}>
+      <InsideStack.Screen name='Home' component={HomeScreen} />
+      <InsideStack.Screen name='Skill Library' component={SkillLibrary} />
+      <InsideStack.Screen name='Connection Library' component={ConnectionLibrary} />
+      <InsideStack.Screen name='Routine Library' component={RoutineLibrary} />
+      <InsideStack.Screen name='Routine Builder' component={RoutineBuilder} />
+      <InsideStack.Screen name='Profile' component={Profile} />
+      <InsideStack.Screen name='Notif Screen' component={NotifScreen} />
+    </InsideStack.Navigator>
+  )
+}
+
+export default function App() {
+  const [user, setUser] = useState<User | null>(null);
+
+  useEffect(() => {
+    onAuthStateChanged(firebase_auth, (user) => {
+      setUser(user)
+    })
+  })
   return (
     <NavigationContainer>
       <Stack.Navigator initialRouteName='Login' screenOptions={{ headerShown: false }}>
-        <Stack.Screen name='Login' component={LoginScreen} />
-        <Stack.Screen name='Home' component={HomeScreen} />
-        <Stack.Screen name='Skill Library' component={SkillLibrary} />
-        <Stack.Screen name='Connection Library' component={ConnectionLibrary} />
-        <Stack.Screen name='Routine Library' component={RoutineLibrary} />
-        <Stack.Screen name='Routine Builder' component={RoutineBuilder} />
-        <Stack.Screen name='Profile' component={Profile} />
-        <Stack.Screen name='Notif Screen' component={NotifScreen} />
+        {user ? (
+          <Stack.Screen name='Inside' component={InsideLayout} />
+        ) : (
+          <Stack.Screen name='Login' component={LoginScreen} />
+        )}        
       </Stack.Navigator>
     </NavigationContainer>
   );
 }
-
-export default App;

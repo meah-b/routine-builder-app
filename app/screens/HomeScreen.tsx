@@ -4,7 +4,7 @@ import {LinearGradient} from 'expo-linear-gradient';
 
 import { colors } from '../config/theme';
 import SectionCard from '../assets/components/cards/SectionCard';
-import Header from '../assets/components/Header';
+import Header from '../assets/components/utilities/Header';
 
 export default function HomeScreen() {
     return (

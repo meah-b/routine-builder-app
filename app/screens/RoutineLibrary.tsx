@@ -4,7 +4,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { useNavigation } from '@react-navigation/native';
 
 import { CustomText, colors } from '../config/theme';
-import Header from '../assets/components/Header';
+import Header from '../assets/components/utilities/Header';
 import HomeButton from '../assets/components/buttons/HomeButton';
 import EventButtons from '../assets/components/buttons/EventButtons';
 import Button from '../assets/components/buttons/Buttons';

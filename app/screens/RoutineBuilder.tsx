@@ -4,7 +4,7 @@ import {LinearGradient} from 'expo-linear-gradient';
 
 import { CustomText, colors } from '../config/theme';
 import Button from '../assets/components/buttons/Buttons';
-import Header from '../assets/components/Header';
+import Header from '../assets/components/utilities/Header';
 import HomeButton from '../assets/components/buttons/HomeButton';
 import RoutineSetUpForm from '../assets/components/forms/RoutineSetUpForm';
 import RoutineBuilderForm from '../assets/components/forms/RoutineBuilderForm';
