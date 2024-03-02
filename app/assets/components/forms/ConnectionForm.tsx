@@ -1,5 +1,7 @@
-import React from "react";
-import { View, StyleSheet, ScrollView } from "react-native";
+import React, {useState, useEffect} from "react";
+import { View, StyleSheet, ScrollView, TextInput } from "react-native";
+import { firebase_auth, firestore_db } from '../../../Firebase/firebaseConfig';
+import { collection, doc, getDocs, setDoc } from 'firebase/firestore';
 
 import { colors, CustomText } from "../../../config/theme";
 import Button from "../buttons/Buttons";
@@ -8,38 +10,75 @@ import MultiSelector from "../utilities/MultiSelect";
 
 interface ConnectionFormProps {
     event: string;
+    onSubmit: any;
 }
-
-const data = [
-    { label: 'test 1', value: '1' },
-    { label: 'test 2', value: '2' },
-    { label: 'test 3', value: '3' },
-    { label: 'test 4', value: '4' },
-    { label: 'test 5', value: '5' },
-];
 
 export default function ConnectionForm(props: ConnectionFormProps){
     const [selected, setSelected] = React.useState([]);
-    const { event } = props;
+    const [name, setName] = useState('');
+    const { event, onSubmit } = props;
+    const user_uid = firebase_auth.currentUser.uid;
+    const skillsRef = collection(doc(firestore_db, 'users', user_uid, 'events', event.toLowerCase()), 'skills');
+    const [querySnapshot, setQuerySnapshot] = useState([]);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            const snapshot = await getDocs(skillsRef);
+            setQuerySnapshot(snapshot.docs);
+        };
+        fetchData();
+    }, [skillsRef]);
+
+    function addConnection(){
+        const user_uid = firebase_auth.currentUser.uid;
+        const conRef = collection(doc(firestore_db, 'users', user_uid, 'events', event.toLowerCase()), 'connections');
+        setDoc(doc(conRef, name), {
+            name: name,
+            skills: selected,
+        },{merge:true});
+    }
 
     return (
         <View style={styles.container}>
             <CustomText style={styles.h1} bold>{event}</CustomText>
             <CustomText style={styles.text} bold>CV: 0.0</CustomText>
             <ScrollView contentContainerStyle={styles.scroll}>
+                <View style={[styles.inputView, {height: 50}]}>
+                    <TextInput
+                    style={styles.inputText}
+                    editable
+                    placeholder='Connection Name'
+                    placeholderTextColor={colors.grey200}
+                    maxLength={20}
+                    onChangeText={(text) => setName(text)}
+                    value={name}
+                    />
+                </View>
                 <MultiSelector
                     placeholder='Add Skill'
-                    data={data}
+                    data={querySnapshot.map((doc) => ({
+                        label: doc.data().name,
+                        value: doc.id
+                    }))}
                     onChange={setSelected}
                     selected={selected}
                     style={{width:340, justifyContent: 'center'}}
                 />
             </ScrollView>
             <Button
-            onPress={console.log('save button pressed')}
-            variant='black'
-            title='Save'
-            style={{width: 180, height: 50, marginTop: 30, bottom: 20}}
+                onPress={() => {
+                    if (selected.length <= 1) {
+                        alert('Please add at least 2 skills!');
+                    } else if (name ===''){
+                        alert('Please name the connection!');
+                    } else {
+                        addConnection();
+                        onSubmit();
+                    }
+                }}
+                variant='black'
+                title='Save'
+                style={{width: 180, height: 50, marginTop: 30, bottom: 20}}
             />
         </View>
     )

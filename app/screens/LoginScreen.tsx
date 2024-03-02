@@ -36,19 +36,12 @@ export default function LoginScreen() {
             const response = await createUserWithEmailAndPassword(auth, email, password);
             const user = response.user;
             const userDocRef = doc(firestore_db, "users", user.uid);
-    
             const eventsRef = collection(userDocRef, "events");
-            await setDoc(doc(eventsRef, "vault"), {
-            });
-    
-            await setDoc(doc(eventsRef, "bars"), {
-            });
-    
-            await setDoc(doc(eventsRef, "beam"), {
-            });
-    
-            await setDoc(doc(eventsRef, "floor"), {
-            });
+
+            await setDoc(doc(eventsRef, "vault"), {});  
+            await setDoc(doc(eventsRef, "bars"), {});
+            await setDoc(doc(eventsRef, "beam"), {});
+            await setDoc(doc(eventsRef, "floor"), {});
     
         } catch (error) {
             console.log(error);

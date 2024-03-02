@@ -10,6 +10,7 @@ export default function ConnectionCard({
     difficulty,
     category,
     cv,
+    handleDelete
 }) {
     return (
         <View style={styles.container}>
@@ -24,6 +25,7 @@ export default function ConnectionCard({
                 name="delete" 
                 size={24}  
                 style={styles.icon}
+                onPress={handleDelete}
             />
         </View>
     );

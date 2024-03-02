@@ -33,7 +33,7 @@ export default function ConnectionLibrary() {
                         variant='black' 
                         onPress={() => setForm(1)}>
                     </Button>
-                    <ConnectionList></ConnectionList>
+                    <ConnectionList event={selectedVariant}></ConnectionList>
                 </View>
             )
         } else {
@@ -46,7 +46,7 @@ export default function ConnectionLibrary() {
                         >back to connection library
                         </CustomText>
                     </TouchableOpacity>
-                    <ConnectionForm event={selectedVariant} /> 
+                    <ConnectionForm event={selectedVariant} onSubmit={() => setForm(0)}/> 
                 </View>
             )
         }
