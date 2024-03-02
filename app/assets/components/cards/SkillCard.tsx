@@ -9,6 +9,7 @@ export default function SkillCard({
     name,
     difficulty,
     category,
+    handleDelete
 }) {
     return (
         <View style={styles.container}>
@@ -22,6 +23,7 @@ export default function SkillCard({
                     name="delete" 
                     size={24}  
                     style={styles.icon}
+                    onPress={handleDelete}
                 />
                 <CustomText style={styles.category}>{category}</CustomText>
             </View>
@@ -32,6 +34,9 @@ export default function SkillCard({
 const styles = StyleSheet.create({
     category: {
         fontSize: 20,
+        position: 'absolute',
+        top: 2,
+        right: 0
     },
     col: {
         flexDirection: 'column',
@@ -58,8 +63,9 @@ const styles = StyleSheet.create({
         fontSize: 20
     },
     icon: {
-        marginLeft: 15,
-        marginTop: 5
+        position: 'absolute',
+        bottom: 3,
+        right: 0
     },
     name: {
         fontSize: 20

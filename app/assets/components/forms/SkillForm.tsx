@@ -1,6 +1,7 @@
 import React, {useState} from "react";
 import { View, StyleSheet, TextInput } from "react-native";
-
+import { firebase_auth, firestore_db } from '../../../Firebase/firebaseConfig';
+import { collection, doc, setDoc } from 'firebase/firestore';
 import { colors, CustomText } from "../../../config/theme";
 import SkillDropDowns from "../utilities/SkillDropDowns";
 import Button from "../buttons/Buttons";
@@ -8,13 +9,24 @@ import Button from "../buttons/Buttons";
 
 interface SkillFormProps {
     event: string;
+    onSubmit: any;
 }
 
 export default function SkillForm(props: SkillFormProps){
     const [name, setName] = useState('');
     const [difficulty, setDifficulty] = useState([]);
     const [category, setCategory] = useState([]);
-    const { event } = props;
+    const { event, onSubmit } = props;
+
+    function addSkill(){
+        const user_uid = firebase_auth.currentUser.uid;
+        const skillsRef = collection(doc(firestore_db, 'users', user_uid, 'events', event.toLowerCase()), 'skills');
+        setDoc(doc(skillsRef, name), {
+            name: name,
+            difficulty: difficulty,
+            category: category
+        },{merge:true});
+    }
 
     return (
         <View style={[styles.container, event === 'Vault' ? {height:400, marginBottom: 170,}: null]}>
@@ -39,10 +51,11 @@ export default function SkillForm(props: SkillFormProps){
             onChangeC={setCategory}/>
             <Button
             onPress={() => {
-                if (name === '' || difficulty.length === 0 || category.length === 0) {
+                if (name === '' || difficulty.length === 0 || event != 'Vault' && category.length === 0) {
                     alert('Please input all values!');
                 } else {
-                    console.log(name, difficulty, category);
+                    addSkill();
+                    onSubmit();
                 }
             }}
             variant='black'

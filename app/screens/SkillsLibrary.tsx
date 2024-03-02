@@ -10,7 +10,6 @@ import Button from '../assets/components/buttons/Buttons';
 import SkillForm from '../assets/components/forms/SkillForm';
 import SkillList from '../assets/components/lists/SkillList';
 
-
 export default function SkillLibrary() {
     const [form, setForm] = useState(0);
     const [selectedVariant, setSelectedVariant] = useState('Vault');
@@ -34,7 +33,7 @@ export default function SkillLibrary() {
                         variant='black'
                         onPress={() => setForm(1)}
                     ></Button>
-                    <SkillList></SkillList>
+                    <SkillList event={selectedVariant}></SkillList>
                 </View>
             )
         } else {
@@ -47,7 +46,7 @@ export default function SkillLibrary() {
                         >back to skills library
                         </CustomText>
                     </TouchableOpacity>
-                    <SkillForm event={selectedVariant} /> 
+                    <SkillForm event={selectedVariant} onSubmit={() => setForm(0)}/> 
                 </View>
             )
         }
