@@ -4,21 +4,23 @@ import {AntDesign} from '@expo/vector-icons';
 
 import {colors, CustomText} from '../../../config/theme';
 
+interface ConProps {
+    name: string;
+    difficulty: string;
+    cv: string;
+    dv: any;
+    handleDelete: any;
+}
 
-export default function ConnectionCard({
-    name,
-    difficulty,
-    category,
-    cv,
-    handleDelete
-}) {
+export default function ConnectionCard(props: ConProps) {
+    const { name, difficulty, cv, dv, handleDelete } = props;
     return (
         <View style={styles.container}>
             <View style={styles.col}>
                 <CustomText style={styles.text} bold>{name}</CustomText>
                 <CustomText style={styles.text}>{cv}</CustomText>
-                <CustomText style={styles.text}>{category}</CustomText>
                 <CustomText style={styles.text}>{difficulty}</CustomText>
+                <CustomText style={styles.text}>{dv}</CustomText>
             </View>
             <AntDesign 
                 color="black" 

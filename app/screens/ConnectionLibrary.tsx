@@ -33,7 +33,7 @@ export default function ConnectionLibrary() {
                         variant='black' 
                         onPress={() => setForm(1)}>
                     </Button>
-                    <ConnectionList event={selectedVariant}></ConnectionList>
+                    <ConnectionList event={selectedVariant} ></ConnectionList>
                 </View>
             )
         } else {

@@ -31,20 +31,28 @@ export default function ConnectionList(props: ConFormProps) {
             console.error('Error deleting document:', error);
         }
     }
+    
 
     return (
         <View style={styles.container}>
             <ScrollView contentContainerStyle={styles.scrollContainer}>
-                {querySnapshot.map((doc) => (
-                    <ConnectionCard 
-                    key={doc.id}
-                    handleDelete={()=> handleDelete(doc.id)}
-                    name={doc.data().name} 
-                    difficulty={'difficulty'} 
-                    category={'category'}
-                    cv={'0.2'}
-                    />
-                ))}
+                {querySnapshot.map((doc) => {
+                    let sum = 0;
+                    doc.data().dvs.forEach( num => {
+                        sum += Number(num);
+                    })
+                    
+                    return (
+                        <ConnectionCard
+                            key={doc.id}
+                            handleDelete={() => handleDelete(doc.id)}
+                            name={doc.data().name}
+                            difficulty={'Elements: ' + doc.data().difficulties.join('-')}
+                            cv={'CV: ' + doc.data().cv}
+                            dv={'Total DV: ' + (Number(doc.data().cv) + sum)} 
+                        />
+                    );
+                })}
             </ScrollView>
         </View>
     );

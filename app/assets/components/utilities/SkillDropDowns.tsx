@@ -46,18 +46,24 @@ const vaultDifficulty = [
 const bars_categories = [
     { label: 'Mount', value: 'mount' },
     { label: 'Circle/Swing', value: 'circle' },
-    { label: 'Flight', value: 'flight' },
+    { label: 'Flight - LB to HB', value: 'flight-lh' },
+    { label: 'Flight - HB to LB', value: 'flight-hl' },
+    { label: 'Flight - Same Bar', value: 'flight-s' },
     { label: 'Dismount', value: 'dismount' },
 ];
 const beam_categories = [
     { label: 'Mount', value: 'mount' },
-    { label: 'Acro', value: 'acro' },
+    { label: 'Forward Acro', value: 'acro-fwd' },
+    { label: 'Backward Acro', value: 'acro-bwd' },
     { label: 'Dance', value: 'dance' },
+    { label: 'Turn', value: 'turn' },
     { label: 'Dismount', value: 'dismount' },
 ];
 const floor_categories = [
-    { label: 'Acro', value: 'acro' },
+    { label: 'Acro - Flight', value: 'acro-f' },
+    { label: 'Acro - Hand Support', value: 'acro-h' },
     { label: 'Dance', value: 'dance' },
+    { label: 'Turn', value: 'turn' },
 ];
 
 interface DropdownProps {
