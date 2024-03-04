@@ -2,7 +2,7 @@ import React, {useState, useEffect} from "react";
 import { View, StyleSheet, ScrollView, TextInput, Text } from "react-native";
 import {Dropdown, MultiSelect} from 'react-native-element-dropdown';
 import { firebase_auth, firestore_db } from '../../../Firebase/firebaseConfig';
-import { collection, doc, getDocs, getDoc, setDoc } from 'firebase/firestore';
+import { collection, doc, getDocs, setDoc } from 'firebase/firestore';
 import { AntDesign } from '@expo/vector-icons';
 
 

@@ -4,7 +4,6 @@ import { StyleSheet, View } from 'react-native';
 import Button from './Buttons';
 
 export default function EventButtons ({variant, selectedVariant, onPress1, onPress2, onPress3, onPress4}) {
-
     return (
         <View style={variant === 'build' ? styles.buildContainer : styles.container}>
             {(variant === 'four' || variant === 'build') && (

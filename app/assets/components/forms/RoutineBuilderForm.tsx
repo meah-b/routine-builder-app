@@ -1,13 +1,19 @@
 import React from 'react';
-import { View, StyleSheet, ScrollView } from 'react-native';
+import { StyleSheet, ScrollView } from 'react-native';
 
 import Button from '../buttons/Buttons';
 import BuilderDropDowns from '../utilities/BuilderDropDowns';
 
-export default function RoutineBuilderForm() {
+interface Props{
+    routine_id: string;
+    event: string;
+}
+
+export default function RoutineBuilderForm(props: Props) {
+    const {routine_id, event} = props;
     return (
         <ScrollView contentContainerStyle={styles.container} scrollEnabled={false}>
-            <BuilderDropDowns/>
+            <BuilderDropDowns event={event} routine_id={routine_id}/>
             <Button
                 title="Calculate Start Value"
                 variant='black'
