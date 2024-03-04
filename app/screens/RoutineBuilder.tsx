@@ -98,7 +98,7 @@ export default function RoutineBuilder() {
             style={styles.container}>
             <Header></Header>
             <CustomText style={styles.text} bold>Routine Builder</CustomText>
-            {isBuilding ? <RoutineBuilderForm routine_id={routineId} event={eventId}/> : 
+            {isBuilding ? <RoutineBuilderForm routine_id={routineId} event={eventId} onSubmit={()=> setIsBuilding(false)}/> : 
             <RoutineSetUpForm/>}
             <HomeButton></HomeButton>
         </LinearGradient>

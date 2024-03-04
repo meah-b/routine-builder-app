@@ -21,7 +21,7 @@ export default function ConnectionList(props: ConFormProps) {
             setQuerySnapshot(snapshot.docs);
         };
         fetchData();
-    }, [conRef]);
+    }, []);
 
     const handleDelete = async (docId) => {
         try {
@@ -41,7 +41,6 @@ export default function ConnectionList(props: ConFormProps) {
                     doc.data().dvs.forEach( num => {
                         sum += Number(num);
                     })
-                    
                     return (
                         <ConnectionCard
                             key={doc.id}
