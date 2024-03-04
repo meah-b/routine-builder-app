@@ -142,7 +142,7 @@ export default function ConnectionForm(props: ConnectionFormProps){
                         style={styles.dropdown}
                         placeholderStyle={styles.placeholderStyle}
                         iconStyle={styles.iconStyle}
-                        placeholder='Add Skill'
+                        placeholder='Add Skills'
                         data={querySnapshot.map((doc) => ({
                             label: doc.data().name,
                             value: doc.id
@@ -293,11 +293,6 @@ const styles = StyleSheet.create({
         marginLeft: 15,
         marginRight: 15,
         borderRadius: 15,
-    },
-    text: {
-        color: colors.black,
-        fontSize: 18,
-        marginTop: 5,
     },
     textSelectedStyle: {
         fontSize: 16,
