@@ -7,11 +7,14 @@ import { AntDesign } from '@expo/vector-icons';
 
 import { colors, CustomText } from '../../../config/theme';
 import Button from '../buttons/Buttons';
+import StartValueCalculation from '../utilities/StartValueCalculation';
 
 interface Props{
     routine_id: string;
     event: string;
 }
+
+
 
 export default function RoutineBuilderForm(props: Props) {
     const {routine_id, event} = props;
@@ -20,17 +23,40 @@ export default function RoutineBuilderForm(props: Props) {
     const user_uid = firebase_auth.currentUser.uid;
     const skillsRef = collection(doc(firestore_db, 'users', user_uid, 'events', event.toLowerCase()), 'skills');
     const connectionsRef = collection(doc(firestore_db, 'users', user_uid, 'events', event.toLowerCase()), 'connections');
+    const routinesRef = collection(doc(firestore_db, 'users', user_uid, 'events', event.toLowerCase()), 'routines');
     const [querySkills, setQuerySkills] = useState([]);
     const [queryConnections, setQueryConnections] = useState([]);
 
     useEffect(() => {
         const fetchData = async () => {
-            const snapshot = await getDocs(skillsRef);
-            setQuerySkills(snapshot.docs);
+            const skillsSnapshot = await getDocs(skillsRef);
+            const connectionsSnapshot = await getDocs(connectionsRef);
+            setQuerySkills(skillsSnapshot.docs);
+            setQueryConnections(connectionsSnapshot.docs);
         };
         fetchData();
-    }, [skillsRef]);
-    
+    }, []);
+
+    function calculateSV(selectedSkills, selectedConnections){
+        let selected_skills = selectedSkills.map((item) => item.id);
+        let selected_con_skills = selectedConnections.map((item) => item.data().skills);
+        let skills = selected_skills + selected_con_skills;
+        const result = StartValueCalculation(skills)
+        return result
+    }
+
+    async function addRoutine(){
+        try {
+            const StartValue = calculateSV(selectedSkills, selectedConnections);
+            await setDoc(doc(routinesRef, routine_id), {
+                skills: selectedSkills,
+                connections: selectedConnections,
+                sv: StartValue,
+            }, { merge: true });
+        } catch (error) {
+            console.error('Error adding routine:', error);
+        }
+    }
 
     const renderDataItem = (item) => {
         return (
@@ -60,7 +86,7 @@ export default function RoutineBuilderForm(props: Props) {
                         value={selectedSkills}
                         search
                         searchPlaceholder="Search..."
-                        onChange={setSelectedSkills}
+                        onChange={() => setSelectedSkills}
                         renderItem={renderDataItem}
                         renderSelectedItem={(item, unSelect) => (
                             <View style={[styles.selectedStyle]}>
@@ -90,7 +116,7 @@ export default function RoutineBuilderForm(props: Props) {
                     value={selectedConnections}
                     search
                     searchPlaceholder="Search..."
-                    onChange={setSelectedConnections}
+                    onChange={() => setSelectedConnections}
                     renderItem={renderDataItem}
                     renderSelectedItem={(item, unSelect) => (
                         <View style={[styles.selectedStyle]}>
