@@ -1,6 +1,5 @@
 import React, {useState, useEffect} from 'react';
 import { StyleSheet, ScrollView, View, Text, TouchableOpacity } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
 import { firebase_auth, firestore_db } from '../../../Firebase/firebaseConfig';
 import { collection, doc, getDocs, setDoc } from 'firebase/firestore';
 import { MultiSelect } from 'react-native-element-dropdown';
@@ -18,7 +17,6 @@ interface Props{
 
 
 export default function RoutineBuilderForm(props: Props) {
-    const navigation = useNavigation();
     const {routine_id, event, onSubmit, handleDelete} = props;
     const [selectedSkills, setSelectedSkills] = useState([]);
     const [selectedConnections, setSelectedConnections] = useState([]);
@@ -75,7 +73,6 @@ export default function RoutineBuilderForm(props: Props) {
                 connections: selectedConnections,
                 sv: StartValue,
             }, { merge: true });
-            navigation.navigate('Routine Library' as never)
             onSubmit()
         } catch (error) {
             console.error('Error adding routine:', error);
@@ -166,7 +163,7 @@ export default function RoutineBuilderForm(props: Props) {
                 title="Calculate Start Value"
                 variant='black'
                 style={styles.button}
-                onPress={()=> {addRoutine()}}/>
+                onPress={()=> addRoutine()}/>
         </View>
     );
 }

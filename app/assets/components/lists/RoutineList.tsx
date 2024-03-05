@@ -2,6 +2,7 @@ import React, {useState, useEffect} from 'react';
 import { ScrollView, View, StyleSheet } from 'react-native';
 import { collection, doc, getDocs, deleteDoc } from 'firebase/firestore';
 import { firebase_auth, firestore_db } from '../../../Firebase/firebaseConfig';
+import { useFocusEffect } from '@react-navigation/native';
 
 import RoutineCard from '../cards/RoutineCard';
 
@@ -15,13 +16,20 @@ export default function RoutineList(props: Props) {
     const routinesRef = collection(doc(firestore_db, 'users', user_uid, 'events', event.toLowerCase()), 'routines');
     const [querySnapshot, setQuerySnapshot] = useState([]);
 
+    const fetchData = async () => {
+        const snapshot = await getDocs(routinesRef);
+        setQuerySnapshot(snapshot.docs);
+    };
+
     useEffect(() => {
-        const fetchData = async () => {
-            const snapshot = await getDocs(routinesRef);
-            setQuerySnapshot(snapshot.docs);
-        };
         fetchData();
     }, [event]);
+
+    useFocusEffect(
+        React.useCallback(() => {
+            fetchData();
+        }, [event])
+    );
 
     const handleDelete = async (docId) => {
         try {
