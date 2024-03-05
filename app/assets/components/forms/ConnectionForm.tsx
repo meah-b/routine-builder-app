@@ -40,7 +40,7 @@ export default function ConnectionForm(props: ConnectionFormProps){
             setQuerySnapshot(snapshot.docs);
         };
         fetchData();
-    }, [skillsRef]);
+    }, []);
 
     function calculateCV(selected){
         let cv = 0;
@@ -89,7 +89,7 @@ export default function ConnectionForm(props: ConnectionFormProps){
                 difficulties: difficulties,
                 dvs: dvs,
                 cv: cvValue,
-            }, { merge: true });
+            }, { merge: false });
         } catch (error) {
             console.error('Error adding connection:', error);
         }

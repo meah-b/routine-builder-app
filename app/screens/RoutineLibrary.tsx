@@ -38,7 +38,7 @@ export default function RoutineLibrary() {
                 variant="black"
                 onPress={handleAddRoutine}
             />
-            <RoutineList></RoutineList>
+            <RoutineList event={selectedVariant}></RoutineList>
             <HomeButton/>
         </LinearGradient>
     );
