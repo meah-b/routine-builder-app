@@ -64,7 +64,7 @@ export default function RoutineBuilderForm(props: Props) {
         highestDvs.forEach(num => { dv += Number(num); });
         cvs.forEach(num => { cv += Number(num); });
         const startValue = dv + 2 + cv;
-        return startValue
+        return parseFloat(startValue.toFixed(1))
     }
 
     async function addRoutine(){

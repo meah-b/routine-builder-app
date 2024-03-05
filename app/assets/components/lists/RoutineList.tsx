@@ -44,7 +44,7 @@ export default function RoutineList(props: Props) {
                                 connections={doc.data().connections.join(', ')}
                                 handleDelete={() => handleDelete(doc.id)}
                                 name={doc.id}
-                                sv={(doc.data().sv).toFixed(1)} 
+                                sv={doc.data().sv} 
                             />
                         );
                     })}

@@ -48,7 +48,7 @@ export default function ConnectionList(props: ConFormProps) {
                             handleDelete={() => handleDelete(doc.id)}
                             name={doc.data().name}
                             difficulty={'Elements: ' + doc.data().difficulties.join('-')}
-                            cv={'CV: ' + doc.data().cv.toFixed(1)}
+                            cv={'CV: ' + doc.data().cv}
                             dv={'Total DV: ' + (Number(doc.data().cv) + sum).toFixed(1)} 
                         />
                     );
