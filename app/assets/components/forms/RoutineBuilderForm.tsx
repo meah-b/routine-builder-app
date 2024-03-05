@@ -1,5 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import { StyleSheet, ScrollView, View, Text } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 import { firebase_auth, firestore_db } from '../../../Firebase/firebaseConfig';
 import { collection, doc, getDocs, setDoc } from 'firebase/firestore';
 import { MultiSelect } from 'react-native-element-dropdown';
@@ -7,17 +8,17 @@ import { AntDesign } from '@expo/vector-icons';
 
 import { colors, CustomText } from '../../../config/theme';
 import Button from '../buttons/Buttons';
-import StartValueCalculation from '../utilities/StartValueCalculation';
 
 interface Props{
     routine_id: string;
     event: string;
+    onSubmit: any;
 }
 
 
-
 export default function RoutineBuilderForm(props: Props) {
-    const {routine_id, event} = props;
+    const navigation = useNavigation();
+    const {routine_id, event, onSubmit} = props;
     const [selectedSkills, setSelectedSkills] = useState([]);
     const [selectedConnections, setSelectedConnections] = useState([]);
     const user_uid = firebase_auth.currentUser.uid;
@@ -26,6 +27,8 @@ export default function RoutineBuilderForm(props: Props) {
     const routinesRef = collection(doc(firestore_db, 'users', user_uid, 'events', event.toLowerCase()), 'routines');
     const [querySkills, setQuerySkills] = useState([]);
     const [queryConnections, setQueryConnections] = useState([]);
+    let dvs: string[] = [];
+    let cvs: string[] = [];
 
     useEffect(() => {
         const fetchData = async () => {
@@ -38,11 +41,29 @@ export default function RoutineBuilderForm(props: Props) {
     }, []);
 
     function calculateSV(selectedSkills, selectedConnections){
-        let selected_skills = selectedSkills.map((item) => item.id);
-        let selected_con_skills = selectedConnections.map((item) => item.data().skills);
-        let skills = selected_skills + selected_con_skills;
-        const result = StartValueCalculation(skills)
-        return result
+        let selected_skills = selectedSkills.map((item) => item);
+        selected_skills.map((selectedId) => {
+            const doc = querySkills.find((doc) => doc.id === selectedId);
+            if (doc) {
+                dvs.push(doc.data().difficulty.value);
+            }
+        });
+        let selected_connections = selectedConnections.map((item) => item);
+        selected_connections.map((selectedId) => {
+            const doc = queryConnections.find((doc) => doc.id === selectedId);
+            if (doc) {
+                dvs.push(doc.data().dvs);
+                cvs.push(doc.data().cv);
+            }
+        });
+        let dv = 0
+        let cv = 0
+        const flattenedDvs = dvs.flat();
+        const highestDvs = flattenedDvs.sort((a, b) => Number(b) - Number(a)).slice(0, 8);
+        highestDvs.forEach(num => { dv += Number(num); });
+        cvs.forEach(num => { cv += Number(num); });
+        const startValue = dv + 2 + cv;
+        return startValue
     }
 
     async function addRoutine(){
@@ -53,6 +74,8 @@ export default function RoutineBuilderForm(props: Props) {
                 connections: selectedConnections,
                 sv: StartValue,
             }, { merge: true });
+            navigation.navigate('Routine Library' as never)
+            onSubmit()
         } catch (error) {
             console.error('Error adding routine:', error);
         }
@@ -86,7 +109,7 @@ export default function RoutineBuilderForm(props: Props) {
                         value={selectedSkills}
                         search
                         searchPlaceholder="Search..."
-                        onChange={() => setSelectedSkills}
+                        onChange={setSelectedSkills}
                         renderItem={renderDataItem}
                         renderSelectedItem={(item, unSelect) => (
                             <View style={[styles.selectedStyle]}>
@@ -116,7 +139,7 @@ export default function RoutineBuilderForm(props: Props) {
                     value={selectedConnections}
                     search
                     searchPlaceholder="Search..."
-                    onChange={() => setSelectedConnections}
+                    onChange={setSelectedConnections}
                     renderItem={renderDataItem}
                     renderSelectedItem={(item, unSelect) => (
                         <View style={[styles.selectedStyle]}>
@@ -135,7 +158,7 @@ export default function RoutineBuilderForm(props: Props) {
                 title="Calculate Start Value"
                 variant='black'
                 style={styles.button}
-                onPress={() => {}}/>
+                onPress={()=> {addRoutine()}}/>
         </View>
     );
 }
