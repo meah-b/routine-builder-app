@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import { StyleSheet, ScrollView, View, TextInput } from 'react-native';
+import { StyleSheet, ScrollView, View, TextInput, TouchableOpacity } from 'react-native';
 import {LinearGradient} from 'expo-linear-gradient';
 import { firebase_auth, firestore_db } from '../Firebase/firebaseConfig';
-import { collection, doc, setDoc } from 'firebase/firestore';
+import { collection, doc, setDoc, deleteDoc } from 'firebase/firestore';
 
 import { CustomText, colors } from '../config/theme';
 import EventButtons from '../assets/components/buttons/EventButtons';
@@ -26,6 +26,17 @@ async function addBaseRoutine(name: string, event: string, level: string) {
     }
 }
 
+async function handleDelete(name: string, event: string,) {
+    const user_uid = firebase_auth.currentUser.uid;
+    const routineRef = collection(doc(firestore_db, 'users', user_uid, 'events', event.toLowerCase()), 'routines');
+    try {
+        const docRef = doc(routineRef, name);
+        await deleteDoc(docRef);
+    } catch (error) {
+        console.error('Error deleting document:', error);
+    }
+}
+
 export default function RoutineBuilder() {
     const [isBuilding, setIsBuilding] = useState(false);
     const [routineId, setRoutineId] = useState('')
@@ -40,7 +51,7 @@ export default function RoutineBuilder() {
 
     function RoutineSetUpForm() {
         const [name, setName] = useState('')
-        const [event, setEvent] = useState('Vault');
+        const [event, setEvent] = useState('Bars');
         const [level, setLevel] = useState('');
 
         return (
@@ -52,7 +63,7 @@ export default function RoutineBuilder() {
                         editable
                         placeholder='Routine Name'
                         placeholderTextColor={colors.grey200}
-                        maxLength={20}
+                        maxLength={30}
                         onChangeText={(text) => setName(text)}
                         value={name}
                     />
@@ -62,7 +73,7 @@ export default function RoutineBuilder() {
                     <EventButtons
                         variant="build"
                         selectedVariant={event}
-                        onPress1={() => setEvent('Vault')}
+                        onPress1
                         onPress2={() => setEvent('Bars')}
                         onPress3={() => setEvent('Beam')}
                         onPress4={() => setEvent('Floor')}
@@ -98,7 +109,8 @@ export default function RoutineBuilder() {
             style={styles.container}>
             <Header></Header>
             <CustomText style={styles.text} bold>Routine Builder</CustomText>
-            {isBuilding ? <RoutineBuilderForm routine_id={routineId} event={eventId} onSubmit={()=> setIsBuilding(false)}/> : 
+            {isBuilding ? 
+            <RoutineBuilderForm routine_id={routineId} event={eventId} onSubmit={()=> setIsBuilding(false)} handleDelete={() => {handleDelete(routineId, eventId); setIsBuilding(false)}}/>: 
             <RoutineSetUpForm/>}
             <HomeButton></HomeButton>
         </LinearGradient>
@@ -162,5 +174,4 @@ const styles = StyleSheet.create({
         alignSelf: 'flex-start',
         marginLeft: 20,
     },
-    
 });

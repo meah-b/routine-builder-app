@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import { StyleSheet, ScrollView, View, Text } from 'react-native';
+import { StyleSheet, ScrollView, View, Text, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { firebase_auth, firestore_db } from '../../../Firebase/firebaseConfig';
 import { collection, doc, getDocs, setDoc } from 'firebase/firestore';
@@ -13,12 +13,13 @@ interface Props{
     routine_id: string;
     event: string;
     onSubmit: any;
+    handleDelete: any;
 }
 
 
 export default function RoutineBuilderForm(props: Props) {
     const navigation = useNavigation();
-    const {routine_id, event, onSubmit} = props;
+    const {routine_id, event, onSubmit, handleDelete} = props;
     const [selectedSkills, setSelectedSkills] = useState([]);
     const [selectedConnections, setSelectedConnections] = useState([]);
     const user_uid = firebase_auth.currentUser.uid;
@@ -92,6 +93,13 @@ export default function RoutineBuilderForm(props: Props) {
     return (
         <View style={styles.container}>
             <CustomText style={styles.h1} bold>{event}</CustomText>
+            <TouchableOpacity onPress={handleDelete}>
+                    <CustomText 
+                    style={styles.link} 
+                    bold
+                    >back to routine setup
+                    </CustomText>
+            </TouchableOpacity>
             <ScrollView contentContainerStyle={styles.scrollContainer}>
                 <View style={styles.container2}>
                     <MultiSelect
@@ -168,15 +176,21 @@ const styles = StyleSheet.create({
         width: 250,
         height: 50,
         position: 'absolute',
-        top: 500
+        top: 450,    
     },
     container: {
+        backgroundColor: colors.fade1,
         borderRadius: 15,
         flexDirection: 'column',
         alignItems: 'center',
-        marginBottom: 80,
-        height: 490,
+        marginBottom: 30,
+        height: 440,
         width: 370,
+        shadowColor: colors.black,
+        shadowOffset: {width: 0, height: 2},
+        shadowOpacity: 0.5,
+        shadowRadius: 5,
+        elevation: 5,
     },
     scrollContainer: { 
         flexDirection: 'column',
@@ -206,7 +220,7 @@ const styles = StyleSheet.create({
     h1: {
         color: colors.black,
         fontSize: 25,
-        marginTop: 40,
+        marginTop: 10,
         marginBottom: 10,
     },
     iconStyle: {
@@ -224,6 +238,13 @@ const styles = StyleSheet.create({
         height: 50,
         borderRadius: 15,
         fontSize: 16,
+    },
+    link: {
+        fontSize: 18, 
+        textDecorationLine:'underline', 
+        color: colors.black,
+        right: 75,
+        marginBottom: 10
     },
     placeholderStyle: {
         fontSize: 16,
