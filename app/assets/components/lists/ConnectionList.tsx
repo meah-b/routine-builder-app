@@ -27,6 +27,7 @@ export default function ConnectionList(props: ConFormProps) {
         try {
             const docRef = doc(conRef, docId);
             await deleteDoc(docRef);
+            setQuerySnapshot(prevSnapshot => prevSnapshot.filter(doc => doc.id !== docId));
         } catch (error) {
             console.error('Error deleting document:', error);
         }
@@ -47,8 +48,8 @@ export default function ConnectionList(props: ConFormProps) {
                             handleDelete={() => handleDelete(doc.id)}
                             name={doc.data().name}
                             difficulty={'Elements: ' + doc.data().difficulties.join('-')}
-                            cv={'CV: ' + doc.data().cv}
-                            dv={'Total DV: ' + (Number(doc.data().cv) + sum)} 
+                            cv={'CV: ' + doc.data().cv.toFixed(1)}
+                            dv={'Total DV: ' + (Number(doc.data().cv) + sum).toFixed(1)} 
                         />
                     );
                 })}

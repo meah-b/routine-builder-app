@@ -41,10 +41,10 @@ export default function RoutineList(props: Props) {
                             <RoutineCard
                                 key={doc.id}
                                 skills={doc.data().skills.join(', ')}
-                                connections={doc.data().connections}
+                                connections={doc.data().connections.join(', ')}
                                 handleDelete={() => handleDelete(doc.id)}
                                 name={doc.id}
-                                sv={doc.data().sv} 
+                                sv={(doc.data().sv).toFixed(1)} 
                             />
                         );
                     })}

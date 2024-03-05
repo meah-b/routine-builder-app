@@ -6,7 +6,7 @@ import Button from './Buttons';
 export default function EventButtons ({variant, selectedVariant, onPress1, onPress2, onPress3, onPress4}) {
     return (
         <View style={variant === 'build' ? styles.buildContainer : styles.container}>
-            {(variant === 'four' || variant === 'build') && (
+            {(variant === 'four') && (
                 <Button
                     onPress={onPress1}
                     variant={selectedVariant === 'Vault' ? 'black' : 'white'}
@@ -34,7 +34,7 @@ export default function EventButtons ({variant, selectedVariant, onPress1, onPre
 
 const styles = StyleSheet.create({
     buildButton: {
-        width: 70,
+        width: 95,
         height: 45,
         marginHorizontal: 5,
     },

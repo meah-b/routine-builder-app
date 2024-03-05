@@ -38,7 +38,7 @@ export default function SkillForm(props: SkillFormProps){
                 editable
                 placeholder='Skill Name'
                 placeholderTextColor={colors.grey200}
-                maxLength={20}
+                maxLength={30}
                 onChangeText={(text) => setName(text)}
                 value={name}
                 />

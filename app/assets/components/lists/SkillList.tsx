@@ -26,6 +26,7 @@ export default function SkillList(props: SkillFormProps) {
         try {
             const docRef = doc(skillsRef, docId);
             await deleteDoc(docRef);
+            setQuerySnapshot(prevSnapshot => prevSnapshot.filter(doc => doc.id !== docId));
         } catch (error) {
             console.error('Error deleting document:', error);
         }

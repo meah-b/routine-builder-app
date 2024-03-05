@@ -105,8 +105,7 @@ export default function LoginScreen() {
 
 const styles = StyleSheet.create({
     alternateContainer: {
-        position: 'absolute',
-        bottom: 70,
+        marginTop: 140,
         flexDirection: "column", 
         alignItems: 'center',
     },
@@ -118,8 +117,11 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
     },
     gradient1: {
+        ...StyleSheet.absoluteFillObject,
         position: 'absolute',
         top: 0, 
+        right: 0,
+        left: 0,
         shadowColor: colors.black,
         shadowOpacity: 0.5,
         shadowRadius: 5,
@@ -129,6 +131,8 @@ const styles = StyleSheet.create({
         ...StyleSheet.absoluteFillObject,
         position: 'absolute',
         top: 0, 
+        right: 0,
+        left: 0,
         shadowColor: colors.black,
         shadowOpacity: 0.5,
         shadowRadius: 5,
@@ -147,6 +151,7 @@ const styles = StyleSheet.create({
         gap: 5,
     },
     loginContainer: {
+        marginTop: 260,
         flexDirection: "column",
         alignItems: 'center',
     },

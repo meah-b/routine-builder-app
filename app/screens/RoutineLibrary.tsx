@@ -9,6 +9,7 @@ import HomeButton from '../assets/components/buttons/HomeButton';
 import EventButtons from '../assets/components/buttons/EventButtons';
 import Button from '../assets/components/buttons/Buttons';
 import RoutineList from '../assets/components/lists/RoutineList';
+import SkillList from '../assets/components/lists/SkillList';
 
 export default function RoutineLibrary() {
     const [selectedVariant, setSelectedVariant] = useState('Vault');
@@ -38,7 +39,8 @@ export default function RoutineLibrary() {
                 variant="black"
                 onPress={handleAddRoutine}
             />
-            <RoutineList event={selectedVariant}></RoutineList>
+            {selectedVariant === 'Vault' ? <SkillList event={selectedVariant}/> :
+            <RoutineList event={selectedVariant}></RoutineList>}
             <HomeButton/>
         </LinearGradient>
     );

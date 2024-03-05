@@ -76,7 +76,8 @@ const styles = StyleSheet.create({
         width: 350,
         height: 'auto',
         margin: 4,
-        paddingVertical: 5,
+        paddingVertical: 8,
+        paddingHorizontal: 10,
         borderRadius: 15,
         shadowColor: colors.black,
         shadowOffset: { width: 0, height: 4 },
@@ -91,6 +92,5 @@ const styles = StyleSheet.create({
     },
     name: {
         fontSize: 20,
-        right: 5,
     },
 });

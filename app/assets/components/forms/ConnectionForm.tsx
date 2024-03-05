@@ -75,7 +75,7 @@ export default function ConnectionForm(props: ConnectionFormProps){
                 cv += num;
             })
         }
-        return cv
+        return parseFloat(cv.toFixed(1));
     }
 
     async function addConnection(){
@@ -113,7 +113,7 @@ export default function ConnectionForm(props: ConnectionFormProps){
                     editable
                     placeholder='Connection Name'
                     placeholderTextColor={colors.grey200}
-                    maxLength={20}
+                    maxLength={30}
                     onChangeText={(text) => setName(text)}
                     value={name}
                     />
