@@ -1,14 +1,27 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { StyleSheet, TouchableOpacity, View } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import { firebase_auth } from '../Firebase/firebaseConfig';
-
+import { firebase_auth, firestore_db } from '../Firebase/firebaseConfig';
+import { collection, doc, setDoc } from 'firebase/firestore';
 import { CustomText, colors } from '../config/theme';
 import Button from '../assets/components/buttons/Buttons';
 
 
 export default function Profile() {
     const navigation = useNavigation();
+    const user_uid = firebase_auth.currentUser.uid;
+    const userDocRef = doc(firestore_db, "users", user_uid);
+    const [name, setName] = useState('')
+    const [bio, setBio] = useState('')
+    const [favouriteEvent, setFavouriteEvent] = useState('')
+
+    function addProfile(){
+        setDoc(doc(userDocRef, user_uid), {
+            full_name: name,
+            bio: bio,
+            fav_event: favouriteEvent
+        },{merge:true});
+    }
 
     const handleBackPress = () => {
         navigation.goBack();
