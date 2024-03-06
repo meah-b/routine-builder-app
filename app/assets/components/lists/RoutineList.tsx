@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import { ScrollView, View, StyleSheet } from 'react-native';
+import { ScrollView, View, StyleSheet, Alert } from 'react-native';
 import { collection, doc, getDocs, deleteDoc } from 'firebase/firestore';
 import { firebase_auth, firestore_db } from '../../../Firebase/firebaseConfig';
 import { useFocusEffect } from '@react-navigation/native';
@@ -31,6 +31,17 @@ export default function RoutineList(props: Props) {
         }, [event])
     );
 
+    const twoButtonAlert = (name) =>
+        Alert.alert('Caution', `Are you sure you want to delete ${name}?`, [
+        {
+            text: 'Cancel',
+            style: 'cancel',
+        },
+        {
+            text: "Delete", 
+            onPress: () => handleDelete(name)},
+    ]);
+
     const handleDelete = async (docId) => {
         try {
             const docRef = doc(routinesRef, docId);
@@ -50,7 +61,7 @@ export default function RoutineList(props: Props) {
                                 key={doc.id}
                                 skills={doc.data().skills.join(', ')}
                                 connections={doc.data().connections.join(', ')}
-                                handleDelete={() => handleDelete(doc.id)}
+                                handleDelete={() => twoButtonAlert(doc.id)}
                                 name={doc.id}
                                 sv={doc.data().sv} 
                             />

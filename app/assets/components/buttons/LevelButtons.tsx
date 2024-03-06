@@ -3,14 +3,14 @@ import { View, StyleSheet } from 'react-native';
 
 import Button from './Buttons';
 interface Props {
-  onPress6: any; 
-  onPress7: any; 
-  onPress8: any; 
-  onPress9: any; 
-  onPress10: any; 
-  onPressN: any; 
-  onPressJ: any; 
-  onPressS: any; 
+  onPress6: () => void; 
+  onPress7: () => void; 
+  onPress8: () => void; 
+  onPress9: () => void; 
+  onPress10: () => void; 
+  onPressN: () => void; 
+  onPressJ: () => void; 
+  onPressS: () => void; 
 }
 export default function LevelButtons (props: Props) {
   const {onPress6, onPress7, onPress8, onPress9, onPress10, onPressN, onPressJ, onPressS} = props;

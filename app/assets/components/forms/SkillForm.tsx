@@ -9,7 +9,7 @@ import Button from "../buttons/Buttons";
 
 interface SkillFormProps {
     event: string;
-    onSubmit: any;
+    onSubmit: () => void;
 }
 
 export default function SkillForm(props: SkillFormProps){

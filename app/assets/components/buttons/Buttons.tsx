@@ -3,12 +3,15 @@ import { TouchableOpacity, StyleSheet } from 'react-native';
 
 import {colors, CustomText} from '../../../config/theme';
 
-export default function Button ({ 
-  onPress,
-  variant,
-  title,
-  style,
-}) {
+interface Props{
+  onPress: () => void;
+  variant: string;
+  title: string;
+  style: any;
+}
+
+export default function Button (props: Props) {
+  const {onPress, variant, title, style} = props;
   return (
     <TouchableOpacity 
       style={[

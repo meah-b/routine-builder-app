@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import { ScrollView, View, StyleSheet } from 'react-native';
+import { ScrollView, View, StyleSheet, Alert } from 'react-native';
 import { collection, doc, getDocs, deleteDoc } from 'firebase/firestore';
 import { firebase_auth, firestore_db } from '../../../Firebase/firebaseConfig';
 
@@ -22,7 +22,18 @@ export default function SkillList(props: SkillFormProps) {
         fetchData();
     }, [skillsRef]);
 
-    const handleDelete = async (docId) => {
+    const twoButtonAlert = (name) =>
+        Alert.alert('Caution', `Are you sure you want to delete ${name}?`, [
+        {
+            text: 'Cancel',
+            style: 'cancel',
+        },
+        {
+            text: "Delete", 
+            onPress: () => handleDelete(name)},
+    ]);
+
+    const handleDelete = async (docId: string) => {
         try {
             const docRef = doc(skillsRef, docId);
             await deleteDoc(docRef);
@@ -32,16 +43,17 @@ export default function SkillList(props: SkillFormProps) {
         }
     }
 
+
     return (
         <View style={styles.container}>
             <ScrollView contentContainerStyle={styles.scrollContainer}>
                 {querySnapshot.map((doc) => (
                     <SkillCard 
-                    key={doc.id}
-                    handleDelete={()=> handleDelete(doc.id)}
-                    name={doc.data().name} 
-                    difficulty={doc.data().difficulty.label} 
-                    category={doc.data().category.label}
+                        key={doc.id}
+                        handleDelete={() => twoButtonAlert(doc.id)}
+                        name={doc.data().name} 
+                        difficulty={doc.data().difficulty.label} 
+                        category={doc.data().category.label}
                     />
                 ))}
             </ScrollView>

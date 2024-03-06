@@ -4,13 +4,15 @@ import {AntDesign} from '@expo/vector-icons';
 
 import {colors, CustomText} from '../../../config/theme';
 
+interface Props {
+    name: string;
+    difficulty: string;
+    category: string;
+    handleDelete: () => void;
+}
 
-export default function SkillCard({
-    name,
-    difficulty,
-    category,
-    handleDelete
-}) {
+export default function SkillCard(props: Props) {
+    const {name, difficulty, category, handleDelete} = props;
     return (
         <View style={styles.container}>
             <View style={styles.col}>

@@ -11,8 +11,8 @@ import Button from '../buttons/Buttons';
 interface Props{
     routine_id: string;
     event: string;
-    onSubmit: any;
-    handleDelete: any;
+    onSubmit: () => void;
+    handleDelete: () => void;
 }
 
 

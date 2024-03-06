@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import { ScrollView, View, StyleSheet } from 'react-native';
+import { ScrollView, View, StyleSheet, Alert } from 'react-native';
 import { collection, doc, getDocs, deleteDoc } from 'firebase/firestore';
 import { firebase_auth, firestore_db } from '../../../Firebase/firebaseConfig';
 
@@ -23,6 +23,17 @@ export default function ConnectionList(props: ConFormProps) {
         fetchData();
     }, []);
 
+    const twoButtonAlert = (name) =>
+        Alert.alert('Caution', `Are you sure you want to delete ${name}?`, [
+        {
+            text: 'Cancel',
+            style: 'cancel',
+        },
+        {
+            text: "Delete", 
+            onPress: () => handleDelete(name)},
+    ]);
+
     const handleDelete = async (docId) => {
         try {
             const docRef = doc(conRef, docId);
@@ -45,7 +56,7 @@ export default function ConnectionList(props: ConFormProps) {
                     return (
                         <ConnectionCard
                             key={doc.id}
-                            handleDelete={() => handleDelete(doc.id)}
+                            handleDelete={() => twoButtonAlert(doc.id)}
                             name={doc.data().name}
                             difficulty={'Elements: ' + doc.data().difficulties.join('-')}
                             cv={'CV: ' + doc.data().cv}

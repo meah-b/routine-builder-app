@@ -75,7 +75,7 @@ export default function RoutineBuilder() {
                     <EventButtons
                         variant="build"
                         selectedVariant={event}
-                        onPress1
+                        onPress1={() => {}}
                         onPress2={() => setEvent('Bars')}
                         onPress3={() => setEvent('Beam')}
                         onPress4={() => setEvent('Floor')}

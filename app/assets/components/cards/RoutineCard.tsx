@@ -4,7 +4,16 @@ import Button from '../buttons/Buttons';
 import { colors, CustomText } from '../../../config/theme';
 import {AntDesign} from '@expo/vector-icons';
 
-export default function RoutineCard({ name, sv, handleDelete, skills, connections}) {
+interface Props {
+    name: string;
+    skills: string;
+    connections: string;
+    sv: string;
+    handleDelete: () => void;
+}
+
+export default function RoutineCard(props: Props) {
+    const { name, sv, handleDelete, skills, connections} = props;
     const [expanded, setExpanded] = useState(false);
 
     const handleExpand = () => {

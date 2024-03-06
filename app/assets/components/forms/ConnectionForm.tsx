@@ -13,7 +13,7 @@ import {calculateBeamCV, calculateBarsCV, calculateFloorCV} from "../utilities/C
 
 interface ConnectionFormProps {
     event: string;
-    onSubmit: any;
+    onSubmit: () => void;
 }
 
 export default function ConnectionForm(props: ConnectionFormProps){

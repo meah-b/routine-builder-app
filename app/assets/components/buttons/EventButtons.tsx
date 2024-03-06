@@ -1,9 +1,19 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { StyleSheet, View } from 'react-native';
 
 import Button from './Buttons';
 
-export default function EventButtons ({variant, selectedVariant, onPress1, onPress2, onPress3, onPress4}) {
+interface Props{
+    onPress1: () => void;
+    onPress2: () => void;
+    onPress3: () => void;
+    onPress4: () => void;
+    variant: string;
+    selectedVariant: string;
+}
+
+export default function EventButtons (props: Props) {
+    const {variant, selectedVariant, onPress1, onPress2, onPress3, onPress4} = props;
     return (
         <View style={variant === 'build' ? styles.buildContainer : styles.container}>
             {(variant === 'four') && (
@@ -11,7 +21,7 @@ export default function EventButtons ({variant, selectedVariant, onPress1, onPre
                     onPress={onPress1}
                     variant={selectedVariant === 'Vault' ? 'black' : 'white'}
                     title='Vault'
-                    style={variant === 'build' ? styles.buildButton : styles.button}/>
+                    style={styles.button}/>
             )}
             <Button
                 onPress={onPress2}
