@@ -7,6 +7,7 @@ import { firebase_auth, firestore_db } from '../Firebase/firebaseConfig';
 import { colors } from '../config/theme';
 import SectionCard from '../assets/components/cards/SectionCard';
 import Header from '../assets/components/utilities/Header';
+import { useFocusEffect } from '@react-navigation/native';
 
 export default function HomeScreen() {
     const events = ['vault', 'bars', 'beam', 'floor']
@@ -15,31 +16,38 @@ export default function HomeScreen() {
     const [connectionsLength, setConnectionsLength] = useState(0);
     const [routinesLength, setRoutinesLength] = useState(0);
 
-    useEffect(() => {
-        const fetchData = async () => {
-            let skillsSum = 0;
-            let connectionsSum = 0;
-            let routinesSum = 0;
-            for (let i = 0; i < 4; i++) {
-                const skillsRef = collection(doc(firestore_db, 'users', user_uid, 'events', events[i]), 'skills');
-                const connectionsRef = collection(doc(firestore_db, 'users', user_uid, 'events', events[i]), 'connections');
-                const routinesRef = collection(doc(firestore_db, 'users', user_uid, 'events', events[i]), 'routines');
-                const skillsSnapshot = await getDocs(skillsRef);
-                const connectionsSnapshot = await getDocs(connectionsRef);
-                const routinesSnapshot = await getDocs(routinesRef);
-                if (i==0) {
-                    routinesSum += skillsSnapshot.docs.length;
-                }
-                skillsSum += skillsSnapshot.docs.length;
-                connectionsSum += connectionsSnapshot.docs.length;
-                routinesSum += routinesSnapshot.docs.length;
+    const fetchData = async () => {
+        let skillsSum = 0;
+        let connectionsSum = 0;
+        let routinesSum = 0;
+        for (let i = 0; i < 4; i++) {
+            const skillsRef = collection(doc(firestore_db, 'users', user_uid, 'events', events[i]), 'skills');
+            const connectionsRef = collection(doc(firestore_db, 'users', user_uid, 'events', events[i]), 'connections');
+            const routinesRef = collection(doc(firestore_db, 'users', user_uid, 'events', events[i]), 'routines');
+            const skillsSnapshot = await getDocs(skillsRef);
+            const connectionsSnapshot = await getDocs(connectionsRef);
+            const routinesSnapshot = await getDocs(routinesRef);
+            if (i==0) {
+                routinesSum += skillsSnapshot.docs.length;
             }
-            setSkillsLength(skillsSum);
-            setConnectionsLength(connectionsSum);
-            setRoutinesLength(routinesSum);
-        };
+            skillsSum += skillsSnapshot.docs.length;
+            connectionsSum += connectionsSnapshot.docs.length;
+            routinesSum += routinesSnapshot.docs.length;
+        }
+        setSkillsLength(skillsSum);
+        setConnectionsLength(connectionsSum);
+        setRoutinesLength(routinesSum);
+    };
+
+    useEffect(() => {
         fetchData();
-    }, []);
+    }, [user_uid]);
+
+    useFocusEffect(
+        React.useCallback(() => {
+            fetchData();
+        }, [user_uid])
+    );
 
     return (
         <LinearGradient
