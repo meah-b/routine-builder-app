@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import { View, ScrollView, StyleSheet, TouchableOpacity, ActivityIndicator, KeyboardAvoidingView } from 'react-native';
+import { View, ScrollView, StyleSheet, TouchableOpacity, ActivityIndicator } from 'react-native';
 import AntIcon from "react-native-vector-icons/AntDesign";
 import { firebase_auth, firestore_db } from '../Firebase/firebaseConfig';
 import { collection, doc, setDoc } from 'firebase/firestore';

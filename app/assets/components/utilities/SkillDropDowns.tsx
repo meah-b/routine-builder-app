@@ -68,10 +68,10 @@ const floor_categories = [
 
 interface DropdownProps {
     variant: string;
-    valueD: string;
-    onChangeD: () => void;
-    valueC: string;
-    onChangeC: () => void;
+    valueD: any[];
+    onChangeD: (item: any) => void
+    valueC: any[];
+    onChangeC: (item: any) => void
 }
 
 export default function SkillDropDowns(props: DropdownProps) {

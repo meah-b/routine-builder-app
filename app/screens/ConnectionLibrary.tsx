@@ -18,11 +18,12 @@ export default function ConnectionLibrary() {
         if (form === 0){
             return (
                 <View style={styles.container}>
+                    <Header></Header>
                     <CustomText style={styles.h1} bold>Connection Library</CustomText>
                     <EventButtons 
                     variant='three'
                     selectedVariant={selectedVariant}
-                    onPress1
+                    onPress1={() => {}} 
                     onPress2={() => setSelectedVariant('Bars')} 
                     onPress3={() => setSelectedVariant('Beam')} 
                     onPress4={() => setSelectedVariant('Floor')}
@@ -38,7 +39,8 @@ export default function ConnectionLibrary() {
             )
         } else {
             return(
-                <View>
+                <View style={styles.container}>
+                    <Header></Header>
                     <TouchableOpacity onPress={() => setForm(0)} style={{marginBottom: 15, marginTop: 60, left: 5}}>
                         <CustomText 
                             style={styles.text} 
@@ -53,7 +55,6 @@ export default function ConnectionLibrary() {
     }
     return (
         <LinearGradient colors={colors.gradient} style={styles.container}>
-            <Header></Header>
             <Form/>
             <HomeButton></HomeButton>
         </LinearGradient>
@@ -82,6 +83,7 @@ const styles = StyleSheet.create({
     },
     text: {
         fontSize: 18, 
+        right: 70,
         textDecorationLine:'underline', 
         color: colors.black,
     }

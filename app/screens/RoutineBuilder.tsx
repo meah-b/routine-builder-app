@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { StyleSheet, ScrollView, View, TextInput } from 'react-native';
+import { StyleSheet, View, TextInput } from 'react-native';
 import {LinearGradient} from 'expo-linear-gradient';
 import { useNavigation } from '@react-navigation/native';
 import { firebase_auth, firestore_db } from '../Firebase/firebaseConfig';
@@ -10,6 +10,7 @@ import EventButtons from '../assets/components/buttons/EventButtons';
 import LevelButtons from '../assets/components/buttons/LevelButtons';
 import Button from '../assets/components/buttons/Buttons';
 import Header from '../assets/components/utilities/Header';
+import {H1Logo} from '../assets/components/utilities/Logo';
 import HomeButton from '../assets/components/buttons/HomeButton';
 import RoutineBuilderForm from '../assets/components/forms/RoutineBuilderForm';
 
@@ -57,7 +58,7 @@ export default function RoutineBuilder() {
         const [level, setLevel] = useState('');
 
         return (
-            <ScrollView contentContainerStyle={styles.scrollContainer} scrollEnabled={false}>
+            <View style={styles.formContainer}>
                 <CustomText style={styles.text2} bold>Routine Name:</CustomText>
                 <View style={styles.inputView}>
                     <TextInput
@@ -101,15 +102,13 @@ export default function RoutineBuilder() {
                         alert('Please input all fields!')
                     } else {
                     startBuilding(name, event, level)}}}/>
-            </ScrollView>
+            </View>
         );
     }
 
     return (
-        <LinearGradient
-            colors={colors.gradient}
-            style={styles.container}>
-            <Header></Header>
+        <LinearGradient colors={colors.gradient} style={styles.container}>
+            {isBuilding ? <View style={styles.logo}><H1Logo></H1Logo></View> : <Header></Header>}
             <CustomText style={styles.text} bold>Routine Builder</CustomText>
             {isBuilding ? 
             <RoutineBuilderForm routine_id={routineId} event={eventId} onSubmit={()=> {setIsBuilding(false); navigation.navigate('Routine Library' as never)}} handleDelete={() => {handleDelete(routineId, eventId); setIsBuilding(false)}}/>: 
@@ -125,32 +124,23 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
     },
-    startButton: {
-        width: 200,
-        height: 50,
-        position: 'absolute',
-        bottom: 20,
+    eventButtons: {
+        alignItems: 'center',
+        marginVertical: 5,
     },
-    text: {
-        color: colors.black,
-        fontSize: 30,
-        position: 'absolute',
-        top: 130,
-    },
-    scrollContainer: {
-        flex: 1,
+    formContainer: {
         flexDirection: 'column',
         borderRadius: 15,
         alignItems: 'center',
         backgroundColor: colors.fade1,
-        height: 470,
+        height: 'auto',
         width: 350,
         marginTop: 190,
         marginBottom: 150,
     },
-    eventButtons: {
-        alignItems: 'center',
-        marginVertical: 5,
+    inputText:{
+        marginLeft: 20,
+        color:colors.black
     },
     inputView:{
         backgroundColor: colors.white,
@@ -165,9 +155,20 @@ const styles = StyleSheet.create({
         shadowRadius: 5,
         elevation: 5,
     },
-    inputText:{
-        marginLeft: 20,
-        color:colors.black
+    logo: {
+        position: 'absolute',
+        top: 50
+    },
+    startButton: {
+        width: 200,
+        height: 50,
+        marginVertical: 20,
+    },
+    text: {
+        color: colors.black,
+        fontSize: 30,
+        position: 'absolute',
+        top: 130,
     },
     text2: {
         color: colors.black,

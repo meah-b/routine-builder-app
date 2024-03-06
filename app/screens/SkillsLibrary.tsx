@@ -18,6 +18,7 @@ export default function SkillLibrary() {
         if (form === 0){
             return (
                 <View style={styles.container}>
+                    <Header></Header>
                     <CustomText style={styles.h1} bold>Skill Library</CustomText>
                     <EventButtons 
                     variant='four' 
@@ -38,7 +39,8 @@ export default function SkillLibrary() {
             )
         } else {
             return (
-                <View>
+                <View style={styles.container}>
+                    <Header></Header>
                     <TouchableOpacity onPress={() => setForm(0)} style={{marginBottom: 15, marginTop: 60, left: 5}}>
                         <CustomText 
                             style={styles.text} 
@@ -54,7 +56,6 @@ export default function SkillLibrary() {
 
     return (
         <LinearGradient colors={colors.gradient} style={styles.container}>
-            <Header></Header>
             <Form/>
             <HomeButton></HomeButton>
         </LinearGradient>
@@ -83,6 +84,7 @@ const styles = StyleSheet.create({
     },
     text: {
         fontSize: 18, 
+        right: 100,
         textDecorationLine:'underline', 
         color: colors.black,
     }
