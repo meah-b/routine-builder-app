@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Alert, StyleSheet, TextInput, View } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
+import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import { firebase_auth, firestore_db } from '../Firebase/firebaseConfig';
 import { doc, getDoc, setDoc } from 'firebase/firestore';
 import {LinearGradient} from 'expo-linear-gradient';
@@ -17,76 +17,71 @@ export default function Profile() {
     const user_uid = firebase_auth.currentUser.uid;
     const userDocRef = doc(firestore_db, "users", user_uid);
     const [isEmpty, setIsEmpty] = useState(true)
+    const [isEditing, setIsEditing] = useState(false)
     const [name, setName] = useState('')
     const [level, setLevel] = useState('')
-    const [role, setRole] = useState('')
+    const [goal, setGoal] = useState('')
     const [favouriteEvent, setFavouriteEvent] = useState('')
+    const [gym, setGym] = useState('')
 
-    useEffect(() => {
+    
+    useEffect(() => {    
         const fetchData = async () => {
             try {
                 const userRef = doc(firestore_db, 'users', user_uid);
                 const snapshot = await getDoc(userRef);
-
                 if (snapshot.exists()) {
-                    setIsEmpty(false);
+                    setIsEmpty(false)
+                    snapshot.data().full_name ? setName(snapshot.data().full_name): null
+                    snapshot.data().level ? setLevel(snapshot.data().level): null
+                    snapshot.data().goal ? setGoal(snapshot.data().goal): null
+                    snapshot.data().fav_event ? setFavouriteEvent(snapshot.data().fav_event): null
+                    snapshot.data().gym ? setGym(snapshot.data().gym): null
                 } else {
-                    setIsEmpty(true);
+                    setIsEmpty(true)
+                    setIsEditing(true)
                 }
-                console.log(isEmpty)
             } catch (error) {
                 console.error('Error fetching data:', error);
             }
         };
-
         fetchData();
-    }, []);
+    }, [isEditing]);
 
-    function addProfile(){
-        setDoc(doc(userDocRef, user_uid), {
-            full_name: name,
-            level: level,
-            role: role,
-            fav_event: favouriteEvent
+    function updateProfile(add_name, add_level, add_goal, add_favouriteEvent, add_gym){
+        setDoc(userDocRef, {
+            full_name: add_name ? add_name : name,
+            level: add_level ? add_level : level,
+            goal: add_goal ? add_goal : goal,
+            fav_event: add_favouriteEvent ? add_favouriteEvent : favouriteEvent,
+            gym: add_gym ? add_gym : gym,
         },{merge:true});
     }
 
-    const handleBackPress = () => {
-        navigation.goBack();
-    };
-
     const twoButtonAlert = () =>
-        Alert.alert('Confirm', `Are you sure you want to sign out?`, [
-        {
-            text: 'Cancel',
-            style: 'cancel',
-        },
-        {
-            text: "Sign out", 
-            onPress: () => firebase_auth.signOut()},
-    ]);
+        Alert.alert('Confirm', `Are you sure you want to sign out?`, 
+        [{text: 'Cancel', style: 'cancel'},
+        {text: "Sign out", onPress: () => firebase_auth.signOut()}]);
 
-    return (
-        <LinearGradient colors={colors.gradient} style={styles.container}>
-            <CustomText style={styles.h1} bold>Edit Profile</CustomText>
-            <AntDesign 
-                    color="black" 
-                    name="leftsquareo" 
-                    size={35} 
-                    style={styles.icon} 
-                    onPress={handleBackPress}/>
-            <View style={styles.card}>
-                <View style={styles.inputs}>
+    function CreateProfile(){
+        const [newName, setNewName] = useState(name)
+        const [newLevel, setNewLevel] = useState(level)
+        const [newGoal, setNewGoal] = useState(goal)
+        const [newFavouriteEvent, setNewFavouriteEvent] = useState(favouriteEvent)
+        const [newGym, setNewGym] = useState(gym)
+
+        return (
+            <View style={styles.inputs}>
                     <CustomText style={styles.text2} bold>Name:</CustomText>
                     <View style={styles.inputView}>
                         <TextInput
                             style={styles.inputText}
                             editable
-                            placeholder='Simone Biles'
+                            placeholder={name === '' ? 'Simone Biles' : name}
                             placeholderTextColor={colors.grey200}
                             maxLength={30}
-                            onChangeText={(text) => setName(text)}
-                            value={name}
+                            onChangeText={(text) => setNewName(text)}
+                            value={newName}
                         />
                     </View>
                     <CustomText style={styles.text2} bold>Level:</CustomText>
@@ -94,11 +89,11 @@ export default function Profile() {
                         <TextInput
                             style={styles.inputText}
                             editable
-                            placeholder='9'
+                            placeholder={level === '' ? '9' : level}
                             placeholderTextColor={colors.grey200}
-                            maxLength={30}
-                            onChangeText={(text) => setLevel(text)}
-                            value={level}
+                            maxLength={10}
+                            onChangeText={(text) => setNewLevel(text)}
+                            value={newLevel}
                         />
                     </View>
                     <CustomText style={styles.text2} bold>Role:</CustomText>
@@ -106,11 +101,11 @@ export default function Profile() {
                         <TextInput
                             style={styles.inputText}
                             editable
-                            placeholder='Athlete'
+                            placeholder={goal === '' ? 'Olympics' : goal}
                             placeholderTextColor={colors.grey200}
                             maxLength={30}
-                            onChangeText={(text) => setRole(text)}
-                            value={role}
+                            onChangeText={(text) => setNewGoal(text)}
+                            value={newGoal}
                         />
                     </View>
                     <CustomText style={styles.text2} bold>Favourite Event:</CustomText>
@@ -118,26 +113,70 @@ export default function Profile() {
                         <TextInput
                             style={styles.inputText}
                             editable
-                            placeholder='Bars'
+                            placeholder={favouriteEvent === '' ? 'Bars' : favouriteEvent}
+                            placeholderTextColor={colors.grey200}
+                            maxLength={5}
+                            onChangeText={(text) => setNewFavouriteEvent(text)}
+                            value={newFavouriteEvent}
+                        />
+                    </View>
+                    <CustomText style={styles.text2} bold>Gym Name:</CustomText>
+                    <View style={styles.inputView}>
+                        <TextInput
+                            style={styles.inputText}
+                            editable
+                            placeholder={gym === '' ? 'WOGA' : gym}
                             placeholderTextColor={colors.grey200}
                             maxLength={30}
-                            onChangeText={(text) => setFavouriteEvent(text)}
-                            value={favouriteEvent}
+                            onChangeText={(text) => setNewGym(text)}
+                            value={newGym}
                         />
                     </View>
                     <Button
                         variant='black'
-                        title='Update'
+                        title={isEmpty ? 'Create Profile' : 'Update'}
                         style={styles.button}
+                        onPress={() => {updateProfile(newName, newLevel, newGoal, newFavouriteEvent, newGym); setIsEditing(false)}}>
+                    </Button>
+                </View>
+        )
+    }
+
+    function Profile(){
+        return (
+            <View style={styles.profile}>
+                    <CustomText style={styles.name} bold>{name}</CustomText>
+                    <CustomText style={styles.text2} bold>Level: {level}</CustomText>
+                    <CustomText style={styles.text2} bold>Goal: {goal}</CustomText>
+                    <CustomText style={styles.text2} bold>Favourite Event: {favouriteEvent}</CustomText>
+                    <CustomText style={styles.text2} bold>Gym: {gym}</CustomText>
+                    <Button
+                        variant='black'
+                        title='Edit Profile'
+                        style={{...styles.button, marginTop: 70}}
+                        onPress={() => setIsEditing(true)}>
+                    </Button>
+                    <Button
+                        variant='white'
+                        title='Sign Out'
+                        style={{...styles.button, borderColor: colors.purple, borderWidth: 2, marginTop: 5}}
                         onPress={() => twoButtonAlert()}>
                     </Button>
                 </View>
-                {/* <Button
-                    variant='black'
-                    title='Sign Out'
-                    style={styles.button}
-                    onPress={() => twoButtonAlert()}>
-                </Button>       */}
+        )
+    }
+
+    return (
+        <LinearGradient colors={colors.gradient} style={styles.container}>
+            <CustomText style={styles.h1} bold>{isEmpty ? 'Create Profile' : isEditing ? 'Edit Profile' : 'Profile'}</CustomText>
+            <AntDesign 
+                    color="black" 
+                    name="leftsquareo" 
+                    size={35} 
+                    style={styles.icon} 
+                    onPress={() => navigation.goBack()}/>
+            <View style={styles.card}>
+                {isEditing ? <CreateProfile/> : <Profile/>}
             </View> 
             <Svg>
                 <Circle
@@ -156,9 +195,9 @@ export default function Profile() {
 
 const styles = StyleSheet.create({
     button: {
-        width: 150,
+        width: 200,
         height: 50,
-        marginTop: 20,
+        marginTop: 25,
     },
     card: {
         position: 'absolute',
@@ -204,10 +243,10 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         position: 'absolute',
         width: '100%',
-        bottom: 70,
+        bottom: 40,
     },
     inputText:{
-        marginLeft: 20,
+        marginLeft: 15,
         color:colors.black
     },
     inputView:{
@@ -215,8 +254,8 @@ const styles = StyleSheet.create({
         borderRadius:15,
         borderColor: colors.black,
         borderWidth: 1,
-        height: 50,
-        width: 330,
+        height: 40,
+        width: 320,
         justifyContent:"center",
         shadowColor: colors.black,
         shadowOffset: {width: 0, height: 2},
@@ -228,6 +267,20 @@ const styles = StyleSheet.create({
         position: 'absolute',
         top: 95,
         left: 30,
+    },
+    name: {
+        color: colors.black,
+        fontSize: 30,
+        position: 'absolute',
+        bottom: 370,
+    },
+    profile: {
+        flexDirection: 'column',
+        justifyContent: 'center',
+        alignItems: 'center',
+        position: 'absolute',
+        width: '100%',
+        bottom: 100,
     },
     pfp: {
         position: 'absolute',
@@ -241,10 +294,10 @@ const styles = StyleSheet.create({
     },
     text2: {
         color: colors.black,
-        fontSize: 20,
+        fontSize: 18,
         marginTop: 10,
         alignSelf: 'flex-start',
-        marginLeft: 35,
+        marginLeft: 40,
         marginBottom: 5,
     },
 });
