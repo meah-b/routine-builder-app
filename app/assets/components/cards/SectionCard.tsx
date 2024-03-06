@@ -6,23 +6,23 @@ import Button from '../buttons/Buttons';
 import {colors, CustomText} from '../../../config/theme';
 
 
-export default function SectionCard({variant, page}) {
+export default function SectionCard({variant, page, count}) {
     const navigation = useNavigation();
     const onPress = () => {navigation.navigate(page as never)}
-
+    
     let title: string, subTitle: string, buttonTitle: string, padding: number;
 
     if (variant === 'Skills') {
         title = 'Skills Library';
-        subTitle = '21 Skills';
+        subTitle = count + ' Skills';
         buttonTitle = 'View More';
     } else if (variant === 'Connections') {
         title = 'Connection Library';
-        subTitle = '8 Connections';
+        subTitle = count + ' Connections';
         buttonTitle = 'View More';
     } else if (variant === 'Routines') {
         title = 'Routine Library';
-        subTitle = '5 Routines';
+        subTitle = count + ' Routines';
         buttonTitle = 'View More';
     } else if (variant === 'Builder') {
         title = 'Routine Builder';
