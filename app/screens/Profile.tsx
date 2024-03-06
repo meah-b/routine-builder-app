@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Alert, StyleSheet, TextInput, View } from 'react-native';
-import { useFocusEffect, useNavigation } from '@react-navigation/native';
+import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
+import { useNavigation } from '@react-navigation/native';
 import { firebase_auth, firestore_db } from '../Firebase/firebaseConfig';
 import { doc, getDoc, setDoc } from 'firebase/firestore';
 import {LinearGradient} from 'expo-linear-gradient';
@@ -17,29 +18,26 @@ export default function Profile() {
     const user_uid = firebase_auth.currentUser.uid;
     const userDocRef = doc(firestore_db, "users", user_uid);
     const [isEmpty, setIsEmpty] = useState(true)
-    const [isEditing, setIsEditing] = useState(false)
+    const [isEditing, setIsEditing] = useState(true)
     const [name, setName] = useState('')
     const [level, setLevel] = useState('')
     const [goal, setGoal] = useState('')
     const [favouriteEvent, setFavouriteEvent] = useState('')
     const [gym, setGym] = useState('')
 
-    
     useEffect(() => {    
+        setIsEmpty(true); 
         const fetchData = async () => {
             try {
                 const userRef = doc(firestore_db, 'users', user_uid);
                 const snapshot = await getDoc(userRef);
                 if (snapshot.exists()) {
-                    setIsEmpty(false)
-                    snapshot.data().full_name ? setName(snapshot.data().full_name): null
-                    snapshot.data().level ? setLevel(snapshot.data().level): null
-                    snapshot.data().goal ? setGoal(snapshot.data().goal): null
-                    snapshot.data().fav_event ? setFavouriteEvent(snapshot.data().fav_event): null
-                    snapshot.data().gym ? setGym(snapshot.data().gym): null
-                } else {
-                    setIsEmpty(true)
-                    setIsEditing(true)
+                    setIsEmpty(!snapshot.data().exists);
+                    setName(snapshot.data().full_name || '');
+                    setLevel(snapshot.data().level || '');
+                    setGoal(snapshot.data().goal || '');
+                    setFavouriteEvent(snapshot.data().fav_event || '');
+                    setGym(snapshot.data().gym || '');
                 }
             } catch (error) {
                 console.error('Error fetching data:', error);
@@ -47,7 +45,7 @@ export default function Profile() {
         };
         fetchData();
     }, [isEditing]);
-
+    
     function updateProfile(add_name, add_level, add_goal, add_favouriteEvent, add_gym){
         setDoc(userDocRef, {
             full_name: add_name ? add_name : name,
@@ -71,7 +69,8 @@ export default function Profile() {
         const [newGym, setNewGym] = useState(gym)
 
         return (
-            <View style={styles.inputs}>
+            <KeyboardAwareScrollView>
+                <View style={styles.inputs}>
                     <CustomText style={styles.text2} bold>Name:</CustomText>
                     <View style={styles.inputView}>
                         <TextInput
@@ -96,7 +95,7 @@ export default function Profile() {
                             value={newLevel}
                         />
                     </View>
-                    <CustomText style={styles.text2} bold>Role:</CustomText>
+                    <CustomText style={styles.text2} bold>Goal:</CustomText>
                     <View style={styles.inputView}>
                         <TextInput
                             style={styles.inputText}
@@ -139,6 +138,7 @@ export default function Profile() {
                         onPress={() => {updateProfile(newName, newLevel, newGoal, newFavouriteEvent, newGym); setIsEditing(false)}}>
                     </Button>
                 </View>
+            </KeyboardAwareScrollView>
         )
     }
 
@@ -146,10 +146,10 @@ export default function Profile() {
         return (
             <View style={styles.profile}>
                     <CustomText style={styles.name} bold>{name}</CustomText>
-                    <CustomText style={styles.text2} bold>Level: {level}</CustomText>
-                    <CustomText style={styles.text2} bold>Goal: {goal}</CustomText>
-                    <CustomText style={styles.text2} bold>Favourite Event: {favouriteEvent}</CustomText>
-                    <CustomText style={styles.text2} bold>Gym: {gym}</CustomText>
+                    <CustomText style={styles.text3} bold>Level: {level}</CustomText>
+                    <CustomText style={styles.text3} bold>Goal: {goal}</CustomText>
+                    <CustomText style={styles.text3} bold>Favourite Event: {favouriteEvent}</CustomText>
+                    <CustomText style={styles.text3} bold>Gym: {gym}</CustomText>
                     <Button
                         variant='black'
                         title='Edit Profile'
@@ -176,7 +176,7 @@ export default function Profile() {
                     style={styles.icon} 
                     onPress={() => navigation.goBack()}/>
             <View style={styles.card}>
-                {isEditing ? <CreateProfile/> : <Profile/>}
+                {isEditing ? <CreateProfile/>:<Profile/>}
             </View> 
             <Svg>
                 <Circle
@@ -239,11 +239,11 @@ const styles = StyleSheet.create({
     },
     inputs:{
         flexDirection: 'column',
+        alignContent: 'center',
         justifyContent: 'center',
         alignItems: 'center',
-        position: 'absolute',
-        width: '100%',
-        bottom: 40,
+        paddingTop: 80,
+        flex: 0,
     },
     inputText:{
         marginLeft: 15,
@@ -257,11 +257,6 @@ const styles = StyleSheet.create({
         height: 40,
         width: 320,
         justifyContent:"center",
-        shadowColor: colors.black,
-        shadowOffset: {width: 0, height: 2},
-        shadowOpacity: 0.2,
-        shadowRadius: 5,
-        elevation: 5,
     },
     icon: {
         position: 'absolute',
@@ -297,7 +292,15 @@ const styles = StyleSheet.create({
         fontSize: 18,
         marginTop: 10,
         alignSelf: 'flex-start',
-        marginLeft: 40,
+        marginLeft: 5,
+        marginBottom: 5,
+    },
+    text3: {
+        color: colors.black,
+        fontSize: 18,
+        marginTop: 10,
+        alignSelf: 'flex-start',
+        marginLeft: 30,
         marginBottom: 5,
     },
 });
