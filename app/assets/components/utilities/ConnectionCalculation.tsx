@@ -6,14 +6,20 @@ type Skill = {
   export function calculateBeamCV(skills: Skill[]): number[] {
     const connectionValues: number[] = [];
     let value = 0;
-    if(skills.length >=3) {value += 0.1}
+    if(skills.length >=3) {
+      for (let i = 0; i < skills.length - 1; i++) {
+        const substringS = skills.slice(i, i + 2);
+        const [firstSkill, secondSkill, thirdSkill] = substringS;
+        if (firstSkill.difficulty != 'A' && secondSkill.difficulty != 'A' && thirdSkill.difficulty != 'A' &&
+        (firstSkill.difficulty != 'B' || secondSkill.difficulty || 'B' && thirdSkill.difficulty != 'B'))
+        value += 0.1
+      }
+    }
   
     for (let i = 0; i < skills.length - 1; i++) {
       const substring = skills.slice(i, i + 2);
       const [firstSkill, secondSkill] = substring;
-  
       const connectionType = (firstSkill.category === 'acro-bwd' || firstSkill.category === 'acro-fwd') && (secondSkill.category === 'acro-bwd' || secondSkill.category === 'acro-bwd') ? 'ACRO' : 'DANCE_MIXED';
-  
       
       if (connectionType === 'ACRO') {
         if ((firstSkill.difficulty === 'C' && secondSkill.difficulty === 'C') ||

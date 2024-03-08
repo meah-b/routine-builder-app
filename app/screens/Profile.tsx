@@ -17,7 +17,7 @@ export default function Profile() {
     const navigation = useNavigation();
     const user_uid = firebase_auth.currentUser.uid;
     const userDocRef = doc(firestore_db, "users", user_uid);
-    const [isEmpty, setIsEmpty] = useState(true)
+    const [isEmpty, setIsEmpty] = useState(false)
     const [isEditing, setIsEditing] = useState(true)
     const [name, setName] = useState('')
     const [level, setLevel] = useState('')
@@ -26,18 +26,18 @@ export default function Profile() {
     const [gym, setGym] = useState('')
 
     useEffect(() => {    
-        setIsEmpty(true); 
         const fetchData = async () => {
             try {
                 const userRef = doc(firestore_db, 'users', user_uid);
                 const snapshot = await getDoc(userRef);
-                if (snapshot.exists()) {
-                    setIsEmpty(!snapshot.data().exists);
+                if (snapshot.data().exists) {
                     setName(snapshot.data().full_name || '');
                     setLevel(snapshot.data().level || '');
                     setGoal(snapshot.data().goal || '');
                     setFavouriteEvent(snapshot.data().fav_event || '');
                     setGym(snapshot.data().gym || '');
+                } else {
+                    setIsEmpty(true);
                 }
             } catch (error) {
                 console.error('Error fetching data:', error);
