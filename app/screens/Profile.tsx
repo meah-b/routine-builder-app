@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Alert, StyleSheet, TextInput, View } from 'react-native';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
-import { useNavigation } from '@react-navigation/native';
+import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import { firebase_auth, firestore_db } from '../Firebase/firebaseConfig';
 import { doc, getDoc, setDoc } from 'firebase/firestore';
 import {LinearGradient} from 'expo-linear-gradient';
@@ -12,37 +12,42 @@ import Svg, { Circle } from 'react-native-svg';
 import { CustomText, colors } from '../config/theme';
 import Button from '../assets/components/buttons/Buttons';
 
-
 export default function Profile() {
     const navigation = useNavigation();
     const user_uid = firebase_auth.currentUser.uid;
     const userDocRef = doc(firestore_db, "users", user_uid);
     const [isEmpty, setIsEmpty] = useState(false)
-    const [isEditing, setIsEditing] = useState(true)
+    const [isEditing, setIsEditing] = useState(false)
     const [name, setName] = useState('')
     const [level, setLevel] = useState('')
     const [goal, setGoal] = useState('')
     const [favouriteEvent, setFavouriteEvent] = useState('')
     const [gym, setGym] = useState('')
-
-    useEffect(() => {    
-        const fetchData = async () => {
-            try {
-                const userRef = doc(firestore_db, 'users', user_uid);
-                const snapshot = await getDoc(userRef);
-                if (snapshot.data().exists) {
-                    setName(snapshot.data().full_name || '');
-                    setLevel(snapshot.data().level || '');
-                    setGoal(snapshot.data().goal || '');
-                    setFavouriteEvent(snapshot.data().fav_event || '');
-                    setGym(snapshot.data().gym || '');
+ 
+    const fetchData = async () => {
+        try {
+            const userRef = doc(firestore_db, 'users', user_uid);
+            const snapshot = await getDoc(userRef);
+            if (snapshot.exists()) {
+                const userData = snapshot.data();
+                if (userData && Object.keys(userData).length > 0) {
+                    setName(userData.full_name || '');
+                    setLevel(userData.level || '');
+                    setGoal(userData.goal || '');
+                    setFavouriteEvent(userData.fav_event || '');
+                    setGym(userData.gym || '');
                 } else {
                     setIsEmpty(true);
                 }
-            } catch (error) {
-                console.error('Error fetching data:', error);
+            } else {
+                setIsEmpty(true);
             }
-        };
+        } catch (error) {
+            console.error('Error fetching data:', error);
+        }
+    };
+
+    useEffect(() => {
         fetchData();
     }, [isEditing]);
     
@@ -54,6 +59,9 @@ export default function Profile() {
             fav_event: add_favouriteEvent ? add_favouriteEvent : favouriteEvent,
             gym: add_gym ? add_gym : gym,
         },{merge:true});
+        setIsEditing(false);
+        fetchData();
+        setIsEmpty(false);
     }
 
     const twoButtonAlert = () =>
@@ -135,7 +143,7 @@ export default function Profile() {
                         variant='black'
                         title={isEmpty ? 'Create Profile' : 'Update'}
                         style={styles.button}
-                        onPress={() => {updateProfile(newName, newLevel, newGoal, newFavouriteEvent, newGym); setIsEditing(false)}}>
+                        onPress={() => updateProfile(newName, newLevel, newGoal, newFavouriteEvent, newGym)}>
                     </Button>
                 </View>
             </KeyboardAwareScrollView>
@@ -145,11 +153,17 @@ export default function Profile() {
     function Profile(){
         return (
             <View style={styles.profile}>
-                    <CustomText style={styles.name} bold>{name}</CustomText>
-                    <CustomText style={styles.text3} bold>Level: {level}</CustomText>
-                    <CustomText style={styles.text3} bold>Goal: {goal}</CustomText>
-                    <CustomText style={styles.text3} bold>Favourite Event: {favouriteEvent}</CustomText>
-                    <CustomText style={styles.text3} bold>Gym: {gym}</CustomText>
+                    <View style={styles.textBox}>
+                        <CustomText style={styles.name} bold>{name}</CustomText>
+                        <CustomText style={styles.text3} bold>Level</CustomText>
+                        <CustomText style={styles.text3}>{level}</CustomText>
+                        <CustomText style={styles.text3} bold>Favourite Event</CustomText>
+                        <CustomText style={styles.text3}>{favouriteEvent}</CustomText>
+                        <CustomText style={styles.text3} bold>Goal</CustomText>
+                        <CustomText style={styles.text3}>{goal}</CustomText>
+                        <CustomText style={styles.text3} bold>Gym</CustomText>
+                        <CustomText style={styles.text3}>{gym}</CustomText>
+                    </View>
                     <Button
                         variant='black'
                         title='Edit Profile'
@@ -170,13 +184,13 @@ export default function Profile() {
         <LinearGradient colors={colors.gradient} style={styles.container}>
             <CustomText style={styles.h1} bold>{isEmpty ? 'Create Profile' : isEditing ? 'Edit Profile' : 'Profile'}</CustomText>
             <AntDesign 
-                    color="black" 
+                    color={colors.white}
                     name="leftsquareo" 
                     size={35} 
                     style={styles.icon} 
                     onPress={() => navigation.goBack()}/>
             <View style={styles.card}>
-                {isEditing ? <CreateProfile/>:<Profile/>}
+                {isEditing || isEmpty ? <CreateProfile/>:<Profile/>}
             </View> 
             <Svg>
                 <Circle
@@ -232,10 +246,10 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     h1: {
-        color: colors.black,
+        color: colors.white,
         fontSize: 30,
         position: 'absolute',
-        top: 90,
+        top: 90
     },
     inputs:{
         flexDirection: 'column',
@@ -266,8 +280,6 @@ const styles = StyleSheet.create({
     name: {
         color: colors.black,
         fontSize: 30,
-        position: 'absolute',
-        bottom: 370,
     },
     profile: {
         flexDirection: 'column',
@@ -298,10 +310,15 @@ const styles = StyleSheet.create({
     text3: {
         color: colors.black,
         fontSize: 18,
-        marginTop: 10,
-        alignSelf: 'flex-start',
-        marginLeft: 30,
-        marginBottom: 5,
+        alignSelf: 'center',
+        marginBottom: 2,
     },
+    textBox: {
+        flexDirection: 'column',
+        justifyContent: 'center',
+        alignItems: 'center',
+        position: 'absolute',
+        bottom: 140
+    }
 });
 
