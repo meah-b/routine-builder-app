@@ -36,7 +36,7 @@ const styles = StyleSheet.create({
         left:15,
     },
     inputView:{
-        backgroundColor: colors.fade1,
+        backgroundColor: colors.white,
         borderRadius:15,
         height: 50,
         width: 285,

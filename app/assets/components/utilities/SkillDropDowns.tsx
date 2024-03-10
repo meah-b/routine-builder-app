@@ -171,7 +171,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         marginHorizontal: 5,
         alignItems: 'center',
-        backgroundColor: colors.fade1,
+        backgroundColor: colors.white,
         color: colors.black,
         width: 350,
         height: 50,

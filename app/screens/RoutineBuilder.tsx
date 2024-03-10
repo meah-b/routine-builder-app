@@ -135,8 +135,8 @@ const styles = StyleSheet.create({
         backgroundColor: colors.fade1,
         height: 'auto',
         width: 350,
-        marginTop: 190,
-        marginBottom: 150,
+        position: 'absolute',
+        top: 200,
     },
     inputText:{
         marginLeft: 20,

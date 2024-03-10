@@ -21,7 +21,6 @@ export default function LoginScreen() {
         setLoading(true);
         try{
             const response = await signInWithEmailAndPassword(auth, email, password);
-            console.log(response);
         } catch (error) {
             console.log(error);
             alert('Sign in failed: ' + error.message);
@@ -105,7 +104,8 @@ export default function LoginScreen() {
 
 const styles = StyleSheet.create({
     alternateContainer: {
-        marginTop: 140,
+        position: 'absolute',
+        top: 680,
         flexDirection: "column", 
         alignItems: 'center',
     },
@@ -147,11 +147,13 @@ const styles = StyleSheet.create({
     loginButtonContainer: {
         flexDirection: "row",
         alignItems: 'center',
-        marginBottom: 15,
+        position: 'absolute',
+        top: 450,
         gap: 5,
     },
     loginContainer: {
-        marginTop: 260,
+        position: 'absolute',
+        top: 320,
         flexDirection: "column",
         alignItems: 'center',
     },

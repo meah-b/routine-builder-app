@@ -41,7 +41,7 @@ export default function ConnectionLibrary() {
             return(
                 <View style={styles.container}>
                     <Header></Header>
-                    <TouchableOpacity onPress={() => setForm(0)} style={{marginBottom: 15, marginTop: 60, left: 5}}>
+                    <TouchableOpacity onPress={() => setForm(0)} style={{position: 'absolute', top: 160, left: -180}}>
                         <CustomText 
                             style={styles.text} 
                             bold
@@ -66,7 +66,7 @@ const styles = StyleSheet.create({
         position: 'absolute',
         height: 35,
         width: 165,
-        top: 255,
+        top: 250,
         left: 10,
     },
     container: {
@@ -83,7 +83,6 @@ const styles = StyleSheet.create({
     },
     text: {
         fontSize: 18, 
-        right: 70,
         textDecorationLine:'underline', 
         color: colors.black,
     }

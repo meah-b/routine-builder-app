@@ -41,7 +41,7 @@ export default function SkillLibrary() {
             return (
                 <View style={styles.container}>
                     <Header></Header>
-                    <TouchableOpacity onPress={() => setForm(0)} style={{marginBottom: 15, marginTop: 60, left: 5}}>
+                    <TouchableOpacity onPress={() => setForm(0)} style={{position: 'absolute', top: 160, left: -80}}>
                         <CustomText 
                             style={styles.text} 
                             bold
@@ -67,7 +67,7 @@ const styles = StyleSheet.create({
         position: 'absolute',
         height: 35,
         width: 110,
-        top: 255,
+        top: 250,
         left: 10,
     },
     container: {

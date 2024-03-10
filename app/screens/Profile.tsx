@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Alert, StyleSheet, TextInput, View } from 'react-native';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
-import { useFocusEffect, useNavigation } from '@react-navigation/native';
+import { useNavigation } from '@react-navigation/native';
 import { firebase_auth, firestore_db } from '../Firebase/firebaseConfig';
 import { doc, getDoc, setDoc } from 'firebase/firestore';
 import {LinearGradient} from 'expo-linear-gradient';
@@ -142,7 +142,7 @@ export default function Profile() {
                     <Button
                         variant='black'
                         title={isEmpty ? 'Create Profile' : 'Update'}
-                        style={styles.button}
+                        style={{...styles.button, marginTop: 15, marginBottom: 30}}
                         onPress={() => updateProfile(newName, newLevel, newGoal, newFavouriteEvent, newGym)}>
                     </Button>
                 </View>
@@ -167,16 +167,16 @@ export default function Profile() {
                     <Button
                         variant='black'
                         title='Edit Profile'
-                        style={{...styles.button, marginTop: 70}}
+                        style={styles.button}
                         onPress={() => setIsEditing(true)}>
                     </Button>
                     <Button
                         variant='white'
                         title='Sign Out'
-                        style={{...styles.button, borderColor: colors.purple, borderWidth: 2, marginTop: 5}}
+                        style={{...styles.button, borderWidth: 1}}
                         onPress={() => twoButtonAlert()}>
                     </Button>
-                </View>
+            </View>
         )
     }
 
@@ -192,10 +192,10 @@ export default function Profile() {
             <View style={styles.card}>
                 {isEditing || isEmpty ? <CreateProfile/>:<Profile/>}
             </View> 
-            <Svg>
+            <Svg height={160} width={158} style={{bottom: 188}}>
                 <Circle
                 cx="50%"
-                cy="248.5"
+                cy="79"
                 r="76"
                 stroke={colors.purple}
                 strokeWidth="5"
@@ -211,7 +211,11 @@ const styles = StyleSheet.create({
     button: {
         width: 200,
         height: 50,
-        marginTop: 25,
+    },
+    buttons: {
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'center',
     },
     card: {
         position: 'absolute',
@@ -224,15 +228,6 @@ const styles = StyleSheet.create({
         height: 600,
         width: '100%',
         bottom: 0,
-    },
-    circle: {
-        position: 'absolute',
-        bottom: 520,
-        height: 150,
-        borderRadius: 75, 
-        borderWidth: 2, 
-        borderColor: 'darkpurple', 
-        backgroundColor: colors.white
     },
     createButton: {
         width: 200,
@@ -257,7 +252,6 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         paddingTop: 80,
-        flex: 0,
     },
     inputText:{
         marginLeft: 15,
@@ -280,20 +274,19 @@ const styles = StyleSheet.create({
     name: {
         color: colors.black,
         fontSize: 30,
+        marginVertical: 10
     },
     profile: {
         flexDirection: 'column',
         justifyContent: 'center',
         alignItems: 'center',
-        position: 'absolute',
-        width: '100%',
-        bottom: 100,
+        height: 400,
     },
     pfp: {
-        position: 'absolute',
-        bottom: 520,
         height: 150,
-        objectFit: 'contain'
+        objectFit: 'contain',
+        position: 'absolute',
+        top: 150
     },
     text: {
         color: colors.black,
@@ -317,8 +310,7 @@ const styles = StyleSheet.create({
         flexDirection: 'column',
         justifyContent: 'center',
         alignItems: 'center',
-        position: 'absolute',
-        bottom: 140
+        marginBottom: 50
     }
 });
 

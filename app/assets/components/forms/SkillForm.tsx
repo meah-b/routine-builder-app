@@ -29,7 +29,7 @@ export default function SkillForm(props: SkillFormProps){
     }
 
     return (
-        <View style={[styles.container, event === 'Vault' ? {height:400, marginBottom: 170,}: null]}>
+        <View style={[styles.container, event === 'Vault' ? {height:400}: null]}>
             <CustomText style={styles.h1} bold>{event}</CustomText>
             <CustomText style={styles.text} bold>Skill Name:</CustomText>
             <View style={styles.inputView}>
@@ -72,7 +72,8 @@ const styles = StyleSheet.create({
         borderRadius: 15,
         flexDirection: 'column',
         alignItems: 'center',
-        marginBottom: 80,
+        position: 'absolute',
+        top: 200,
         height: 490,
         width: 370,
         shadowColor: colors.black,

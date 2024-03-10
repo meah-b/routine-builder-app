@@ -53,7 +53,7 @@ const styles = StyleSheet.create({
         marginVertical: 5,
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: colors.fade1,
+        backgroundColor: colors.white,
         shadowColor: colors.black,
         shadowOffset: {width: 0, height: 4},
         shadowOpacity: 0.5,
