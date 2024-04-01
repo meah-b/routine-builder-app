@@ -286,7 +286,7 @@ const styles = StyleSheet.create({
         height: 150,
         objectFit: 'contain',
         position: 'absolute',
-        top: 150
+        top: 158
     },
     text: {
         color: colors.black,

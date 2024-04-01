@@ -12,6 +12,7 @@ import RoutineLibrary from './app/screens/RoutineLibrary';
 import RoutineBuilder from './app/screens/RoutineBuilder';
 import Profile from './app/screens/Profile';
 import NotifScreen from './app/screens/NotificationScreen';
+import SignUpScreen from './app/screens/SignUpScreen';
 
 
 const Stack = createNativeStackNavigator();
@@ -45,7 +46,10 @@ export default function App() {
         {user ? (
           <Stack.Screen name='Inside' component={InsideLayout} />
         ) : (
-          <Stack.Screen name='Login' component={LoginScreen} />
+          <>
+            <Stack.Screen name='Login' component={LoginScreen} />
+            <Stack.Screen name='Sign Up' component={SignUpScreen} />
+          </>
         )}        
       </Stack.Navigator>
     </NavigationContainer>

@@ -27,7 +27,7 @@ export default function ConnectionForm(props: ConnectionFormProps){
     let difficulties: string[] = [];
     let dvs: string[] = [];
 
-    const updateSelection = (selectedItems) => {
+    const updateSelection = (selectedItems: any[]) => {
         const sortedSelectedOptions = [...selectedItems].sort((a, b) =>
             a.value - b.value
         );
@@ -42,7 +42,7 @@ export default function ConnectionForm(props: ConnectionFormProps){
         fetchData();
     }, []);
 
-    function calculateCV(selected){
+    function calculateCV(selected:any[]){
         let cv = 0;
         let selectedSkills = selected.map((item) => item);
         let skills = selectedSkills.map((selectedId) => {

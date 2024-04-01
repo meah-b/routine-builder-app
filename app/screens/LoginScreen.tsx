@@ -1,17 +1,18 @@
 import React, {useState} from 'react';
 import { View, ScrollView, StyleSheet, TouchableOpacity, ActivityIndicator } from 'react-native';
 import AntIcon from "react-native-vector-icons/AntDesign";
-import { firebase_auth, firestore_db } from '../Firebase/firebaseConfig';
-import { collection, doc, setDoc } from 'firebase/firestore';
+import { firebase_auth } from '../Firebase/firebaseConfig';
 
 import {CustomText, colors} from '../config/theme';
 import {GradientSvg1, GradientSvg2} from '../assets/components/utilities/Gradients';
 import {Logo} from '../assets/components/utilities/Logo';
 import Button from '../assets/components/buttons/Buttons';
 import TxtInput from '../assets/components/utilities/TextInput';
-import { signInWithEmailAndPassword, createUserWithEmailAndPassword } from 'firebase/auth';
+import { signInWithEmailAndPassword } from 'firebase/auth';
+import { useNavigation } from '@react-navigation/native';
 
 export default function LoginScreen() {
+    const navigation = useNavigation();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [loading, setLoading] = useState(false);
@@ -20,7 +21,7 @@ export default function LoginScreen() {
     const signIn = async () => {
         setLoading(true);
         try{
-            const response = await signInWithEmailAndPassword(auth, email, password);
+            await signInWithEmailAndPassword(auth, email, password);
         } catch (error) {
             console.log(error);
             alert('Sign in failed: ' + error.message);
@@ -28,29 +29,6 @@ export default function LoginScreen() {
             setLoading(false)
         }
     }
-
-    const signUp = async () => {
-        setLoading(true);
-        try {
-            const response = await createUserWithEmailAndPassword(auth, email, password);
-            const user = response.user;
-            const userDocRef = doc(firestore_db, "users", user.uid);
-            const eventsRef = collection(userDocRef, "events");
-
-            await setDoc(doc(eventsRef, "vault"), {});  
-            await setDoc(doc(eventsRef, "bars"), {});
-            await setDoc(doc(eventsRef, "beam"), {});
-            await setDoc(doc(eventsRef, "floor"), {});
-    
-        } catch (error) {
-            console.log(error);
-            alert('Sign up failed: ' + error.message);
-        } finally {
-            setLoading(false);
-        }
-    };
-    
-    
 
     return (
         <ScrollView contentContainerStyle={styles.container} scrollEnabled={false}>
@@ -78,7 +56,7 @@ export default function LoginScreen() {
                     style={{width:140}}
                 />
                 <Button
-                    onPress={signUp}
+                    onPress={() => navigation.navigate('Sign Up' as never)}
                     variant='black'
                     title='Sign Up'
                     style={{width:140}}
