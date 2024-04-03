@@ -6,9 +6,7 @@ import Button from '../buttons/Buttons';
 import {colors, CustomText} from '../../../config/theme';
 
 
-export default function SectionCard({variant, page, count}) {
-    const navigation = useNavigation();
-    const onPress = () => {navigation.navigate(page as never)}
+export default function SectionCard({variant, count, onPress}) {
     
     let title: string, subTitle: string, buttonTitle: string, padding: number;
 

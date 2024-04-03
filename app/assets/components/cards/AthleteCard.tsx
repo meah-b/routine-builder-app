@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, StyleSheet } from 'react-native';
+import { View, TouchableOpacity, StyleSheet } from 'react-native';
 import {AntDesign} from '@expo/vector-icons';
 
 import {colors, CustomText} from '../../../config/theme';
@@ -7,25 +7,29 @@ import {colors, CustomText} from '../../../config/theme';
 interface Props {
     name: string;
     level: string;
+    isSelected: boolean;
+    onPress: () => void;
     handleDelete: () => void;
 }
 
 export default function AthleteCard(props: Props) {
-    const {name, level, handleDelete} = props;
+    const {name, level, isSelected, onPress, handleDelete} = props;
     return (
-        <View style={styles.container}>
+        <TouchableOpacity 
+            style={[styles.container, {backgroundColor: isSelected ? colors.black : colors.white}]}
+            onPress={onPress}>
             <View style={styles.col}>
-                <CustomText style={styles.name} bold>{name}</CustomText>
-            <CustomText style={styles.difficulty}>Level: {level}</CustomText>
+                <CustomText style={[styles.name, {color: isSelected ? colors.white : null}]} bold>{name}</CustomText>
+            <CustomText style={[styles.difficulty, {color: isSelected ? colors.white : null}]}>Level: {level}</CustomText>
             </View>
             <AntDesign 
-                color="black" 
+                color= {isSelected ? "white" : "black"} 
                 name="delete" 
                 size={24}  
                 style={styles.icon}
                 onPress={handleDelete}
             />
-        </View>
+        </TouchableOpacity>
     );
 }
 
@@ -44,12 +48,13 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'space-between',
-        backgroundColor: colors.white,
         color: colors.black,
         width: 350,
         height: 80,
         paddingHorizontal: 15,
         margin: 4,
+        marginLeft: 10,
+        marginRight: 10,
         borderRadius: 15,
         shadowColor: colors.black,
         shadowOffset: {width: 0, height: 4},

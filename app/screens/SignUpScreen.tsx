@@ -26,7 +26,7 @@ export default function SignUpScreen() {
             await setDoc(doc(eventsRef, "bars"), {});
             await setDoc(doc(eventsRef, "beam"), {});
             await setDoc(doc(eventsRef, "floor"), {});
-            setDoc(userDocRef, {account_type: type})
+            setDoc(userDocRef, {account_type: type, full_name: fullName, email: email})
         } catch (error) {
             console.log(error);
             alert('Sign up failed: ' + error.message);
@@ -38,7 +38,7 @@ export default function SignUpScreen() {
             const response = await createUserWithEmailAndPassword(auth, email, password);
             const user = response.user;
             const userDocRef = doc(firestore_db, "users", user.uid);
-            setDoc(userDocRef, {account_type: type})
+            setDoc(userDocRef, {account_type: type, full_name: fullName, email: email})
         } catch (error) {
             console.log(error);
             alert('Sign up failed: ' + error.message);

@@ -1,7 +1,7 @@
 import React, {useState} from "react";
-import { View, StyleSheet, TextInput } from "react-native";
+import { View, StyleSheet, TextInput, ActivityIndicator } from "react-native";
 import { firebase_auth, firestore_db } from '../../../Firebase/firebaseConfig';
-import { collection, doc, setDoc, addDoc, getDoc } from 'firebase/firestore';
+import { collection, doc, setDoc, addDoc, getDoc, updateDoc } from 'firebase/firestore';
 import { colors, CustomText } from "../../../config/theme";
 import Button from "../buttons/Buttons";
 
@@ -13,15 +13,24 @@ interface SkillFormProps {
 export default function AthleteForm(props: SkillFormProps){
     const [name, setName] = useState('');
     const [level, setLevel] = useState('');
+    const [loading, setLoading] = useState(false);
     const { onSubmit } = props;
 
     async function addUser(){
+        setLoading(true);
         try {
             const usersRef = collection(firestore_db, 'users');
             const newUserRef = await addDoc(usersRef, {
-                name: name,
+                account_type: 'Unreg Athlete',
+                full_name: name,
                 level: level,
             })
+            const newRef = doc(firestore_db, "users", newUserRef.id);
+            const eventsRef = collection(newRef, "events");
+            await setDoc(doc(eventsRef, "vault"), {});  
+            await setDoc(doc(eventsRef, "bars"), {});
+            await setDoc(doc(eventsRef, "beam"), {});
+            await setDoc(doc(eventsRef, "floor"), {});
             addAthlete(newUserRef.id)
             console.log('User added successfully!');
         } catch (error) {
@@ -37,11 +46,17 @@ export default function AthleteForm(props: SkillFormProps){
             const userDocSnapshot = await getDoc(user_doc);
             const currentAthletes = userDocSnapshot.data().athletes || {};
     
-            currentAthletes[athleteId] = name;
+            currentAthletes[athleteId] = {
+                account_type: 'Unreg Athlete',
+                full_name: name, 
+                level: level};
     
-            await setDoc(user_doc, { athletes: currentAthletes });
+            await updateDoc(user_doc, { athletes: currentAthletes });
         } catch (error) {
             console.error('Error adding athlete:', error);
+        } finally {
+            setLoading(false);
+            onSubmit();
         }
     }
     
@@ -49,12 +64,12 @@ export default function AthleteForm(props: SkillFormProps){
     return (
         <View style={styles.container}>
             <CustomText style={styles.h1} bold>Add Athlete</CustomText>
-            <CustomText style={styles.text} bold>Name:</CustomText>
+            <CustomText style={styles.text} bold>Full Name:</CustomText>
             <View style={styles.inputView}>
                 <TextInput
                 style={styles.inputText}
                 editable
-                placeholder='Name'
+                placeholder='Full Name'
                 placeholderTextColor={colors.grey200}
                 maxLength={30}
                 onChangeText={(text) => setName(text)}
@@ -73,19 +88,21 @@ export default function AthleteForm(props: SkillFormProps){
                 value={level}
                 />
             </View>
+            { loading ? (
+                <ActivityIndicator size="large" color="#0000ff" style={{marginTop: 40}}/>
+                ) : (
             <Button
             onPress={() => {
                 if (name === '' || level === '') {
                     alert('Please input all values!');
                 } else {
                     addUser();
-                    onSubmit();
                 }
             }}
             variant='black'
             title='Save'
             style={{width: 180, height: 50, marginTop: 30}}
-            />
+            />)}
         </View>
     )
 }

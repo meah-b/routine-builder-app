@@ -9,7 +9,7 @@ import SectionCard from '../assets/components/cards/SectionCard';
 import Header from '../assets/components/utilities/Header';
 import { useFocusEffect } from '@react-navigation/native';
 
-export default function HomeScreen() {
+export default function HomeScreen({ navigation }) {
     const events = ['vault', 'bars', 'beam', 'floor']
     const user_uid = firebase_auth.currentUser.uid;
     const [skillsLength, setSkillsLength] = useState(0);
@@ -41,7 +41,7 @@ export default function HomeScreen() {
 
     useEffect(() => {
         fetchData();
-    }, [user_uid]);
+    }, []);
 
     useFocusEffect(
         React.useCallback(() => {
@@ -55,10 +55,10 @@ export default function HomeScreen() {
             style={styles.container}>
             <Header></Header>
             <View style={{marginTop: 90}}>
-                <SectionCard variant="Skills" count={skillsLength} page='Skill Library'></SectionCard>
-                <SectionCard variant="Connections" count={connectionsLength} page='Connection Library'></SectionCard>
-                <SectionCard variant="Routines" count={routinesLength} page='Routine Library'></SectionCard>
-                <SectionCard variant="Builder" count page='Routine Builder'></SectionCard>
+                <SectionCard variant="Skills" count={skillsLength} onPress={() => navigation.navigate('Skill Library')}></SectionCard>
+                <SectionCard variant="Connections" count={connectionsLength} onPress={() => navigation.navigate('Connection Library')}></SectionCard>
+                <SectionCard variant="Routines" count={routinesLength} onPress={() => navigation.navigate('Routine Library')}></SectionCard>
+                <SectionCard variant="Builder" count onPress={() => navigation.navigate('Routine Builder')}></SectionCard>
             </View>
         </LinearGradient>
     );
