@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { StyleSheet, View, TextInput } from 'react-native';
 import {LinearGradient} from 'expo-linear-gradient';
-import { useNavigation } from '@react-navigation/native';
 import { firebase_auth, firestore_db } from '../Firebase/firebaseConfig';
 import { collection, doc, setDoc, deleteDoc } from 'firebase/firestore';
 
@@ -39,8 +38,7 @@ async function handleDelete(name: string, event: string,) {
     }
 }
 
-export default function RoutineBuilder() {
-    const navigation = useNavigation();
+export default function RoutineBuilder({navigation}) {
     const [isBuilding, setIsBuilding] = useState(false);
     const [routineId, setRoutineId] = useState('')
     const [eventId, setEventId] = useState('');

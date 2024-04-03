@@ -1,11 +1,9 @@
 import React from 'react';
 import { StyleSheet, View, TouchableOpacity } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
 
 import { CustomText, colors } from '../config/theme';
 
-export default function NotifScreen() {
-    const navigation = useNavigation();
+export default function NotifScreen({navigation}) {
 
     const handleBackPress = () => {
         navigation.goBack();

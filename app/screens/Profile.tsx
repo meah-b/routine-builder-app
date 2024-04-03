@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Alert, StyleSheet, TextInput, View } from 'react-native';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
-import { useNavigation } from '@react-navigation/native';
 import { firebase_auth, firestore_db } from '../Firebase/firebaseConfig';
 import { doc, getDoc, setDoc } from 'firebase/firestore';
 import {LinearGradient} from 'expo-linear-gradient';
@@ -12,8 +11,7 @@ import Svg, { Circle } from 'react-native-svg';
 import { CustomText, colors } from '../config/theme';
 import Button from '../assets/components/buttons/Buttons';
 
-export default function Profile() {
-    const navigation = useNavigation();
+export default function Profile({navigation}) {
     const user_uid = firebase_auth.currentUser.uid;
     const userDocRef = doc(firestore_db, "users", user_uid);
     const [isEmpty, setIsEmpty] = useState(false)

@@ -2,17 +2,16 @@ import React, {useState} from 'react';
 import { View, ScrollView, StyleSheet, TouchableOpacity, ActivityIndicator } from 'react-native';
 import AntIcon from "react-native-vector-icons/AntDesign";
 import { firebase_auth } from '../Firebase/firebaseConfig';
+import { signInWithEmailAndPassword } from 'firebase/auth';
 
 import {CustomText, colors} from '../config/theme';
 import {GradientSvg1, GradientSvg2} from '../assets/components/utilities/Gradients';
 import {Logo} from '../assets/components/utilities/Logo';
 import Button from '../assets/components/buttons/Buttons';
 import TxtInput from '../assets/components/utilities/TextInput';
-import { signInWithEmailAndPassword } from 'firebase/auth';
-import { useNavigation } from '@react-navigation/native';
 
-export default function LoginScreen() {
-    const navigation = useNavigation();
+
+export default function LoginScreen({navigation}) {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [loading, setLoading] = useState(false);

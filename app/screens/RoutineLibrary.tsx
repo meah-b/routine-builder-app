@@ -1,7 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { StyleSheet } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
-import { useNavigation } from '@react-navigation/native';
 
 import { CustomText, colors } from '../config/theme';
 import Header from '../assets/components/utilities/Header';
@@ -11,9 +10,8 @@ import Button from '../assets/components/buttons/Buttons';
 import RoutineList from '../assets/components/lists/RoutineList';
 import SkillList from '../assets/components/lists/SkillList';
 
-export default function RoutineLibrary() {
+export default function RoutineLibrary({navigation}) {
     const [selectedVariant, setSelectedVariant] = useState('Vault');
-    const navigation = useNavigation();
 
     const handleAddRoutine = () => {
         navigation.navigate('Routine Builder' as never); 
