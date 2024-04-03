@@ -54,17 +54,19 @@ export default function App() {
   const [userType, setUserType] = useState('');
 
   useEffect(() => {
-    onAuthStateChanged(firebase_auth, (user) => {
-      setUser(user)
-      const user_uid = user.uid;
-      const user_doc = doc(firestore_db, 'users', user_uid);
-      getDoc(user_doc)
-          .then((docSnapshot) => {
-            if (docSnapshot.exists()) {
-              setUserType(docSnapshot.data().account_type);
-            }
-          })
-    })
+      onAuthStateChanged(firebase_auth, (user) => {
+        if (user != null) {
+          setUser(user)
+          const user_uid = user.uid;
+          const user_doc = doc(firestore_db, 'users', user_uid);
+          getDoc(user_doc)
+              .then((docSnapshot) => {
+                if (docSnapshot.exists()) {
+                  setUserType(docSnapshot.data().account_type);
+                }
+              })
+        }
+      })
   })
 
   return (
