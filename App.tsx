@@ -15,6 +15,7 @@ import Profile from './app/screens/Profile';
 import NotifScreen from './app/screens/NotificationScreen';
 import SignUpScreen from './app/screens/SignUpScreen';
 import RosterScreen from './app/screens/RosterScreen';
+import { AppProvider } from './app/config/context';
 
 
 const Stack = createNativeStackNavigator();
@@ -37,7 +38,7 @@ function AthleteLayout() {
 function CoachLayout() {
   return (
     <InsideStack.Navigator screenOptions={{ headerShown: false }}>
-      <InsideStack.Screen name='Roster' component={RosterScreen} />
+      <InsideStack.Screen name='Roster' component={RosterScreen}/>
       <InsideStack.Screen name='Home' component={HomeScreen} />
       <InsideStack.Screen name='Skill Library' component={SkillLibrary} />
       <InsideStack.Screen name='Connection Library' component={ConnectionLibrary} />
@@ -70,19 +71,21 @@ export default function App() {
   })
 
   return (
-    <NavigationContainer>
-      <Stack.Navigator initialRouteName='Login' screenOptions={{ headerShown: false }}>
-        {user ? (userType === 'Athlete' ? (
-          <Stack.Screen name='Athlete' component={AthleteLayout} />
-        ) : (
-          <Stack.Screen name='Coach' component={CoachLayout} />
-        )) : (
-          <>
-            <Stack.Screen name='Login' component={LoginScreen} />
-            <Stack.Screen name='Sign Up' component={SignUpScreen} />
-          </>
-        )}        
-      </Stack.Navigator>
-    </NavigationContainer>
+    <AppProvider>
+      <NavigationContainer>
+          <Stack.Navigator initialRouteName='Login' screenOptions={{ headerShown: false }}>
+            {user ? (userType === 'Athlete' ? (
+              <Stack.Screen name='Athlete' component={AthleteLayout} />
+            ) : (
+              <Stack.Screen name='Coach' component={CoachLayout}/>
+            )) : (
+              <>
+                <Stack.Screen name='Login' component={LoginScreen} />
+                <Stack.Screen name='Sign Up' component={SignUpScreen} />
+              </>
+            )}        
+          </Stack.Navigator>
+      </NavigationContainer>
+    </AppProvider>
   );
 }

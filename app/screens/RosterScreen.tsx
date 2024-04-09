@@ -5,6 +5,7 @@ import { doc, getDoc, deleteDoc, updateDoc, deleteField } from 'firebase/firesto
 import { firebase_auth, firestore_db } from '../Firebase/firebaseConfig';
 
 import { CustomText, colors } from '../config/theme';
+import AppContext from '../config/context';
 import Header from '../assets/components/utilities/Header';
 import Button from '../assets/components/buttons/Buttons';
 import AthleteCard from '../assets/components/cards/AthleteCard';
@@ -28,7 +29,7 @@ export default function RosterScreen({navigation}) {
     
     function List(){
         const [querySnapshot, setQuerySnapshot] = React.useState([]);
-        const [selectedAthlete, setSelectedAthlete] = React.useState('');
+        const { selectedAthlete, setSelectedAthlete } = React.useContext(AppContext); 
 
         function updateList(snapshot: any[]){
             const sortedSnapshot = snapshot.slice().sort((a, b) => {
@@ -139,6 +140,7 @@ export default function RosterScreen({navigation}) {
             {form == 0 ? <List/> : <Form/>}
         </LinearGradient>
     );
+    
 }
 
 const styles = StyleSheet.create({
