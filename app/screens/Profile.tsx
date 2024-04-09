@@ -65,7 +65,7 @@ export default function Profile({navigation}) {
     const twoButtonAlert = () =>
         Alert.alert('Confirm', `Are you sure you want to sign out?`, 
         [{text: 'Cancel', style: 'cancel'},
-        {text: "Sign out", onPress: ()=> firebase_auth.signOut()}]);
+        {text: "Sign out", onPress: ()=> {firebase_auth.signOut(), navigation.navigate('Login')}}]);
 
     function CreateProfile(){
         const [newName, setNewName] = useState(name)
