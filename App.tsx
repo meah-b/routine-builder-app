@@ -52,7 +52,7 @@ function CoachLayout() {
 
 export default function App() {
   const [user, setUser] = useState<User | null>(null);
-  const [userType, setUserType] = useState('');
+  const [userType, setUserType] = useState('Athlete');
 
   useEffect(() => {
       onAuthStateChanged(firebase_auth, (user) => {

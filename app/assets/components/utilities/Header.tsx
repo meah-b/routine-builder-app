@@ -5,6 +5,7 @@ import { useNavigation } from '@react-navigation/native';
 
 import { H1Logo } from './Logo';
 import { colors } from '../../../config/theme';
+import AntDesign from 'react-native-vector-icons/AntDesign';
 
 export default function Header() {
     const navigation = useNavigation();
@@ -13,25 +14,25 @@ export default function Header() {
         navigation.navigate('Profile' as never);
     };
 
-    const handleBellPress = () => {
+    const handleMenuPress = () => {
         navigation.navigate('Notif Screen' as never);
     };
 
     return (
         <View style={styles.container}>
-            <TouchableOpacity onPress={handleUserCirclePress}>
-                <FontAwesome  
-                    name='user-circle'
-                    size={30} 
+            <TouchableOpacity onPress={handleMenuPress}>
+                <AntDesign  
+                    name='bars'
+                    size={35} 
                     color={colors.black}
                 />
             </TouchableOpacity>
             <View style={styles.logoContainer}>
                 <H1Logo></H1Logo>
             </View>
-            <TouchableOpacity onPress={handleBellPress}>
+            <TouchableOpacity onPress={handleUserCirclePress}>
                 <FontAwesome  
-                    name='bell'
+                    name='user-circle'
                     size={30} 
                     color={colors.black}
                 />

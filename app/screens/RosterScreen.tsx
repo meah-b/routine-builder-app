@@ -10,37 +10,48 @@ import Header from '../assets/components/utilities/Header';
 import Button from '../assets/components/buttons/Buttons';
 import AthleteCard from '../assets/components/cards/AthleteCard';
 import AthleteForm from '../assets/components/forms/AthleteForm';
+import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 
-const levels = [
-    { key: 'Senior', value: '13' },
-    { key: 'Junior', value: '12' },
-    { key: 'Novice', value: '11' },
-    { key: '10', value: '10' },
-    { key: '9', value: '9' },
-    { key: '8', value: '8' },
-    { key: '7', value: '7' },
-    { key: '6', value: '6' }
-]
+const levels = {
+    'Senior': 13,
+    'Junior': 12,
+    'Novice': 11,
+    '10': 10,
+    '9': 9,
+    '8': 8,
+    '7': 7,
+    '6': 6
+};
 
 export default function RosterScreen({navigation}) {
     const [form, setForm] = React.useState(0);
     const user_uid = firebase_auth.currentUser.uid;
     const user_doc = doc(firestore_db, 'users', user_uid);
+    const [sort, setSort] = React.useState('desc')
     
     function List(){
         const [querySnapshot, setQuerySnapshot] = React.useState([]);
         const { selectedAthlete, setSelectedAthlete } = React.useContext(AppContext); 
 
-        function updateList(snapshot: any[]){
-            const sortedSnapshot = snapshot.slice().sort((a, b) => {
-                const levelA = a.data().level;
-                const levelB = b.data().level;
-                const indexA = levels.findIndex(level => level.value === levelA);
-                const indexB = levels.findIndex(level => level.value === levelB);
-                return indexB - indexA;
+        function sortDescending(snapshot) {
+            const levelsArray = snapshot.map(doc => parseInt(doc.data().level));
+            levelsArray.sort((a, b) => b - a);
+            const sortedSnapshot = levelsArray.map(level => {
+                return snapshot.find(doc => parseInt(doc.data().level) === level);
             });
-            return sortedSnapshot
+            return sortedSnapshot;
         }
+        
+        function sortAscending(snapshot) {
+            const levelsArray = snapshot.map(doc => parseInt(doc.data().level));
+            levelsArray.sort((a, b) => a - b);
+            const sortedSnapshot = levelsArray.map(level => {
+                return snapshot.find(doc => parseInt(doc.data().level) === level);
+            });
+            return sortedSnapshot;
+        }
+        
+        
 
         const fetchData = async () => {
             try {
@@ -53,11 +64,6 @@ export default function RosterScreen({navigation}) {
                 });
                 const snapshotResults = await Promise.all(snapshotPromises);
                 setQuerySnapshot(snapshotResults);
-                if (snapshotResults.length > 0) {
-                    const updatedSnapshot = updateList(snapshotResults)
-                    const snapshotMap = updatedSnapshot.map((doc) => (doc.id))
-                    setSelectedAthlete(snapshotMap[0].toString())
-                }
             } catch (error) {
                 console.error('Error fetching data:', error);
             }
@@ -95,23 +101,32 @@ export default function RosterScreen({navigation}) {
                     variant='black' 
                     onPress={() => setForm(1)}>
                 </Button>
+                <TouchableOpacity 
+                    style={styles.sortButton} 
+                    onPress={() => {sort === 'desc' ? setSort('asc'): setSort('desc')}}>
+                    <FontAwesome5
+                        color= {colors.black} 
+                        name={sort === 'desc' ? "sort-numeric-down-alt": "sort-numeric-up-alt"} 
+                        size={24}  
+                    />
+                </TouchableOpacity>
                 <View style={styles.list_container}>
                     <ScrollView contentContainerStyle={styles.scrollContainer}>
-                        {updateList(querySnapshot).map((doc) => (
+                        {(sort === 'asc' ? sortAscending(querySnapshot) : sortDescending(querySnapshot)).map((doc) => (
                             <AthleteCard 
-                            key={doc.id}
-                            handleDelete={() => twoButtonAlert(doc.id)}
-                            name={doc.data().full_name} 
-                            level={doc.data().level} 
-                            isSelected={doc.id === selectedAthlete}
-                            onPress={() => setSelectedAthlete(doc.id)}
-                        />
+                                key={doc.id}
+                                handleDelete={() => twoButtonAlert(doc.id)}
+                                name={doc.data().full_name} 
+                                level={doc.data().level} 
+                                isSelected={doc.id === selectedAthlete}
+                                onPress={() => setSelectedAthlete(doc.id)}
+                            />
                         ))}
                     </ScrollView>
                 </View>
                 <Button 
                     style={styles.updateButton} 
-                    title='Update Selected Athlete' 
+                    title='View Selected Athlete' 
                     variant='black' 
                     onPress={() => {navigation.navigate('Home')}}>
                 </Button>
@@ -148,7 +163,7 @@ const styles = StyleSheet.create({
         position: 'absolute',
         height: 35,
         width: 145,
-        top: 200,
+        top: 185,
         left: 10,
     },
     container: {
@@ -166,7 +181,7 @@ const styles = StyleSheet.create({
     list_container: {
         flexDirection: 'column',
         alignItems: 'center',
-        marginTop: 185,
+        marginTop: 160,
         height: 460,
         width: 370,
     },
@@ -176,6 +191,13 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
     },
+    sortButton: {
+        position: 'absolute',
+        height: 50,
+        width: 50,
+        top: 195,
+        left: 330,
+    },
     text: {
         fontSize: 18, 
         textDecorationLine:'underline', 
@@ -183,7 +205,7 @@ const styles = StyleSheet.create({
     },
     updateButton: {
         height: 50,
-        width: 240,
+        width: 235,
         marginTop: 20
     },
 });

@@ -24,7 +24,7 @@ export default function AthleteCard(props: Props) {
             </View>
             <AntDesign 
                 color= {isSelected ? "white" : "black"} 
-                name="delete" 
+                name="deleteuser" 
                 size={24}  
                 style={styles.icon}
                 onPress={handleDelete}
