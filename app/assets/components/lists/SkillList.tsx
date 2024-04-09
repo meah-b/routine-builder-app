@@ -8,15 +8,15 @@ import AppContext from '../../../config/context';
 
 interface SkillFormProps {
     event: string;
+    order: string;
 }
 
 export default function SkillList(props: SkillFormProps) {
-    const { event } = props;
+    const { event, order } = props;
     const { selectedAthlete } = React.useContext(AppContext); 
     const user_uid = selectedAthlete ? selectedAthlete : firebase_auth.currentUser.uid;
     const skillsRef = collection(doc(firestore_db, 'users', user_uid, 'events', event.toLowerCase()), 'skills');
     const [querySnapshot, setQuerySnapshot] = useState([]);
-
 
     useEffect(() => {
         const fetchData = async () => {
@@ -25,6 +25,24 @@ export default function SkillList(props: SkillFormProps) {
         };
         fetchData();
     }, [skillsRef]);
+
+    function sortDescending(snapshot) {
+        const levelsArray = snapshot.map(doc => parseInt(doc.data().difficulty.value));
+        levelsArray.sort((a, b) => b - a);
+        const sortedSnapshot = levelsArray.map(level => {
+            return snapshot.find(doc => parseInt(doc.data().difficulty.value) === level);
+        });
+        return sortedSnapshot;
+    }
+    
+    function sortAscending(snapshot) {
+        const levelsArray = snapshot.map(doc => parseInt(doc.data().difficulty.value));
+        levelsArray.sort((a, b) => a - b);
+        const sortedSnapshot = levelsArray.map(level => {
+            return snapshot.find(doc => parseInt(doc.data().difficulty.value) === level);
+        });
+        return sortedSnapshot;
+    }
 
     const twoButtonAlert = (name) =>
         Alert.alert('Caution', `Are you sure you want to delete ${name}?`, [
@@ -51,7 +69,7 @@ export default function SkillList(props: SkillFormProps) {
     return (
         <View style={styles.container}>
             <ScrollView contentContainerStyle={styles.scrollContainer}>
-                {querySnapshot.map((doc) => (
+                {(order ? (order === 'asc' ? sortAscending(querySnapshot) : sortDescending(querySnapshot)) : querySnapshot).map((doc) => (
                     <SkillCard 
                         key={doc.id}
                         handleDelete={() => twoButtonAlert(doc.id)}

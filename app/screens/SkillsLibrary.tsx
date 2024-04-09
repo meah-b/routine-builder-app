@@ -34,7 +34,7 @@ export default function SkillLibrary() {
                         variant='black'
                         onPress={() => setForm(1)}
                     ></Button>
-                    <SkillList event={selectedVariant}></SkillList>
+                    <SkillList event={selectedVariant} order={null}></SkillList>
                 </View>
             )
         } else {
