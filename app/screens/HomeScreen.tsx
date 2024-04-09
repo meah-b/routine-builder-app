@@ -1,33 +1,28 @@
 import React, { useEffect, useState } from 'react';
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet, TouchableOpacity, View } from 'react-native';
 import {LinearGradient} from 'expo-linear-gradient';
 import { collection, doc, getDoc, getDocs } from 'firebase/firestore';
 import { firebase_auth, firestore_db } from '../Firebase/firebaseConfig';
+import { useFocusEffect } from '@react-navigation/native';
 
 import { colors, CustomText } from '../config/theme';
 import AppContext from '../config/context';
 import SectionCard from '../assets/components/cards/SectionCard';
 import Header from '../assets/components/utilities/Header';
-import { useFocusEffect } from '@react-navigation/native';
 
 export default function HomeScreen({ navigation }) {
     const events = ['vault', 'bars', 'beam', 'floor']
-    const user_uid = firebase_auth.currentUser.uid;
     const { selectedAthlete } = React.useContext(AppContext); 
+    const user_uid = selectedAthlete ? selectedAthlete : firebase_auth.currentUser.uid;
+    const userRef = doc(firestore_db, 'users', user_uid)
     const [skillsLength, setSkillsLength] = useState(0);
     const [connectionsLength, setConnectionsLength] = useState(0);
     const [routinesLength, setRoutinesLength] = useState(0);
     const [name, setName] = useState('')
 
     const fetchData = async () => {
-        const userRef = doc(firestore_db, 'users', user_uid)
         const userSnapshot = await getDoc(userRef);
-        const userData = userSnapshot.data();
-        if (userData.account_type === 'Coach') {
-            const athleteRef = doc(firestore_db, 'users', selectedAthlete)
-            const athleteSnapshot = await getDoc(athleteRef);
-            setName(athleteSnapshot.data().full_name);
-        }
+        setName(userSnapshot.data().full_name);
         let skillsSum = 0;
         let connectionsSum = 0;
         let routinesSum = 0;
@@ -57,7 +52,9 @@ export default function HomeScreen({ navigation }) {
     useFocusEffect(
         React.useCallback(() => {
             fetchData();
-        }, [user_uid])
+            return () => {
+            };
+        }, [])
     );
 
     return (
@@ -65,12 +62,19 @@ export default function HomeScreen({ navigation }) {
             colors={colors.gradient}
             style={styles.container}>
             <Header></Header>
-            {name !== '' ? <CustomText>{name}</CustomText> : null}
-            <View style={{marginTop: 90}}>
-                <SectionCard variant="Skills" count={skillsLength} onPress={() => navigation.navigate('Skill Library')}></SectionCard>
-                <SectionCard variant="Connections" count={connectionsLength} onPress={() => navigation.navigate('Connection Library')}></SectionCard>
-                <SectionCard variant="Routines" count={routinesLength} onPress={() => navigation.navigate('Routine Library')}></SectionCard>
-                <SectionCard variant="Builder" count onPress={() => navigation.navigate('Routine Builder')}></SectionCard>
+            <View style={{marginTop: 90, alignItems: 'center'}}>
+                {selectedAthlete !== '' ? 
+                <View style={{flexDirection: 'column', justifyContent: 'space-between', alignItems: 'center', width: 337}}>
+                    <CustomText bold style={{fontSize: 30, marginBottom: 20}}>{name}</CustomText>
+                    <TouchableOpacity onPress={()=> navigation.navigate('Roster')} style={{position: 'absolute', bottom: 0, right: 220}}>
+                        <CustomText bold style={{fontSize: 18, textDecorationLine:'underline', color: colors.black}}>back to roster</CustomText>
+                    </TouchableOpacity>
+                </View> 
+                : null}
+                <SectionCard variant="Skills" count={skillsLength} onPress={() => navigation.navigate('Skill Library')}/>
+                <SectionCard variant="Connections" count={connectionsLength} onPress={() => navigation.navigate('Connection Library')}/>
+                <SectionCard variant="Routines" count={routinesLength} onPress={() => navigation.navigate('Routine Library')}/>
+                <SectionCard variant="Builder" count onPress={() => navigation.navigate('Routine Builder')}/>
             </View>
         </LinearGradient>
     );

@@ -7,6 +7,7 @@ import { AntDesign } from '@expo/vector-icons';
 
 import { colors, CustomText } from '../../../config/theme';
 import Button from '../buttons/Buttons';
+import AppContext from '../../../config/context';
 
 interface Props{
     routine_id: string;
@@ -20,7 +21,8 @@ export default function RoutineBuilderForm(props: Props) {
     const {routine_id, event, onSubmit, handleDelete} = props;
     const [selectedSkills, setSelectedSkills] = useState([]);
     const [selectedConnections, setSelectedConnections] = useState([]);
-    const user_uid = firebase_auth.currentUser.uid;
+    const { selectedAthlete } = React.useContext(AppContext); 
+    const user_uid = selectedAthlete ? selectedAthlete : firebase_auth.currentUser.uid;
     const skillsRef = collection(doc(firestore_db, 'users', user_uid, 'events', event.toLowerCase()), 'skills');
     const connectionsRef = collection(doc(firestore_db, 'users', user_uid, 'events', event.toLowerCase()), 'connections');
     const routinesRef = collection(doc(firestore_db, 'users', user_uid, 'events', event.toLowerCase()), 'routines');

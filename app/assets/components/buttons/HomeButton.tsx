@@ -7,13 +7,11 @@ import { colors } from '../../../config/theme';
 
 export default function HomeButton() {
   const navigation = useNavigation();
-  const onPress = () => {navigation.navigate('Home' as never);
-  };
 
   return (
     <TouchableOpacity 
       style={styles.container}
-      onPress={onPress}
+      onPress={() => navigation.navigate('Home' as never)}
     >
       <FontAwesome  
         name='home'

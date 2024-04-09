@@ -2,9 +2,11 @@ import React, {useState} from "react";
 import { View, StyleSheet, TextInput } from "react-native";
 import { firebase_auth, firestore_db } from '../../../Firebase/firebaseConfig';
 import { collection, doc, setDoc } from 'firebase/firestore';
+
 import { colors, CustomText } from "../../../config/theme";
 import SkillDropDowns from "../utilities/SkillDropDowns";
 import Button from "../buttons/Buttons";
+import AppContext from '../../../config/context';
 
 
 interface SkillFormProps {
@@ -13,13 +15,14 @@ interface SkillFormProps {
 }
 
 export default function SkillForm(props: SkillFormProps){
+    const { selectedAthlete } = React.useContext(AppContext); 
+    const user_uid = selectedAthlete ? selectedAthlete : firebase_auth.currentUser.uid;
     const [name, setName] = useState('');
     const [difficulty, setDifficulty] = useState([]);
     const [category, setCategory] = useState([]);
     const { event, onSubmit } = props;
 
     function addSkill(){
-        const user_uid = firebase_auth.currentUser.uid;
         const skillsRef = collection(doc(firestore_db, 'users', user_uid, 'events', event.toLowerCase()), 'skills');
         setDoc(doc(skillsRef, name), {
             name: name,

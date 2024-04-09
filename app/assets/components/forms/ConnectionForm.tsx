@@ -9,6 +9,7 @@ import { AntDesign } from '@expo/vector-icons';
 import { colors, CustomText } from "../../../config/theme";
 import Button from "../buttons/Buttons";
 import {calculateBeamCV, calculateBarsCV, calculateFloorCV} from "../utilities/ConnectionCalculation";
+import AppContext from "../../../config/context";
 
 
 interface ConnectionFormProps {
@@ -21,7 +22,8 @@ export default function ConnectionForm(props: ConnectionFormProps){
     const [type, setType] = useState('');
     const [name, setName] = useState('');
     const { event, onSubmit } = props;
-    const user_uid = firebase_auth.currentUser.uid;
+    const { selectedAthlete } = React.useContext(AppContext); 
+    const user_uid = selectedAthlete ? selectedAthlete : firebase_auth.currentUser.uid;
     const skillsRef = collection(doc(firestore_db, 'users', user_uid, 'events', event.toLowerCase()), 'skills');
     const [querySnapshot, setQuerySnapshot] = useState([]);
     let difficulties: string[] = [];
@@ -79,7 +81,6 @@ export default function ConnectionForm(props: ConnectionFormProps){
     }
 
     async function addConnection(){
-        const user_uid = firebase_auth.currentUser.uid;
         const conRef = collection(doc(firestore_db, 'users', user_uid, 'events', event.toLowerCase()), 'connections');
         try {
             const cvValue = await calculateCV(selected);
@@ -286,7 +287,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         marginHorizontal: 5,
         alignItems: 'center',
-        backgroundColor: colors.fade1,
+        backgroundColor: colors.fade2,
         color: colors.black,
         width: 340,
         height: 50,

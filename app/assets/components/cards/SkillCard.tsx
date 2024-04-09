@@ -17,7 +17,7 @@ export default function SkillCard(props: Props) {
         <View style={styles.container}>
             <View style={styles.col}>
                 <CustomText style={styles.name} bold>{name}</CustomText>
-            <CustomText style={styles.difficulty}>Difficulty Value: {difficulty}</CustomText>
+            <CustomText style={styles.difficulty}>Difficulty: {difficulty}</CustomText>
             </View>
             <View style={styles.col}>
                 <AntDesign 
@@ -53,7 +53,8 @@ const styles = StyleSheet.create({
         width: 350,
         height: 80,
         paddingHorizontal: 15,
-        margin: 4,
+        marginVertical: 4,
+        marginHorizontal: 10,
         borderRadius: 15,
         shadowColor: colors.black,
         shadowOffset: {width: 0, height: 4},

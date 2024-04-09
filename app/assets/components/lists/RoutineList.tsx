@@ -5,6 +5,7 @@ import { firebase_auth, firestore_db } from '../../../Firebase/firebaseConfig';
 import { useFocusEffect } from '@react-navigation/native';
 
 import RoutineCard from '../cards/RoutineCard';
+import AppContext from '../../../config/context';
 
 interface Props {
     event: string;
@@ -12,7 +13,8 @@ interface Props {
 
 export default function RoutineList(props: Props) {
     const { event } = props;
-    const user_uid = firebase_auth.currentUser.uid;
+    const { selectedAthlete } = React.useContext(AppContext); 
+    const user_uid = selectedAthlete ? selectedAthlete : firebase_auth.currentUser.uid;
     const routinesRef = collection(doc(firestore_db, 'users', user_uid, 'events', event.toLowerCase()), 'routines');
     const [querySnapshot, setQuerySnapshot] = useState([]);
 

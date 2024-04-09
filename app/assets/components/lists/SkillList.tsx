@@ -4,15 +4,19 @@ import { collection, doc, getDocs, deleteDoc } from 'firebase/firestore';
 import { firebase_auth, firestore_db } from '../../../Firebase/firebaseConfig';
 
 import SkillCard from '../cards/SkillCard';
+import AppContext from '../../../config/context';
 
 interface SkillFormProps {
     event: string;
 }
+
 export default function SkillList(props: SkillFormProps) {
     const { event } = props;
-    const user_uid = firebase_auth.currentUser.uid;
+    const { selectedAthlete } = React.useContext(AppContext); 
+    const user_uid = selectedAthlete ? selectedAthlete : firebase_auth.currentUser.uid;
     const skillsRef = collection(doc(firestore_db, 'users', user_uid, 'events', event.toLowerCase()), 'skills');
     const [querySnapshot, setQuerySnapshot] = useState([]);
+
 
     useEffect(() => {
         const fetchData = async () => {

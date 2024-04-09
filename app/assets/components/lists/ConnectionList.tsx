@@ -4,6 +4,7 @@ import { collection, doc, getDocs, deleteDoc } from 'firebase/firestore';
 import { firebase_auth, firestore_db } from '../../../Firebase/firebaseConfig';
 
 import ConnectionCard from '../cards/ConnectionCard';
+import AppContext from '../../../config/context';
 
 interface ConFormProps {
     event: string;
@@ -11,7 +12,8 @@ interface ConFormProps {
 
 export default function ConnectionList(props: ConFormProps) {
     const { event } = props;
-    const user_uid = firebase_auth.currentUser.uid;
+    const { selectedAthlete } = React.useContext(AppContext); 
+    const user_uid = selectedAthlete ? selectedAthlete : firebase_auth.currentUser.uid;    
     const conRef = collection(doc(firestore_db, 'users', user_uid, 'events', event.toLowerCase()), 'connections');
     const [querySnapshot, setQuerySnapshot] = useState([]);
 

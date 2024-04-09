@@ -12,36 +12,41 @@ import Header from '../assets/components/utilities/Header';
 import {H1Logo} from '../assets/components/utilities/Logo';
 import HomeButton from '../assets/components/buttons/HomeButton';
 import RoutineBuilderForm from '../assets/components/forms/RoutineBuilderForm';
+import AppContext from '../config/context';
 
-async function addBaseRoutine(name: string, event: string, level: string) {
-    const user_uid = firebase_auth.currentUser.uid;
-    const routineRef = collection(doc(firestore_db, 'users', user_uid, 'events', event.toLowerCase()), 'routines');
-    try {
-        await setDoc(doc(routineRef, name), {
-            name: name,
-            event: event,
-            level: level,
-        }, { merge: true });
-    } catch (error) {
-        console.error('Error adding connection:', error);
-    }
-}
 
-async function handleDelete(name: string, event: string,) {
-    const user_uid = firebase_auth.currentUser.uid;
-    const routineRef = collection(doc(firestore_db, 'users', user_uid, 'events', event.toLowerCase()), 'routines');
-    try {
-        const docRef = doc(routineRef, name);
-        await deleteDoc(docRef);
-    } catch (error) {
-        console.error('Error deleting document:', error);
-    }
-}
 
 export default function RoutineBuilder({navigation}) {
     const [isBuilding, setIsBuilding] = useState(false);
     const [routineId, setRoutineId] = useState('')
     const [eventId, setEventId] = useState('');
+
+    async function addBaseRoutine(name: string, event: string, level: string) {
+        const { selectedAthlete } = React.useContext(AppContext); 
+        const user_uid = selectedAthlete ? selectedAthlete : firebase_auth.currentUser.uid;
+        const routineRef = collection(doc(firestore_db, 'users', user_uid, 'events', event.toLowerCase()), 'routines');
+        try {
+            await setDoc(doc(routineRef, name), {
+                name: name,
+                event: event,
+                level: level,
+            }, { merge: true });
+        } catch (error) {
+            console.error('Error adding connection:', error);
+        }
+    }
+    
+    async function handleDelete(name: string, event: string,) {
+        const { selectedAthlete } = React.useContext(AppContext); 
+        const user_uid = selectedAthlete ? selectedAthlete : firebase_auth.currentUser.uid;
+        const routineRef = collection(doc(firestore_db, 'users', user_uid, 'events', event.toLowerCase()), 'routines');
+        try {
+            const docRef = doc(routineRef, name);
+            await deleteDoc(docRef);
+        } catch (error) {
+            console.error('Error deleting document:', error);
+        }
+    }
 
     const startBuilding = (name: string, event: string, level: string) => {
         setIsBuilding(true);

@@ -22,7 +22,7 @@ export default function RoutineCard(props: Props) {
 
     return (
         <View style={expanded ? styles.expandedContainer : styles.container}>
-            <View style={styles.col}>
+            <View style={[styles.col, expanded ? {marginLeft: 5, marginTop: 2} : null]}>
                 <CustomText style={styles.name} bold>
                     {name}
                 </CustomText>
@@ -38,7 +38,7 @@ export default function RoutineCard(props: Props) {
                 onPress={handleExpand}
                 variant="black"
                 title={expanded ? 'Hide Details' : 'View More'}
-                style={{ width: expanded ? 140 : 120, height: 45 }}
+                style={{ width: expanded ? 140 : 120, height: 45, marginLeft: expanded ? 95 : null, marginTop: expanded ? 10 : null,}}
             />
             {expanded && <AntDesign 
                     color="black" 
@@ -65,7 +65,8 @@ const styles = StyleSheet.create({
         width: 350,
         height: 80,
         paddingHorizontal: 15,
-        margin: 4,
+        marginVertical: 4,
+        marginHorizontal: 10,
         borderRadius: 15,
         shadowColor: colors.black,
         shadowOffset: { width: 0, height: 4 },
@@ -78,13 +79,14 @@ const styles = StyleSheet.create({
     },
     expandedContainer: {
         flexDirection: 'column',
-        alignItems: 'center',
-        justifyContent: 'space-between',
+        alignItems: 'flex-start',
+        justifyContent: 'flex-start',
         backgroundColor: colors.white,
         color: colors.black,
         width: 350,
         height: 'auto',
-        margin: 4,
+        marginVertical: 4,
+        marginHorizontal: 10,
         paddingVertical: 8,
         paddingHorizontal: 10,
         borderRadius: 15,
