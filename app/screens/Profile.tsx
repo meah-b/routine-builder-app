@@ -94,10 +94,10 @@ export default function Profile({navigation}) {
     const twoButtonAlert = () =>
         Alert.alert('Confirm', `Are you sure you want to sign out?`, 
         [{text: 'Cancel', style: 'cancel'},
-        {text: "Sign out", onPress: ()=> {firebase_auth.signOut(), navigation.navigate('Login')}}]);
+        {text: "Sign out", onPress: ()=> firebase_auth.signOut()}]);
 
     return (
-        <LinearGradient colors={colors.gradient} style={styles.container}>
+        <LinearGradient colors={['#9747FF', '#FFBBF8', '#FFF']} style={styles.container}>
             <CustomText style={styles.h1} bold>Profile</CustomText>
             <AntDesign 
                     color={colors.white}
