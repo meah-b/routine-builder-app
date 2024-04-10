@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { Alert, StyleSheet, TextInput, TouchableOpacity, View, Image } from 'react-native';
+import { Alert, StyleSheet, TextInput, TouchableOpacity, View, Image, ActivityIndicator } from 'react-native';
 import { firebase_auth, firestore_db, storage } from '../Firebase/firebaseConfig';
+import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
+
 import { doc, getDoc, setDoc } from 'firebase/firestore';
 import {LinearGradient} from 'expo-linear-gradient';
 import { AntDesign } from '@expo/vector-icons';
@@ -21,8 +23,7 @@ export default function Profile({navigation}) {
     const [accountType, setAccountType] = useState('')
     const [isEditingName, setIsEditingName] = useState(false)
     const [isEditingGym, setIsEditingGym] = useState(false)
-    const [image, setImage] = useState(null);
-    
+    const [pfp, setPfp] = useState(null);
 
     const pickImage = async () => {
         const { status } = await ImagePicker.getMediaLibraryPermissionsAsync();
@@ -31,16 +32,33 @@ export default function Profile({navigation}) {
             return;
         }
         let result = await ImagePicker.launchImageLibraryAsync({
-            mediaTypes: ImagePicker.MediaTypeOptions.All,
+            mediaTypes: ImagePicker.MediaTypeOptions.Images,
             allowsEditing: true,
             aspect: [4, 3],
             quality: 1,
         });
-        if (!result.canceled) {
-            setImage(result.assets[0].uri);
-            // upload image
+        if (!result.canceled && result.assets.length > 0) {
+            const source = { uri: result.assets[0].uri };
+            uploadImage(source);
         }
     };
+
+    const uploadImage = async (source) => {
+        const response = await fetch(source.uri);
+        const blob = await response.blob();
+        const filename = source.uri.substring(source.uri.lastIndexOf('/')+1);
+        const storageRef = ref(storage, filename);
+        try {
+            await uploadBytes(storageRef, blob);
+            const downloadURL = await getDownloadURL(storageRef);
+            await setDoc(userDocRef, { profilePhoto: downloadURL }, { merge: true });
+            fetchData()
+        } catch (error) {
+            console.log(error);
+            Alert.alert('Error uploading photo');
+        }
+    }
+
     
     const fetchData = async () => {
         try {
@@ -53,7 +71,7 @@ export default function Profile({navigation}) {
                     setGym(userData.gym);
                     setEmail(userData.email);
                     setAccountType(userData.account_type)
-                    // setImage(userData.image)
+                    setPfp(userData.profilePhoto)
                 }
             }
         } catch (error) {
@@ -145,9 +163,9 @@ export default function Profile({navigation}) {
                     onPress={() => twoButtonAlert()}>
                 </Button>
             </View> 
-            <View style={[styles.pfp, image ? null : {backgroundColor: colors.purple200}]}>
-                {image ? (
-                <Image source={{ uri: image }} style={{ width: '100%', height: '100%' }} resizeMode="cover" />
+            <View style={[styles.pfp, {backgroundColor: colors.purple200}]}>
+                {pfp ? (
+                <Image source={{ uri: pfp }} style={{ width: '100%', height: '100%' }} resizeMode="cover" />
                 ) : (
                 <CustomText style={{ position: 'absolute', top: 40, left: 52, color: colors.white, fontSize: 55 }}>{Array.from(name)[0]}</CustomText>
                 )}
