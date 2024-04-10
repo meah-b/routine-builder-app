@@ -54,7 +54,7 @@ export default function SignUpScreen() {
                     <TextInput
                         style={styles.inputText}
                         editable
-                        placeholder={'Full Name'}
+                        placeholder='Full Name'
                         placeholderTextColor={colors.grey200}
                         maxLength={30}
                         onChangeText={(text) => setFullName(text)}
