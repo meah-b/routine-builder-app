@@ -15,6 +15,7 @@ import Profile from './app/screens/Profile';
 import NotifScreen from './app/screens/NotificationScreen';
 import SignUpScreen from './app/screens/SignUpScreen';
 import RosterScreen from './app/screens/RosterScreen';
+import ExportRoster from './app/screens/ExportRoster';
 import { AppProvider } from './app/config/context';
 
 
@@ -39,7 +40,8 @@ function CoachLayout() {
   return (
     <InsideStack.Navigator screenOptions={{ headerShown: false }}>
       <InsideStack.Screen name='Roster' component={RosterScreen}/>
-      <InsideStack.Screen name='Home' component={HomeScreen} />
+      <InsideStack.Screen name='Home' component={HomeScreen}/>
+      <InsideStack.Screen name='Export Roster' component={ExportRoster}/>
       <InsideStack.Screen name='Skill Library' component={SkillLibrary} />
       <InsideStack.Screen name='Connection Library' component={ConnectionLibrary} />
       <InsideStack.Screen name='Routine Library' component={RoutineLibrary} />

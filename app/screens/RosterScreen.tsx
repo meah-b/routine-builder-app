@@ -28,6 +28,7 @@ export default function RosterScreen({navigation}) {
     const user_uid = firebase_auth.currentUser.uid;
     const user_doc = doc(firestore_db, 'users', user_uid);
     const [sort, setSort] = React.useState('desc')
+    const [isEditing, setIsEditing] = React.useState(false)
     
     function List(){
         const [querySnapshot, setQuerySnapshot] = React.useState([]);
@@ -74,7 +75,7 @@ export default function RosterScreen({navigation}) {
         }, []);
 
         const twoButtonAlert = (docId: string) =>
-        Alert.alert('Caution', `Are you sure you want to delete all of this athlete's data?`, [
+        Alert.alert('Caution', `Are you sure you want to delete this athlete's data?`, [
             { text: 'Cancel', style: 'cancel' },
             { text: "Delete", onPress: () => handleDelete(docId) },
         ]);
@@ -101,6 +102,13 @@ export default function RosterScreen({navigation}) {
                     variant='black' 
                     onPress={() => setForm(1)}>
                 </Button>
+                {selectedAthlete ? 
+                <Button 
+                style={styles.editButton} 
+                title='Edit Athlete' 
+                variant='black' 
+                onPress={() => {setIsEditing(true), setForm(1)}}>
+                </Button> : null}
                 <TouchableOpacity 
                     style={styles.sortButton} 
                     onPress={() => {sort === 'desc' ? setSort('asc'): setSort('desc')}}>
@@ -145,7 +153,7 @@ export default function RosterScreen({navigation}) {
                     >back to roster
                     </CustomText>
                 </TouchableOpacity>
-                <AthleteForm onSubmit={() => setForm(0)}/> 
+                <AthleteForm onSubmit={() => setForm(0)} isEditing={isEditing}/> 
             </View>
         )
     }
@@ -171,6 +179,13 @@ const styles = StyleSheet.create({
         flexDirection: 'column',
         justifyContent: 'center',
         alignItems: 'center',
+    },
+    editButton: {
+        position: 'absolute',
+        height: 35,
+        width: 145,
+        top: 185,
+        left: 160,
     },
     h1: {
         color: colors.black,

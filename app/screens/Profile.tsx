@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Alert, StyleSheet, TextInput, TouchableOpacity, View, Image, ActivityIndicator } from 'react-native';
+import { Alert, StyleSheet, TextInput, TouchableOpacity, View, Image } from 'react-native';
 import { firebase_auth, firestore_db, storage } from '../Firebase/firebaseConfig';
 import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
 
@@ -173,7 +173,7 @@ export default function Profile({navigation}) {
             <TouchableOpacity style={styles.editpfp} onPress={pickImage}>
                     <AntDesign
                         color={colors.white}
-                        name="edit"
+                        name="upload"
                         size={20}
                         style={{ marginRight: 1, marginBottom: 1 }}
                     />

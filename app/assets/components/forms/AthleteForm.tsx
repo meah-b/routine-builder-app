@@ -2,19 +2,23 @@ import React, {useState} from "react";
 import { View, StyleSheet, TextInput, ActivityIndicator } from "react-native";
 import { firebase_auth, firestore_db } from '../../../Firebase/firebaseConfig';
 import { collection, doc, setDoc, addDoc, getDoc, updateDoc } from 'firebase/firestore';
+
 import { colors, CustomText } from "../../../config/theme";
 import Button from "../buttons/Buttons";
+import AppContext from '../../../config/context';
 
 
 interface SkillFormProps {
     onSubmit: () => void;
+    isEditing: boolean;
 }
 
 export default function AthleteForm(props: SkillFormProps){
     const [name, setName] = useState('');
     const [level, setLevel] = useState('');
     const [loading, setLoading] = useState(false);
-    const { onSubmit } = props;
+    const { onSubmit, isEditing } = props;
+    const { selectedAthlete } = React.useContext(AppContext); 
 
     async function addUser(){
         setLoading(true);
