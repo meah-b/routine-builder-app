@@ -31,7 +31,7 @@ function AthleteLayout() {
       <InsideStack.Screen name='Routine Library' component={RoutineLibrary} />
       <InsideStack.Screen name='Routine Builder' component={RoutineBuilder} />
       <InsideStack.Screen name='Profile' component={Profile} />
-      <InsideStack.Screen name='Notif Screen' component={NotifScreen} />
+      <InsideStack.Screen name='Menu' component={Menu} />
     </InsideStack.Navigator>
   )
 }
