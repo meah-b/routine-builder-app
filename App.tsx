@@ -12,7 +12,7 @@ import ConnectionLibrary from './app/screens/ConnectionLibrary';
 import RoutineLibrary from './app/screens/RoutineLibrary';
 import RoutineBuilder from './app/screens/RoutineBuilder';
 import Profile from './app/screens/Profile';
-import NotifScreen from './app/screens/NotificationScreen';
+import Menu from './app/screens/Menu';
 import SignUpScreen from './app/screens/SignUpScreen';
 import RosterScreen from './app/screens/RosterScreen';
 import ExportRoster from './app/screens/ExportRoster';
@@ -47,7 +47,7 @@ function CoachLayout() {
       <InsideStack.Screen name='Routine Library' component={RoutineLibrary} />
       <InsideStack.Screen name='Routine Builder' component={RoutineBuilder} />
       <InsideStack.Screen name='Profile' component={Profile} />
-      <InsideStack.Screen name='Notif Screen' component={NotifScreen} />
+      <InsideStack.Screen name='Menu' component={Menu} />
     </InsideStack.Navigator>
   )
 }

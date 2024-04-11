@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Alert, StyleSheet, TextInput, TouchableOpacity, View, Image } from 'react-native';
 import { firebase_auth, firestore_db, storage } from '../Firebase/firebaseConfig';
 import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
-
+import { getAuth, sendPasswordResetEmail } from "firebase/auth";
 import { doc, getDoc, setDoc } from 'firebase/firestore';
 import {LinearGradient} from 'expo-linear-gradient';
 import { AntDesign } from '@expo/vector-icons';
@@ -91,16 +91,21 @@ export default function Profile({navigation}) {
         setDoc(userDocRef, {gym: newGym},{merge:true});
     }
 
+    function resetPassword(){
+        Alert.alert(`Password reset link has been sent to your email: ${email}`);
+        sendPasswordResetEmail(firebase_auth, email)
+    }
+
     const twoButtonAlert = () =>
         Alert.alert('Confirm', `Are you sure you want to sign out?`, 
         [{text: 'Cancel', style: 'cancel'},
         {text: "Sign out", onPress: ()=> firebase_auth.signOut()}]);
 
     return (
-        <LinearGradient colors={['#9747FF', '#FFBBF8', '#FFF']} style={styles.container}>
+        <LinearGradient colors={colors.gradient2} style={styles.container}>
             <CustomText style={styles.h1} bold>Profile</CustomText>
             <AntDesign 
-                    color={colors.white}
+                    color={colors.black}
                     name="leftsquareo" 
                     size={35} 
                     style={styles.icon} 
@@ -153,7 +158,7 @@ export default function Profile({navigation}) {
                         <CustomText style={styles.text3}>{email}</CustomText>
                     </View>
                 </View>
-                <TouchableOpacity onPress={()=> {}} style={{}}>
+                <TouchableOpacity onPress={()=> resetPassword()} style={{}}>
                         <CustomText bold style={{fontSize: 18, textDecorationLine:'underline', color: colors.black, marginBottom: 10}}>change password</CustomText>
                 </TouchableOpacity>
                 <Button
@@ -217,7 +222,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center'
     },
     h1: {
-        color: colors.white,
+        color: colors.black,
         fontSize: 30,
         position: 'absolute',
         top: 90

@@ -14,6 +14,7 @@ export const colors = {
     purple200: '#5C009F',
     pink: "#FFBBF8",
     gradient: ['#9747FF', '#FFBBF8'],
+    gradient2: ['#9747FF', '#FFBBF8', '#FFF'],
 };
 
 export const CustomText = (props) => {

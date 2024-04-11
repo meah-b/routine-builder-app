@@ -15,7 +15,7 @@ export default function Header() {
     };
 
     const handleMenuPress = () => {
-        navigation.navigate('Notif Screen' as never);
+        navigation.navigate('Menu' as never);
     };
 
     return (
