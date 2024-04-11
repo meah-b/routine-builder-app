@@ -11,13 +11,15 @@ import AppContext from '../../../config/context';
 interface SkillFormProps {
     onSubmit: () => void;
     isEditing: boolean;
+    oldLevel: string;
+    oldName: string;
 }
 
 export default function AthleteForm(props: SkillFormProps){
     const [name, setName] = useState('');
     const [level, setLevel] = useState('');
     const [loading, setLoading] = useState(false);
-    const { onSubmit, isEditing } = props;
+    const { onSubmit, isEditing, oldLevel, oldName } = props;
     const { selectedAthlete } = React.useContext(AppContext); 
 
     async function addUser(){
@@ -36,7 +38,6 @@ export default function AthleteForm(props: SkillFormProps){
             await setDoc(doc(eventsRef, "beam"), {});
             await setDoc(doc(eventsRef, "floor"), {});
             addAthlete(newUserRef.id)
-            console.log('User added successfully!');
         } catch (error) {
             console.error('Error adding user:', error);
         }
@@ -63,6 +64,31 @@ export default function AthleteForm(props: SkillFormProps){
             onSubmit();
         }
     }
+
+    async function updateAthlete(){
+        try {
+            const editRef = doc(firestore_db, "users", selectedAthlete);
+            await setDoc(editRef, {
+                full_name: name,
+                level: level
+            }, {merge: true});
+
+            const user_uid = firebase_auth.currentUser.uid;
+            const user_doc = doc(firestore_db, 'users', user_uid);
+            const userDocSnapshot = await getDoc(user_doc);
+            const currentAthletes = userDocSnapshot.data().athletes || {};
+            currentAthletes[selectedAthlete] = {
+                account_type: 'Unreg Athlete',
+                full_name: name, 
+                level: level};
+            await updateDoc(user_doc, { athletes: currentAthletes });
+        } catch (error) {
+            console.error('Error adding user:', error);
+        } finally {
+            onSubmit();
+        }
+    }
+
     
 
     return (
@@ -73,7 +99,7 @@ export default function AthleteForm(props: SkillFormProps){
                 <TextInput
                 style={styles.inputText}
                 editable
-                placeholder='Full Name'
+                placeholder={isEditing ? oldName : 'Full Name'}
                 placeholderTextColor={colors.grey200}
                 maxLength={30}
                 onChangeText={(text) => setName(text)}
@@ -85,7 +111,7 @@ export default function AthleteForm(props: SkillFormProps){
                 <TextInput
                 style={styles.inputText}
                 editable
-                placeholder='Level'
+                placeholder={isEditing ? oldLevel : 'Level'}
                 placeholderTextColor={colors.grey200}
                 maxLength={30}
                 onChangeText={(text) => setLevel(text)}
@@ -100,7 +126,7 @@ export default function AthleteForm(props: SkillFormProps){
                 if (name === '' || level === '') {
                     alert('Please input all values!');
                 } else {
-                    addUser();
+                    (isEditing ? updateAthlete() : addUser());
                 }
             }}
             variant='black'

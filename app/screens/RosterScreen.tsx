@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { StyleSheet, View, TouchableOpacity, Alert, ScrollView } from 'react-native';
 import {LinearGradient} from 'expo-linear-gradient';
 import { doc, getDoc, deleteDoc, updateDoc, deleteField } from 'firebase/firestore';
@@ -29,6 +29,26 @@ export default function RosterScreen({navigation}) {
     const user_doc = doc(firestore_db, 'users', user_uid);
     const [sort, setSort] = React.useState('desc')
     const [isEditing, setIsEditing] = React.useState(false)
+    const [oldName, setOldName] = React.useState('');
+    const [oldLevel, setOldLevel] = React.useState('');
+    const [athleteToEdit, setAthleteToEdit] = React.useState('');
+
+    useEffect(() => {
+        const fetchSelectedAthlete = async () => {
+            if (athleteToEdit) {
+                try {
+                    const selected_doc = doc(firestore_db, 'users', athleteToEdit);
+                    const selectedDocSnapshot = await getDoc(selected_doc);
+                    setOldName(selectedDocSnapshot.data().full_name); 
+                    setOldLevel(selectedDocSnapshot.data().level); 
+                } catch (error) {
+                    console.error('Error fetching data:', error);
+                }
+            }
+        };
+        fetchSelectedAthlete();
+    }, [athleteToEdit]);
+    
     
     function List(){
         const [querySnapshot, setQuerySnapshot] = React.useState([]);
@@ -107,7 +127,7 @@ export default function RosterScreen({navigation}) {
                 style={styles.editButton} 
                 title='Edit Athlete' 
                 variant='black' 
-                onPress={() => {setIsEditing(true), setForm(1)}}>
+                onPress={() => {setIsEditing(true), setForm(1), setAthleteToEdit(selectedAthlete)}}>
                 </Button> : null}
                 <TouchableOpacity 
                     style={styles.sortButton} 
@@ -146,14 +166,14 @@ export default function RosterScreen({navigation}) {
         return(
             <View style={styles.container}>
                 <Header></Header>
-                <TouchableOpacity onPress={() => setForm(0)} style={{position: 'absolute', top: 160, left: -180}}>
+                <TouchableOpacity onPress={() => {setForm(0), setIsEditing(false)}} style={{position: 'absolute', top: 160, left: -180}}>
                     <CustomText 
                         style={styles.text} 
                         bold
                     >back to roster
                     </CustomText>
                 </TouchableOpacity>
-                <AthleteForm onSubmit={() => setForm(0)} isEditing={isEditing}/> 
+                <AthleteForm onSubmit={() => {setIsEditing(false); setForm(0);}} isEditing={isEditing} oldLevel={oldLevel} oldName={oldName}/> 
             </View>
         )
     }
