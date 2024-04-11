@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-import { View, StyleSheet, TextInput } from "react-native";
+import { View, StyleSheet, TextInput, Keyboard } from "react-native";
 import { firebase_auth, firestore_db } from '../../../Firebase/firebaseConfig';
 import { collection, doc, setDoc } from 'firebase/firestore';
 
@@ -32,7 +32,7 @@ export default function SkillForm(props: SkillFormProps){
     }
 
     return (
-        <View style={[styles.container, event === 'Vault' ? {height:400}: null]}>
+        <View onTouchStart={()=>Keyboard.dismiss()} style={[styles.container, event === 'Vault' ? {height:400}: null]}>
             <CustomText style={styles.h1} bold>{event}</CustomText>
             <CustomText style={styles.text} bold>Skill Name:</CustomText>
             <View style={styles.inputView}>

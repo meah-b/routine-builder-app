@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View, TextInput, StyleSheet } from "react-native";
+import { View, TextInput, StyleSheet, Keyboard } from "react-native";
 import { firebase_auth, firestore_db } from "../Firebase/firebaseConfig";
 import { collection, doc, setDoc } from "firebase/firestore";
 import {LinearGradient} from 'expo-linear-gradient';
@@ -48,7 +48,7 @@ export default function SignUpScreen() {
     return (
         <LinearGradient colors={colors.gradient} style={styles.container}>
             <View style={styles.logo}><Logo/></View>
-            <View style={styles.inputs}>
+            <View onTouchStart={()=>Keyboard.dismiss()} style={styles.inputs}>
                 <CustomText style={styles.h2} >Full Name:</CustomText>
                 <View style={styles.inputView}>
                     <TextInput

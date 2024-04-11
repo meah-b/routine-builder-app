@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Alert, StyleSheet, TextInput, TouchableOpacity, View, Image } from 'react-native';
+import { Alert, StyleSheet, TextInput, TouchableOpacity, View, Image, Keyboard } from 'react-native';
 import { firebase_auth, firestore_db, storage } from '../Firebase/firebaseConfig';
 import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
 import { getAuth, sendPasswordResetEmail } from "firebase/auth";
@@ -110,7 +110,7 @@ export default function Profile({navigation}) {
                     size={35} 
                     style={styles.icon} 
                     onPress={() => navigation.goBack()}/>
-            <View style={styles.card}>
+            <View onTouchStart={()=>Keyboard.dismiss()} style={styles.card}>
                 <View style={styles.inputs}>
                     <CustomText style={styles.text}>Name</CustomText>
                     <View style={styles.inputView}>

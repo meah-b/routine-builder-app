@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { StyleSheet, View, TextInput } from 'react-native';
+import { StyleSheet, View, TextInput, Keyboard } from 'react-native';
 import {LinearGradient} from 'expo-linear-gradient';
 import { firebase_auth, firestore_db } from '../Firebase/firebaseConfig';
 import { collection, doc, setDoc, deleteDoc } from 'firebase/firestore';
@@ -61,7 +61,7 @@ export default function RoutineBuilder({navigation}) {
         const [level, setLevel] = useState('');
 
         return (
-            <View style={styles.formContainer}>
+            <View onTouchStart={()=>Keyboard.dismiss()} style={styles.formContainer}>
                 <CustomText style={[styles.text2, {marginBottom: 5}]} bold>Routine Name:</CustomText>
                 <View style={styles.inputView}>
                     <TextInput

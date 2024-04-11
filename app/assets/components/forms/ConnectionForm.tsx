@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from "react";
-import { View, StyleSheet, ScrollView, TextInput, Text } from "react-native";
+import { View, StyleSheet, ScrollView, TextInput, Text, Keyboard } from "react-native";
 import {Dropdown, MultiSelect} from 'react-native-element-dropdown';
 import { firebase_auth, firestore_db } from '../../../Firebase/firebaseConfig';
 import { collection, doc, getDocs, setDoc } from 'firebase/firestore';
@@ -105,7 +105,7 @@ export default function ConnectionForm(props: ConnectionFormProps){
     };
 
     return (
-        <View style={styles.container}>
+        <View onTouchStart={()=>Keyboard.dismiss()} style={styles.container}>
             <CustomText style={styles.h1} bold>{event}</CustomText>
             <ScrollView contentContainerStyle={styles.scroll}>
                 <View style={[styles.inputView, {height: 50}]}>

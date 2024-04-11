@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-import { View, StyleSheet, TextInput, ActivityIndicator } from "react-native";
+import { View, StyleSheet, TextInput, ActivityIndicator, Keyboard } from "react-native";
 import { firebase_auth, firestore_db } from '../../../Firebase/firebaseConfig';
 import { collection, doc, setDoc, addDoc, getDoc, updateDoc } from 'firebase/firestore';
 
@@ -92,7 +92,7 @@ export default function AthleteForm(props: SkillFormProps){
     
 
     return (
-        <View style={styles.container}>
+        <View onTouchStart={()=>Keyboard.dismiss()} style={styles.container}>
             <CustomText style={styles.h1} bold>Add Athlete</CustomText>
             <CustomText style={styles.text} bold>Full Name:</CustomText>
             <View style={styles.inputView}>

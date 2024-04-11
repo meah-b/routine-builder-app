@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { StyleSheet, View, TouchableOpacity, ScrollView, Share } from 'react-native';
 import {LinearGradient} from 'expo-linear-gradient';
-import { collection, doc, getDoc, getDocs } from 'firebase/firestore';
+import { collection, doc, getDocs } from 'firebase/firestore';
 import { firebase_auth, firestore_db } from '../Firebase/firebaseConfig';
 
 import { CustomText, colors } from '../config/theme';
