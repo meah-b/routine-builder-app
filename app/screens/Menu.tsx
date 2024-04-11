@@ -1,7 +1,6 @@
 import React from 'react';
 import { Alert, StyleSheet, TouchableOpacity, View } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
-import {WebView} from 'react-native-webview'
 
 import { CustomText, colors } from '../config/theme';
 import AntDesign from 'react-native-vector-icons/AntDesign';
@@ -42,7 +41,7 @@ export default function Menu({navigation}) {
                     onPress={() => navigation.goBack()}/>
             <View style={styles.card}>
                 <View style={styles.box}>
-                    <TouchableOpacity style={styles.row}>
+                    <TouchableOpacity style={styles.row} onPress={() => navigation.navigate('Coach Export')}>
                         <AntDesign 
                         color={colors.purple}
                         name="export" 

@@ -18,6 +18,7 @@ import RosterScreen from './app/screens/RosterScreen';
 import ExportRoster from './app/screens/ExportRoster';
 import FeedbackForm from './app/screens/FeedbackForm';
 import { AppProvider } from './app/config/context';
+import CoachExport from './app/screens/CoachExport';
 
 
 const Stack = createNativeStackNavigator();
@@ -34,6 +35,7 @@ function AthleteLayout() {
       <InsideStack.Screen name='Profile' component={Profile} />
       <InsideStack.Screen name='Menu' component={Menu} />
       <InsideStack.Screen name='Feedback' component={FeedbackForm} />
+      <InsideStack.Screen name='Athlete Export' component={CoachExport} />
     </InsideStack.Navigator>
   )
 }
@@ -51,6 +53,7 @@ function CoachLayout() {
       <InsideStack.Screen name='Profile' component={Profile} />
       <InsideStack.Screen name='Menu' component={Menu} />
       <InsideStack.Screen name='Feedback' component={FeedbackForm} />
+      <InsideStack.Screen name='Coach Export' component={CoachExport} />
     </InsideStack.Navigator>
   )
 }
