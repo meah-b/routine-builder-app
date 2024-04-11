@@ -1,29 +1,17 @@
 import React, { useEffect } from 'react';
-import { StyleSheet, View, TouchableOpacity, Alert, ScrollView } from 'react-native';
+import { StyleSheet, View, TouchableOpacity, ScrollView } from 'react-native';
 import {LinearGradient} from 'expo-linear-gradient';
-import { doc, getDoc, deleteDoc, updateDoc, deleteField } from 'firebase/firestore';
+import { doc, getDoc } from 'firebase/firestore';
 import { firebase_auth, firestore_db } from '../Firebase/firebaseConfig';
 
 import { CustomText, colors } from '../config/theme';
-import AppContext from '../config/context';
 import Header from '../assets/components/utilities/Header';
 import Button from '../assets/components/buttons/Buttons';
 import AthleteCard from '../assets/components/cards/AthleteCard';
 import ExportForm from '../assets/components/forms/ExportForm';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 
-const levels = {
-    'Senior': 13,
-    'Junior': 12,
-    'Novice': 11,
-    '10': 10,
-    '9': 9,
-    '8': 8,
-    '7': 7,
-    '6': 6
-};
-
-export default function CoachExport({navigation}) {
+export default function CoachExport() {
     const user_uid = firebase_auth.currentUser.uid;
     const user_doc = doc(firestore_db, 'users', user_uid);
     const [sort, setSort] = React.useState('desc')
@@ -117,7 +105,7 @@ export default function CoachExport({navigation}) {
 
     return (
         <LinearGradient colors={colors.gradient} style={styles.container}>
-            {form === 0 ? <SelectAthletes/> : <ExportForm onSubmit={()=>{}} selectedAthletes={selectedAthletes} />}
+            {form === 0 ? <SelectAthletes/> : <ExportForm onSubmit={()=> setForm(0)} selectedAthletes={selectedAthletes} />}
         </LinearGradient>
     );
     

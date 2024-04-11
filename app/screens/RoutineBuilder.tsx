@@ -62,7 +62,7 @@ export default function RoutineBuilder({navigation}) {
 
         return (
             <View style={styles.formContainer}>
-                <CustomText style={styles.text2} bold>Routine Name:</CustomText>
+                <CustomText style={[styles.text2, {marginBottom: 5}]} bold>Routine Name:</CustomText>
                 <View style={styles.inputView}>
                     <TextInput
                         style={styles.inputText}
@@ -87,11 +87,6 @@ export default function RoutineBuilder({navigation}) {
                 </View>
                 <CustomText style={styles.text2} bold>Level:</CustomText>
                 <LevelButtons
-                    onPress6={() => setLevel('6')}
-                    onPress7={() => setLevel('7')}
-                    onPress8={() => setLevel('8')}
-                    onPress9={() => setLevel('9')}
-                    onPress10={() => setLevel('10')}
                     onPressN={() => setLevel('Novice')}
                     onPressJ={() => setLevel('Junior')}
                     onPressS={() => setLevel('Senior')}
@@ -139,7 +134,7 @@ const styles = StyleSheet.create({
         height: 'auto',
         width: 350,
         position: 'absolute',
-        top: 200,
+        top: 215,
     },
     inputText:{
         marginLeft: 20,
@@ -165,7 +160,7 @@ const styles = StyleSheet.create({
     startButton: {
         width: 200,
         height: 50,
-        marginVertical: 20,
+        marginVertical: 30,
     },
     text: {
         color: colors.black,

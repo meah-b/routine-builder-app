@@ -2,28 +2,16 @@ import React, {useState} from 'react';
 import { View, StyleSheet } from 'react-native';
 
 import Button from './Buttons';
-interface Props {
-  onPress6: () => void; 
-  onPress7: () => void; 
-  onPress8: () => void; 
-  onPress9: () => void; 
-  onPress10: () => void; 
+interface Props { 
   onPressN: () => void; 
   onPressJ: () => void; 
   onPressS: () => void; 
 }
 export default function LevelButtons (props: Props) {
-  const {onPress6, onPress7, onPress8, onPress9, onPress10, onPressN, onPressJ, onPressS} = props;
+  const {onPressN, onPressJ, onPressS} = props;
   const [selected, setSelected] = useState('')
   return (
     <View style={styles.container}>
-      <View style={styles.levels}>
-        <Button title= '6' variant={selected === '6' ? 'black' : 'white'} style={styles.numButtons} onPress={() => { onPress6(); setSelected('6'); }} />
-        <Button title= '7' variant={selected === '7' ? 'black' : 'white'} style={styles.numButtons} onPress={() => { onPress7(); setSelected('7'); }} />
-        <Button title= '8' variant={selected === '8' ? 'black' : 'white'} style={styles.numButtons} onPress={() => { onPress8(); setSelected('8'); }} />
-        <Button title= '9' variant={selected === '9' ? 'black' : 'white'} style={styles.numButtons} onPress={() => { onPress9(); setSelected('9'); }} />
-        <Button title= '10' variant={selected === '10' ? 'black' : 'white'} style={styles.numButtons} onPress={() => { onPress10(); setSelected('10'); }} />
-      </View>
       <View style={styles.levels}>
         <Button title= 'Novice' variant={selected === 'Novice' ? 'black' : 'white'} style={styles.levelButtons} onPress={() => { onPressN(); setSelected('Novice'); }} />
         <Button title= 'Junior' variant={selected === 'Junior' ? 'black' : 'white'} style={styles.levelButtons} onPress={() => { onPressJ(); setSelected('Junior'); }} />

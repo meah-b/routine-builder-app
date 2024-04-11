@@ -15,10 +15,10 @@ import Profile from './app/screens/Profile';
 import Menu from './app/screens/Menu';
 import SignUpScreen from './app/screens/SignUpScreen';
 import RosterScreen from './app/screens/RosterScreen';
-import ExportRoster from './app/screens/ExportRoster';
 import FeedbackForm from './app/screens/FeedbackForm';
 import { AppProvider } from './app/config/context';
 import CoachExport from './app/screens/CoachExport';
+import AthleteExport from './app/screens/AthleteExport';
 
 
 const Stack = createNativeStackNavigator();
@@ -35,7 +35,7 @@ function AthleteLayout() {
       <InsideStack.Screen name='Profile' component={Profile} />
       <InsideStack.Screen name='Menu' component={Menu} />
       <InsideStack.Screen name='Feedback' component={FeedbackForm} />
-      <InsideStack.Screen name='Athlete Export' component={CoachExport} />
+      <InsideStack.Screen name='Export' component={AthleteExport} />
     </InsideStack.Navigator>
   )
 }
@@ -45,7 +45,6 @@ function CoachLayout() {
     <InsideStack.Navigator screenOptions={{ headerShown: false }}>
       <InsideStack.Screen name='Roster' component={RosterScreen}/>
       <InsideStack.Screen name='Home' component={HomeScreen}/>
-      <InsideStack.Screen name='Export Roster' component={ExportRoster}/>
       <InsideStack.Screen name='Skill Library' component={SkillLibrary} />
       <InsideStack.Screen name='Connection Library' component={ConnectionLibrary} />
       <InsideStack.Screen name='Routine Library' component={RoutineLibrary} />
@@ -53,7 +52,7 @@ function CoachLayout() {
       <InsideStack.Screen name='Profile' component={Profile} />
       <InsideStack.Screen name='Menu' component={Menu} />
       <InsideStack.Screen name='Feedback' component={FeedbackForm} />
-      <InsideStack.Screen name='Coach Export' component={CoachExport} />
+      <InsideStack.Screen name='Export' component={CoachExport} />
     </InsideStack.Navigator>
   )
 }

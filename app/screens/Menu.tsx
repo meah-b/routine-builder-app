@@ -6,9 +6,26 @@ import { CustomText, colors } from '../config/theme';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import { Logo } from '../assets/components/utilities/Logo';
 import { firebase_auth, firestore_db } from '../Firebase/firebaseConfig';
-import { doc, deleteDoc } from 'firebase/firestore';
+import { doc, deleteDoc, getDoc } from 'firebase/firestore';
 
 export default function Menu({navigation}) {
+    const user_uid = firebase_auth.currentUser.uid;
+    const userRef = doc(firestore_db, 'users', user_uid)
+    const [type, setType] = React.useState('Athlete')
+
+    const fetchData = async () => {
+        try {
+            const userSnapshot = await getDoc(userRef);
+            const accType = userSnapshot.data().account_type; 
+            setType(accType)
+        } catch (error) {
+            console.error(error);
+        }
+    };
+
+    React.useEffect(() => {
+        fetchData();
+    }, []);
 
     const signOutAlert = () =>
         Alert.alert('Confirm', `Are you sure you want to sign out?`, 
@@ -41,12 +58,12 @@ export default function Menu({navigation}) {
                     onPress={() => navigation.goBack()}/>
             <View style={styles.card}>
                 <View style={styles.box}>
-                    <TouchableOpacity style={styles.row} onPress={() => navigation.navigate('Coach Export')}>
+                    <TouchableOpacity style={styles.row} onPress={() => navigation.navigate('Export')}>
                         <AntDesign 
                         color={colors.purple}
                         name="export" 
                         size={25}/>
-                        <CustomText style={styles.text}>Export Roster</CustomText>
+                        <CustomText style={[styles.text, type === 'Athlete' ? {marginLeft: 21}: null]}>{type === 'Athlete' ? 'Export Routines' : 'Export Roster'}</CustomText>
                         <AntDesign 
                         color={colors.purple}
                         name="right" 
