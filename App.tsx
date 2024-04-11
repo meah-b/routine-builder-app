@@ -16,6 +16,7 @@ import Menu from './app/screens/Menu';
 import SignUpScreen from './app/screens/SignUpScreen';
 import RosterScreen from './app/screens/RosterScreen';
 import ExportRoster from './app/screens/ExportRoster';
+import FeedbackForm from './app/screens/FeedbackForm';
 import { AppProvider } from './app/config/context';
 
 
@@ -32,6 +33,7 @@ function AthleteLayout() {
       <InsideStack.Screen name='Routine Builder' component={RoutineBuilder} />
       <InsideStack.Screen name='Profile' component={Profile} />
       <InsideStack.Screen name='Menu' component={Menu} />
+      <InsideStack.Screen name='Feedback' component={FeedbackForm} />
     </InsideStack.Navigator>
   )
 }
@@ -48,6 +50,7 @@ function CoachLayout() {
       <InsideStack.Screen name='Routine Builder' component={RoutineBuilder} />
       <InsideStack.Screen name='Profile' component={Profile} />
       <InsideStack.Screen name='Menu' component={Menu} />
+      <InsideStack.Screen name='Feedback' component={FeedbackForm} />
     </InsideStack.Navigator>
   )
 }

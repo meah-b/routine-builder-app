@@ -13,6 +13,7 @@ export const colors = {
     purple: "#9747FF",
     purple200: '#5C009F',
     pink: "#FFBBF8",
+    formPurple: '#d1c4e9',
     gradient: ['#9747FF', '#FFBBF8'],
     gradient2: ['#9747FF', '#FFBBF8', '#FFF'],
 };

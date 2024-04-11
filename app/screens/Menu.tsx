@@ -1,16 +1,15 @@
 import React from 'react';
-import { Alert, Keyboard, ScrollView, StyleSheet, TextInput, TouchableOpacity, View } from 'react-native';
+import { Alert, StyleSheet, TouchableOpacity, View } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
+import {WebView} from 'react-native-webview'
 
 import { CustomText, colors } from '../config/theme';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import { Logo } from '../assets/components/utilities/Logo';
 import { firebase_auth, firestore_db } from '../Firebase/firebaseConfig';
 import { doc, deleteDoc } from 'firebase/firestore';
-import Button from '../assets/components/buttons/Buttons';
 
 export default function Menu({navigation}) {
-    const [form, setForm] = React.useState('Menu')
 
     const signOutAlert = () =>
         Alert.alert('Confirm', `Are you sure you want to sign out?`, 
@@ -29,8 +28,18 @@ export default function Menu({navigation}) {
         await firebase_auth.signOut()
     }
 
-    function DefaultMenu(){
-        return(
+
+    return (
+        <LinearGradient colors={colors.gradient2} style={styles.container}>
+            <View style={styles.logoContainer}>
+                <Logo/>
+            </View>
+            <AntDesign 
+                    color={colors.black}
+                    name="menufold" 
+                    size={35} 
+                    style={styles.icon} 
+                    onPress={() => navigation.goBack()}/>
             <View style={styles.card}>
                 <View style={styles.box}>
                     <TouchableOpacity style={styles.row}>
@@ -45,7 +54,7 @@ export default function Menu({navigation}) {
                         size={25}
                         style={{marginLeft: 100}}/>
                     </TouchableOpacity>
-                    <TouchableOpacity style={styles.row} onPress={() => setForm('Feedback')}>
+                    <TouchableOpacity style={styles.row} onPress={() => navigation.navigate('Feedback')}>
                         <AntDesign 
                         color={colors.purple}
                         name="filetext1" 
@@ -83,56 +92,6 @@ export default function Menu({navigation}) {
                     </TouchableOpacity>
                 </View>
             </View>
-        )
-    }
-
-    function FeedbackMenu(){
-        const [feedback, setFeedback] = React.useState('')
-
-        return(
-            <View onTouchStart={()=>Keyboard.dismiss()} style={styles.card2}>
-                <View style={styles.box2}>
-                    <TouchableOpacity onPress={() => setForm('Menu')} style={{flexDirection: 'row', alignItems: 'center', gap: 5, marginTop: 20, marginRight: 280}}>
-                        <AntDesign 
-                        color={colors.purple}
-                        name="left" 
-                        size={25}/>
-                        <CustomText style={{color: colors.purple, fontSize: 22}}>back</CustomText>
-                    </TouchableOpacity>
-                    <CustomText style={styles.text}>Submit your feedback for the creator:</CustomText>
-                    <View style={styles.inputView}>
-                        <TextInput
-                        style={styles.textInput}
-                        placeholder={'Type here...'}
-                        placeholderTextColor={colors.grey200}
-                        editable
-                        multiline
-                        maxLength={400}
-                        onChangeText={(text) => setFeedback(text)}
-                        value={feedback}/>
-                    </View>
-                    <Button
-                        variant='black'
-                        title='Submit'
-                        onPress={()=>{}}
-                        style={styles.button}/>
-                </View>
-            </View>
-        )
-    }
-
-    return (
-        <LinearGradient colors={colors.gradient2} style={styles.container}>
-            {form === 'Menu' && <View style={styles.logoContainer}>
-                <Logo/>
-            </View>}
-            <AntDesign 
-                    color={colors.black}
-                    name="menufold" 
-                    size={35} 
-                    style={styles.icon} 
-                    onPress={() => navigation.goBack()}/>
-            {form === 'Menu' ? <DefaultMenu/> : <FeedbackMenu/>}
         </LinearGradient>
     );
 }
@@ -226,5 +185,11 @@ const styles = StyleSheet.create({
     text: {
         fontSize: 22,
         color: colors.black
+    },
+    webView: {
+        flex: 1,
+        backgroundColor: colors.white,
+        alignItems: 'center',
+        justifyContent: 'center'
     },
 });
