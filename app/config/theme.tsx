@@ -3,47 +3,43 @@ import { Text } from 'react-native';
 import * as Font from 'expo-font';
 
 export const colors = {
-    white: "#fff",
-    grey100: "#D9D9D9",
-    grey200: "#9C9C9C",
-    grey300: "#797979",
-    black: "#000",
-    fade1: '#f0d4fc',
-    fade2: 'rgba(255, 255, 255, 0.35)',
-    purple: "#9747FF",
-    purple200: '#5C009F',
-    pink: "#FFBBF8",
-    formPurple: '#d1c4e9',
-    gradient: ['#9747FF', '#FFBBF8'],
-    gradient2: ['#9747FF', '#FFBBF8', '#FFF'],
+	white: '#fff',
+	grey100: '#D9D9D9',
+	grey200: '#9C9C9C',
+	grey300: '#797979',
+	black: '#000',
+	fade1: '#f0d4fc',
+	fade2: 'rgba(255, 255, 255, 0.35)',
+	purple: '#9747FF',
+	purple200: '#5C009F',
+	pink: '#FFBBF8',
+	formPurple: '#d1c4e9',
+	gradient: ['#9747FF', '#FFBBF8'] as const,
+	gradient2: ['#9747FF', '#FFBBF8', '#FFF'] as const,
 };
 
 export const CustomText = (props) => {
-  const [fontLoaded, setFontLoaded] = useState(false);
+	const [fontLoaded, setFontLoaded] = useState(false);
 
-  useEffect(() => {
-    async function loadFont() {
-      await Font.loadAsync({
-        'jost-bold': require('../assets/fonts/Jost-Bold.ttf'),
-        'jost-regular': require('../assets/fonts/Jost-Regular.ttf'),
-      });
+	useEffect(() => {
+		async function loadFont() {
+			await Font.loadAsync({
+				'jost-bold': require('../assets/fonts/Jost-Bold.ttf'),
+				'jost-regular': require('../assets/fonts/Jost-Regular.ttf'),
+			});
 
-      setFontLoaded(true);
-    }
+			setFontLoaded(true);
+		}
 
-    loadFont();
-  }, []);
+		loadFont();
+	}, []);
 
-  if (!fontLoaded) {
-    return <Text>Loading...</Text>;
-  }
+	if (!fontLoaded) {
+		return <Text>Loading...</Text>;
+	}
 
-  const { style, children, bold } = props;
-  const fontFamily = bold ? 'jost-bold' : 'jost-regular';
+	const { style, children, bold } = props;
+	const fontFamily = bold ? 'jost-bold' : 'jost-regular';
 
-  return (
-    <Text style={[{ fontFamily }, style]}>
-      {children}
-    </Text>
-  );
+	return <Text style={[{ fontFamily }, style]}>{children}</Text>;
 };

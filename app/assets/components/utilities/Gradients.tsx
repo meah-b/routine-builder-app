@@ -2,7 +2,7 @@ import React from 'react';
 import { SvgXml } from 'react-native-svg';
 
 export const GradientSvg1 = () => {
-    const gradientBg1 = `
+	const gradientBg1 = `
       <svg width="390" height="642" viewBox="0 0 390 642" fill="none" xmlns="http://www.w3.org/2000/svg">
       <g filter="url(#filter0_d_7_15)">
       <path d="M0 589.254V0H390V630C299.536 516.078 176.289 575.924 147.758 589.254C107.552 608.039 21.1082 609.122 0 589.254Z" fill="url(#paint0_linear_7_15)"/>
@@ -25,12 +25,12 @@ export const GradientSvg1 = () => {
       </defs>
       </svg>
     `;
-    
-  return <SvgXml xml={gradientBg1} />;
+
+	return <SvgXml xml={gradientBg1} />;
 };
 
 export const GradientSvg2 = () => {
-  const gradientBg2 = `
+	const gradientBg2 = `
   <svg width="390" height="624" viewBox="0 0 390 624" fill="none" xmlns="http://www.w3.org/2000/svg">
   <g filter="url(#filter0_d_7_16)">
   <path d="M0 597.105V0H390V597.105C307.577 494.156 173.892 583.379 133.686 597.105C76.3176 616.691 21.1082 617.237 0 597.105Z" fill="url(#paint0_linear_7_16)"/>
@@ -53,6 +53,6 @@ export const GradientSvg2 = () => {
   </defs>
   </svg>
   `;
-  
-return <SvgXml xml={gradientBg2} />;
+
+	return <SvgXml xml={gradientBg2} />;
 };

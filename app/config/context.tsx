@@ -1,29 +1,35 @@
-import React, { createContext, Dispatch, SetStateAction, useState, ReactNode } from 'react';
+import React, {
+	createContext,
+	Dispatch,
+	SetStateAction,
+	useState,
+	ReactNode,
+} from 'react';
 
 export interface AppContextInterface {
-  selectedAthlete: string;
-  setSelectedAthlete: Dispatch<SetStateAction<string>>;
+	selectedAthlete: string;
+	setSelectedAthlete: Dispatch<SetStateAction<string>>;
 }
 
 const initialContext: AppContextInterface = {
-  selectedAthlete: '',
-  setSelectedAthlete: () => {},
+	selectedAthlete: '',
+	setSelectedAthlete: () => {},
 };
 
 const AppContext = createContext<AppContextInterface>(initialContext);
 
 interface AppProviderProps {
-  children: ReactNode;
+	children: ReactNode;
 }
 
 export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
-  const [selectedAthlete, setSelectedAthlete] = useState<string>('');
+	const [selectedAthlete, setSelectedAthlete] = useState<string>('');
 
-  return (
-    <AppContext.Provider value={{ selectedAthlete, setSelectedAthlete }}>
-      {children}
-    </AppContext.Provider>
-  );
+	return (
+		<AppContext.Provider value={{ selectedAthlete, setSelectedAthlete }}>
+			{children}
+		</AppContext.Provider>
+	);
 };
 
 export default AppContext;
