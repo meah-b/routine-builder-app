@@ -8,7 +8,7 @@ export const colors = {
     grey200: "#9C9C9C",
     grey300: "#797979",
     black: "#000",
-    fade1: '#f0d4fc' /*'rgba(255, 255, 255, 0.7)'*/,
+    fade1: '#f0d4fc',
     fade2: 'rgba(255, 255, 255, 0.35)',
     purple: "#9747FF",
     purple200: '#5C009F',
