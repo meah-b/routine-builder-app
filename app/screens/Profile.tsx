@@ -1,29 +1,34 @@
+import { AntDesign } from '@expo/vector-icons';
+import * as ImagePicker from 'expo-image-picker';
+import { LinearGradient } from 'expo-linear-gradient';
+import { sendPasswordResetEmail } from 'firebase/auth';
+import { doc, getDoc, setDoc } from 'firebase/firestore';
+import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
 import React, { useEffect, useState } from 'react';
 import {
 	Alert,
+	Image,
+	Keyboard,
 	StyleSheet,
 	TextInput,
 	TouchableOpacity,
 	View,
-	Image,
-	Keyboard,
 } from 'react-native';
 import {
 	firebase_auth,
 	firestore_db,
 	storage,
 } from '../Firebase/firebaseConfig';
-import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
-import { sendPasswordResetEmail } from 'firebase/auth';
-import { doc, getDoc, setDoc } from 'firebase/firestore';
-import { LinearGradient } from 'expo-linear-gradient';
-import { AntDesign } from '@expo/vector-icons';
-import * as ImagePicker from 'expo-image-picker';
 
-import { CustomText, colors } from '../config/theme';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import Button from '../assets/components/buttons/Buttons';
+import { CustomText, colors } from '../config/theme';
 
-export default function Profile({ navigation }) {
+interface ProfileProps {
+	navigation: NativeStackNavigationProp<undefined>;
+}
+
+export default function Profile({ navigation }: ProfileProps) {
 	const user_uid = firebase_auth.currentUser.uid;
 	const userDocRef = doc(firestore_db, 'users', user_uid);
 	const [name, setName] = useState('');
@@ -45,7 +50,7 @@ export default function Profile({ navigation }) {
 			);
 			return;
 		}
-		let result = await ImagePicker.launchImageLibraryAsync({
+		const result = await ImagePicker.launchImageLibraryAsync({
 			mediaTypes: ImagePicker.MediaTypeOptions.Images,
 			allowsEditing: true,
 			aspect: [4, 3],

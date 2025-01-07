@@ -1,20 +1,29 @@
-import React, { useState } from 'react';
-import { StyleSheet, View, TextInput, Keyboard } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
+import { collection, deleteDoc, doc, setDoc } from 'firebase/firestore';
+import React, { useState } from 'react';
+import { Keyboard, StyleSheet, TextInput, View } from 'react-native';
 import { firebase_auth, firestore_db } from '../Firebase/firebaseConfig';
-import { collection, doc, setDoc, deleteDoc } from 'firebase/firestore';
 
-import { CustomText, colors } from '../config/theme';
-import EventButtons from '../assets/components/buttons/EventButtons';
-import LevelButtons from '../assets/components/buttons/LevelButtons';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import Button from '../assets/components/buttons/Buttons';
+import EventButtons from '../assets/components/buttons/EventButtons';
+import HomeButton from '../assets/components/buttons/HomeButton';
+import LevelButtons from '../assets/components/buttons/LevelButtons';
+import RoutineBuilderForm from '../assets/components/forms/RoutineBuilderForm';
 import Header from '../assets/components/utilities/Header';
 import { H1Logo } from '../assets/components/utilities/Logo';
-import HomeButton from '../assets/components/buttons/HomeButton';
-import RoutineBuilderForm from '../assets/components/forms/RoutineBuilderForm';
 import AppContext from '../config/context';
+import { CustomText, colors } from '../config/theme';
 
-export default function RoutineBuilder({ navigation }) {
+type RootStackParamList = {
+	RoutineLibrary: undefined;
+};
+
+interface RoutineBuilderProps {
+	navigation: NativeStackNavigationProp<RootStackParamList>;
+}
+
+export default function RoutineBuilder({ navigation }: RoutineBuilderProps) {
 	const [isBuilding, setIsBuilding] = useState(false);
 	const [routineId, setRoutineId] = useState('');
 	const [eventId, setEventId] = useState('');
@@ -155,7 +164,7 @@ export default function RoutineBuilder({ navigation }) {
 					event={eventId}
 					onSubmit={() => {
 						setIsBuilding(false);
-						navigation.navigate('Routine Library' as never);
+						navigation.navigate('RoutineLibrary' as never);
 					}}
 					handleDelete={() => {
 						handleDelete(routineId, eventId);

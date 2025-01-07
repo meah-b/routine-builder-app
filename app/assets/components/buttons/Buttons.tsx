@@ -1,5 +1,10 @@
 import React from 'react';
-import { TouchableOpacity, StyleSheet } from 'react-native';
+import {
+	StyleProp,
+	StyleSheet,
+	TouchableOpacity,
+	ViewStyle,
+} from 'react-native';
 
 import { colors, CustomText } from '../../../config/theme';
 
@@ -7,7 +12,7 @@ interface Props {
 	onPress: () => void;
 	variant: string;
 	title: string;
-	style: any;
+	style: StyleProp<ViewStyle>;
 }
 
 export default function Button(props: Props) {
@@ -20,23 +25,21 @@ export default function Button(props: Props) {
 					? {
 							...styles.standardContainer,
 							backgroundColor: colors.black,
-							...style,
 					  }
 					: null,
 				variant === 'white'
 					? {
 							...styles.standardContainer,
 							backgroundColor: colors.white,
-							...style,
 					  }
 					: null,
 				variant === 'google'
 					? {
 							...styles.standardContainer,
 							backgroundColor: colors.white,
-							...style,
 					  }
 					: null,
+				style,
 			]}
 			onPress={onPress}>
 			<CustomText

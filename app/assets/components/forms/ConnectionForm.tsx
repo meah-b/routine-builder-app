@@ -1,25 +1,25 @@
-import React, { useState, useEffect } from 'react';
+import { AntDesign } from '@expo/vector-icons';
+import { collection, doc, getDocs, setDoc } from 'firebase/firestore';
+import React, { useEffect, useState } from 'react';
 import {
-	View,
-	StyleSheet,
-	ScrollView,
-	TextInput,
-	Text,
 	Keyboard,
+	ScrollView,
+	StyleSheet,
+	Text,
+	TextInput,
+	View,
 } from 'react-native';
 import { Dropdown, MultiSelect } from 'react-native-element-dropdown';
 import { firebase_auth, firestore_db } from '../../../Firebase/firebaseConfig';
-import { collection, doc, getDocs, setDoc } from 'firebase/firestore';
-import { AntDesign } from '@expo/vector-icons';
 
+import AppContext from '../../../config/context';
 import { colors, CustomText } from '../../../config/theme';
 import Button from '../buttons/Buttons';
 import {
-	calculateBeamCV,
 	calculateBarsCV,
+	calculateBeamCV,
 	calculateFloorCV,
 } from '../utilities/ConnectionCalculation';
-import AppContext from '../../../config/context';
 
 interface ConnectionFormProps {
 	event: string;
@@ -40,12 +40,12 @@ export default function ConnectionForm(props: ConnectionFormProps) {
 		'skills'
 	);
 	const [querySnapshot, setQuerySnapshot] = useState([]);
-	let difficulties: string[] = [];
-	let dvs: string[] = [];
+	const difficulties: string[] = [];
+	const dvs: string[] = [];
 
-	const updateSelection = (selectedItems: any[]) => {
-		const sortedSelectedOptions = [...selectedItems].sort(
-			(a, b) => a.value - b.value
+	const updateSelection = (selectedItems: string[]) => {
+		const sortedSelectedOptions = [...selectedItems].sort((a, b) =>
+			a.localeCompare(b)
 		);
 		setSelected(sortedSelectedOptions);
 	};
@@ -58,10 +58,10 @@ export default function ConnectionForm(props: ConnectionFormProps) {
 		fetchData();
 	}, []);
 
-	function calculateCV(selected: any[]) {
+	function calculateCV(selected: string[]) {
 		let cv = 0;
-		let selectedSkills = selected.map((item) => item);
-		let skills = selectedSkills.map((selectedId) => {
+		const selectedSkills = selected.map((item) => item);
+		const skills = selectedSkills.map((selectedId) => {
 			const doc = querySnapshot.find((doc) => doc.id === selectedId);
 			difficulties.push(doc.data().difficulty.label);
 			dvs.push(doc.data().difficulty.value);
@@ -100,7 +100,7 @@ export default function ConnectionForm(props: ConnectionFormProps) {
 			'connections'
 		);
 		try {
-			const cvValue = await calculateCV(selected);
+			const cvValue = calculateCV(selected);
 			await setDoc(
 				doc(conRef, name),
 				{

@@ -1,25 +1,27 @@
-import React, { useState } from 'react';
-import {
-	View,
-	ScrollView,
-	StyleSheet,
-	TouchableOpacity,
-	ActivityIndicator,
-} from 'react-native';
-import AntIcon from 'react-native-vector-icons/AntDesign';
-import { firebase_auth } from '../Firebase/firebaseConfig';
 import { signInWithEmailAndPassword } from 'firebase/auth';
+import React, { useState } from 'react';
+import { ActivityIndicator, ScrollView, StyleSheet, View } from 'react-native';
+import { firebase_auth } from '../Firebase/firebaseConfig';
 
-import { CustomText, colors } from '../config/theme';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import Button from '../assets/components/buttons/Buttons';
 import {
 	GradientSvg1,
 	GradientSvg2,
 } from '../assets/components/utilities/Gradients';
 import { Logo } from '../assets/components/utilities/Logo';
-import Button from '../assets/components/buttons/Buttons';
 import TxtInput from '../assets/components/utilities/TextInput';
+import { colors } from '../config/theme';
 
-export default function LoginScreen({ navigation }) {
+type RootStackParamList = {
+	SignUp: undefined;
+};
+
+interface LoginScreenProps {
+	navigation: NativeStackNavigationProp<RootStackParamList>;
+}
+
+export default function LoginScreen({ navigation }: LoginScreenProps) {
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
 	const [loading, setLoading] = useState(false);
@@ -77,36 +79,13 @@ export default function LoginScreen({ navigation }) {
 							style={{ width: 140 }}
 						/>
 						<Button
-							onPress={() => navigation.navigate('Sign Up' as never)}
+							onPress={() => navigation.navigate('SignUp' as never)}
 							variant='black'
 							title='Sign Up'
 							style={{ width: 140 }}
 						/>
 					</>
 				)}
-			</View>
-			<View style={styles.alternateContainer}>
-				<View style={styles.row}>
-					<View style={styles.line}></View>
-					<CustomText
-						style={{ fontSize: 14 }}
-						bold>
-						or sign in with
-					</CustomText>
-					<View style={styles.line}></View>
-				</View>
-				<TouchableOpacity style={styles.tempInputView}>
-					<AntIcon
-						style={{ left: 20 }}
-						name={'google'}
-						size={20}
-					/>
-					<CustomText
-						style={{ left: 60, position: 'absolute', fontSize: 16 }}
-						bold>
-						Continue with Google
-					</CustomText>
-				</TouchableOpacity>
 			</View>
 		</ScrollView>
 	);

@@ -1,14 +1,24 @@
+import { LinearGradient } from 'expo-linear-gradient';
 import React from 'react';
 import { Alert, StyleSheet, TouchableOpacity, View } from 'react-native';
-import { LinearGradient } from 'expo-linear-gradient';
 
-import { CustomText, colors } from '../config/theme';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { deleteDoc, doc, getDoc } from 'firebase/firestore';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import { Logo } from '../assets/components/utilities/Logo';
+import { CustomText, colors } from '../config/theme';
 import { firebase_auth, firestore_db } from '../Firebase/firebaseConfig';
-import { doc, deleteDoc, getDoc } from 'firebase/firestore';
 
-export default function Menu({ navigation }) {
+type RootStackParamList = {
+	Export: undefined;
+	Feedback: undefined;
+};
+
+interface MenuProps {
+	navigation: NativeStackNavigationProp<RootStackParamList>;
+}
+
+export default function Menu({ navigation }: MenuProps) {
 	const user_uid = firebase_auth.currentUser.uid;
 	const userRef = doc(firestore_db, 'users', user_uid);
 	const [type, setType] = React.useState('Athlete');

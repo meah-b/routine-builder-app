@@ -1,10 +1,16 @@
 import React from 'react';
-import { View, StyleSheet, TextInput } from 'react-native';
+import { StyleSheet, TextInput, View } from 'react-native';
 import AntIcon from 'react-native-vector-icons/AntDesign';
 
 import { colors } from '../../../config/theme';
 
-export default function TxtInput({ variant, onChange, value }) {
+interface TxtInputProps {
+	variant: 'email' | 'password';
+	value: string;
+	onChange: (text: string) => void;
+}
+
+export default function TxtInput({ variant, onChange, value }: TxtInputProps) {
 	return (
 		<View style={styles.inputView}>
 			<AntIcon

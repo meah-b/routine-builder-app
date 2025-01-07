@@ -1,11 +1,21 @@
 import React from 'react';
-import { View, StyleSheet } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 
-import Button from '../buttons/Buttons';
 import { colors, CustomText } from '../../../config/theme';
+import Button from '../buttons/Buttons';
 
-export default function SectionCard({ variant, count, onPress }) {
-	let title: string, subTitle: string, buttonTitle: string, padding: number;
+interface SectionCardProps {
+	variant: 'Skills' | 'Connections' | 'Routines' | 'Builder';
+	count: number;
+	onPress: () => void;
+}
+
+export default function SectionCard({
+	variant,
+	count,
+	onPress,
+}: SectionCardProps) {
+	let title: string, subTitle: string, buttonTitle: string;
 
 	if (variant === 'Skills') {
 		title = 'Skills Library';
@@ -23,7 +33,6 @@ export default function SectionCard({ variant, count, onPress }) {
 		title = 'Routine Builder';
 		subTitle = 'Calculate Your Start Value';
 		buttonTitle = 'Create';
-		padding = 120;
 	}
 
 	return (

@@ -1,15 +1,15 @@
-import React, { useEffect } from 'react';
-import { StyleSheet, View, TouchableOpacity, ScrollView } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { doc, getDoc } from 'firebase/firestore';
+import React, { useEffect } from 'react';
+import { ScrollView, StyleSheet, TouchableOpacity, View } from 'react-native';
 import { firebase_auth, firestore_db } from '../Firebase/firebaseConfig';
 
-import { CustomText, colors } from '../config/theme';
-import Header from '../assets/components/utilities/Header';
+import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import Button from '../assets/components/buttons/Buttons';
 import AthleteCard from '../assets/components/cards/AthleteCard';
 import ExportForm from '../assets/components/forms/ExportForm';
-import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
+import Header from '../assets/components/utilities/Header';
+import { CustomText, colors } from '../config/theme';
 
 export default function CoachExport() {
 	const user_uid = firebase_auth.currentUser.uid;
@@ -77,7 +77,11 @@ export default function CoachExport() {
 				<TouchableOpacity
 					style={styles.sortButton}
 					onPress={() => {
-						sort === 'desc' ? setSort('asc') : setSort('desc');
+						if (sort === 'desc') {
+							setSort('asc');
+						} else {
+							setSort('desc');
+						}
 					}}>
 					<FontAwesome5
 						color={colors.black}

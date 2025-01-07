@@ -1,24 +1,24 @@
-import React, { useState } from 'react';
 import {
-	View,
-	StyleSheet,
-	TextInput,
-	ActivityIndicator,
-	Keyboard,
-} from 'react-native';
-import { firebase_auth, firestore_db } from '../../../Firebase/firebaseConfig';
-import {
+	addDoc,
 	collection,
 	doc,
-	setDoc,
-	addDoc,
 	getDoc,
+	setDoc,
 	updateDoc,
 } from 'firebase/firestore';
+import React, { useState } from 'react';
+import {
+	ActivityIndicator,
+	Keyboard,
+	StyleSheet,
+	TextInput,
+	View,
+} from 'react-native';
+import { firebase_auth, firestore_db } from '../../../Firebase/firebaseConfig';
 
+import AppContext from '../../../config/context';
 import { colors, CustomText } from '../../../config/theme';
 import Button from '../buttons/Buttons';
-import AppContext from '../../../config/context';
 
 interface SkillFormProps {
 	onSubmit: () => void;
@@ -160,7 +160,11 @@ export default function AthleteForm(props: SkillFormProps) {
 						if (name === '' || level === '') {
 							alert('Please input all values!');
 						} else {
-							isEditing ? updateAthlete() : addUser();
+							if (isEditing) {
+								updateAthlete();
+							} else {
+								addUser();
+							}
 						}
 					}}
 					variant='black'

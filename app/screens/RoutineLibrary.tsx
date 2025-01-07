@@ -1,22 +1,31 @@
+import { LinearGradient } from 'expo-linear-gradient';
 import React from 'react';
 import { StyleSheet, TouchableOpacity } from 'react-native';
-import { LinearGradient } from 'expo-linear-gradient';
 
-import { CustomText, colors } from '../config/theme';
-import Header from '../assets/components/utilities/Header';
-import HomeButton from '../assets/components/buttons/HomeButton';
-import EventButtons from '../assets/components/buttons/EventButtons';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import Button from '../assets/components/buttons/Buttons';
+import EventButtons from '../assets/components/buttons/EventButtons';
+import HomeButton from '../assets/components/buttons/HomeButton';
 import RoutineList from '../assets/components/lists/RoutineList';
 import SkillList from '../assets/components/lists/SkillList';
-import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
+import Header from '../assets/components/utilities/Header';
+import { CustomText, colors } from '../config/theme';
 
-export default function RoutineLibrary({ navigation }) {
+type RootStackParamList = {
+	RoutineBuilder: undefined;
+};
+
+interface RoutineLibraryProps {
+	navigation: NativeStackNavigationProp<RootStackParamList>;
+}
+
+export default function RoutineLibrary({ navigation }: RoutineLibraryProps) {
 	const [selectedVariant, setSelectedVariant] = React.useState('Vault');
 	const [order, setOrder] = React.useState('desc');
 
 	const handleAddRoutine = () => {
-		navigation.navigate('Routine Builder' as never);
+		navigation.navigate('RoutineBuilder' as never);
 	};
 
 	return (
@@ -46,7 +55,11 @@ export default function RoutineLibrary({ navigation }) {
 			<TouchableOpacity
 				style={styles.sortButton}
 				onPress={() => {
-					order === 'desc' ? setOrder('asc') : setOrder('desc');
+					if (order === 'desc') {
+						setOrder('asc');
+					} else {
+						setOrder('desc');
+					}
 				}}>
 				<FontAwesome5
 					color={colors.black}

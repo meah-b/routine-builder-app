@@ -1,16 +1,29 @@
-import React, { useEffect, useState } from 'react';
-import { StyleSheet, TouchableOpacity, View } from 'react-native';
+import { useFocusEffect } from '@react-navigation/native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { collection, doc, getDoc, getDocs } from 'firebase/firestore';
+import React, { useEffect, useState } from 'react';
+import { StyleSheet, TouchableOpacity, View } from 'react-native';
 import { firebase_auth, firestore_db } from '../Firebase/firebaseConfig';
-import { useFocusEffect } from '@react-navigation/native';
 
-import { colors, CustomText } from '../config/theme';
-import AppContext from '../config/context';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import SectionCard from '../assets/components/cards/SectionCard';
 import Header from '../assets/components/utilities/Header';
+import AppContext from '../config/context';
+import { colors, CustomText } from '../config/theme';
 
-export default function HomeScreen({ navigation }) {
+type RootStackParamList = {
+	Roster: undefined;
+	SkillLibrary: undefined;
+	ConnectionLibrary: undefined;
+	RoutineLibrary: undefined;
+	RoutineBuilder: undefined;
+};
+
+interface HomeScreenProps {
+	navigation: NativeStackNavigationProp<RootStackParamList>;
+}
+
+export default function HomeScreen({ navigation }: HomeScreenProps) {
 	const events = ['vault', 'bars', 'beam', 'floor'];
 	const { selectedAthlete } = React.useContext(AppContext);
 	const user_uid = selectedAthlete
@@ -104,22 +117,22 @@ export default function HomeScreen({ navigation }) {
 				<SectionCard
 					variant='Skills'
 					count={skillsLength}
-					onPress={() => navigation.navigate('Skill Library')}
+					onPress={() => navigation.navigate('SkillLibrary')}
 				/>
 				<SectionCard
 					variant='Connections'
 					count={connectionsLength}
-					onPress={() => navigation.navigate('Connection Library')}
+					onPress={() => navigation.navigate('ConnectionLibrary')}
 				/>
 				<SectionCard
 					variant='Routines'
 					count={routinesLength}
-					onPress={() => navigation.navigate('Routine Library')}
+					onPress={() => navigation.navigate('RoutineLibrary')}
 				/>
 				<SectionCard
 					variant='Builder'
-					count
-					onPress={() => navigation.navigate('Routine Builder')}
+					count={0}
+					onPress={() => navigation.navigate('RoutineBuilder')}
 				/>
 			</View>
 		</LinearGradient>

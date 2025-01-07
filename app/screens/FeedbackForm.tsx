@@ -1,10 +1,19 @@
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import React from 'react';
 import { StyleSheet, TouchableOpacity, View } from 'react-native';
+import AntDesign from 'react-native-vector-icons/AntDesign';
 import { WebView } from 'react-native-webview';
 import { colors, CustomText } from '../config/theme';
-import AntDesign from 'react-native-vector-icons/AntDesign';
 
-export default function FeedbackForm({ navigation }) {
+type RootStackParamList = {
+	Menu: undefined;
+};
+
+interface FeedbackFormProps {
+	navigation: NativeStackNavigationProp<RootStackParamList, 'Menu'>;
+}
+
+export default function FeedbackForm({ navigation }: FeedbackFormProps) {
 	return (
 		<View style={styles.container}>
 			<TouchableOpacity

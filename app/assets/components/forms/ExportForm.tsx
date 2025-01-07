@@ -1,23 +1,23 @@
-import React, { useState, useEffect } from 'react';
+import { useNavigation } from '@react-navigation/native';
+import { collection, doc, getDoc, getDocs } from 'firebase/firestore';
+import React, { useEffect, useState } from 'react';
 import {
-	View,
-	StyleSheet,
 	ScrollView,
-	TouchableOpacity,
 	Share,
+	StyleSheet,
+	TouchableOpacity,
+	View,
 } from 'react-native';
 import { firestore_db } from '../../../Firebase/firebaseConfig';
-import { collection, doc, getDoc, getDocs } from 'firebase/firestore';
-import { useNavigation } from '@react-navigation/native';
 
 import { colors, CustomText } from '../../../config/theme';
-import { H1Logo } from '../utilities/Logo';
-import ExportRoutineCard from '../cards/ExportRoutineCard';
 import Button from '../buttons/Buttons';
+import ExportRoutineCard from '../cards/ExportRoutineCard';
+import { H1Logo } from '../utilities/Logo';
 
 interface Props {
 	onSubmit: () => void;
-	selectedAthletes: any[];
+	selectedAthletes: string[];
 }
 
 export default function ExportForm(props: Props) {

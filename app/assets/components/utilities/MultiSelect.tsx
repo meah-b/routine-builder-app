@@ -1,16 +1,16 @@
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
-import { MultiSelect } from 'react-native-element-dropdown';
 import { AntDesign } from '@expo/vector-icons';
+import React from 'react';
+import { StyleProp, StyleSheet, Text, View, ViewStyle } from 'react-native';
+import { MultiSelect } from 'react-native-element-dropdown';
 
 import { colors } from '../../../config/theme';
 
 interface ConnectionFormProps {
-	selected: any[];
+	selected: string[];
 	data: { label: string; value: string }[];
 	onChange: (value: string[]) => void;
 	placeholder: string;
-	style: any;
+	style: StyleProp<ViewStyle>;
 }
 
 export default function MultiSelector(props: ConnectionFormProps) {

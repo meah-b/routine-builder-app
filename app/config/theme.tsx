@@ -1,6 +1,12 @@
-import React, { useState, useEffect } from 'react';
-import { Text } from 'react-native';
 import * as Font from 'expo-font';
+import React, { ReactNode, useEffect, useState } from 'react';
+import { StyleProp, Text, TextStyle } from 'react-native';
+
+interface CustomTextProps {
+	children: ReactNode;
+	style?: StyleProp<TextStyle>;
+	bold?: boolean;
+}
 
 export const colors = {
 	white: '#fff',
@@ -18,13 +24,15 @@ export const colors = {
 	gradient2: ['#9747FF', '#FFBBF8', '#FFF'] as const,
 };
 
-export const CustomText = (props) => {
+export const CustomText = ({ style, children, bold }: CustomTextProps) => {
 	const [fontLoaded, setFontLoaded] = useState(false);
 
 	useEffect(() => {
 		async function loadFont() {
 			await Font.loadAsync({
+				// eslint-disable-next-line @typescript-eslint/no-require-imports
 				'jost-bold': require('../assets/fonts/Jost-Bold.ttf'),
+				// eslint-disable-next-line @typescript-eslint/no-require-imports
 				'jost-regular': require('../assets/fonts/Jost-Regular.ttf'),
 			});
 
@@ -38,7 +46,6 @@ export const CustomText = (props) => {
 		return <Text>Loading...</Text>;
 	}
 
-	const { style, children, bold } = props;
 	const fontFamily = bold ? 'jost-bold' : 'jost-regular';
 
 	return <Text style={[{ fontFamily }, style]}>{children}</Text>;

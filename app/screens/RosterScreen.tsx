@@ -1,41 +1,39 @@
-import React, { useEffect } from 'react';
-import {
-	StyleSheet,
-	View,
-	TouchableOpacity,
-	Alert,
-	ScrollView,
-} from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import {
+	deleteDoc,
+	deleteField,
 	doc,
 	getDoc,
-	deleteDoc,
 	updateDoc,
-	deleteField,
 } from 'firebase/firestore';
+import React, { useEffect } from 'react';
+import {
+	Alert,
+	ScrollView,
+	StyleSheet,
+	TouchableOpacity,
+	View,
+} from 'react-native';
 import { firebase_auth, firestore_db } from '../Firebase/firebaseConfig';
 
-import { CustomText, colors } from '../config/theme';
-import AppContext from '../config/context';
-import Header from '../assets/components/utilities/Header';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import Button from '../assets/components/buttons/Buttons';
 import AthleteCard from '../assets/components/cards/AthleteCard';
 import AthleteForm from '../assets/components/forms/AthleteForm';
-import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
+import Header from '../assets/components/utilities/Header';
+import AppContext from '../config/context';
+import { CustomText, colors } from '../config/theme';
 
-const levels = {
-	Senior: 13,
-	Junior: 12,
-	Novice: 11,
-	'10': 10,
-	'9': 9,
-	'8': 8,
-	'7': 7,
-	'6': 6,
+type RootStackParamList = {
+	Home: undefined;
 };
 
-export default function RosterScreen({ navigation }) {
+interface RosterScreenProps {
+	navigation: NativeStackNavigationProp<RootStackParamList>;
+}
+
+export default function RosterScreen({ navigation }: RosterScreenProps) {
 	const [form, setForm] = React.useState(0);
 	const user_uid = firebase_auth.currentUser.uid;
 	const user_doc = doc(firestore_db, 'users', user_uid);
@@ -147,13 +145,19 @@ export default function RosterScreen({ navigation }) {
 						title='Edit Athlete'
 						variant='black'
 						onPress={() => {
-							setIsEditing(true), setForm(1), setAthleteToEdit(selectedAthlete);
+							setIsEditing(true);
+							setForm(1);
+							setAthleteToEdit(selectedAthlete);
 						}}></Button>
 				) : null}
 				<TouchableOpacity
 					style={styles.sortButton}
 					onPress={() => {
-						sort === 'desc' ? setSort('asc') : setSort('desc');
+						if (sort === 'asc') {
+							setSort('desc');
+						} else {
+							setSort('asc');
+						}
 					}}>
 					<FontAwesome5
 						color={colors.black}
@@ -197,7 +201,8 @@ export default function RosterScreen({ navigation }) {
 				<Header></Header>
 				<TouchableOpacity
 					onPress={() => {
-						setForm(0), setIsEditing(false);
+						setForm(0);
+						setIsEditing(false);
 					}}
 					style={{ position: 'absolute', top: 160, left: -180 }}>
 					<CustomText

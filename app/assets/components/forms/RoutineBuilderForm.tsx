@@ -1,19 +1,19 @@
-import React, { useState, useEffect } from 'react';
+import { AntDesign } from '@expo/vector-icons';
+import { collection, doc, getDocs, setDoc } from 'firebase/firestore';
+import React, { useEffect, useState } from 'react';
 import {
-	StyleSheet,
 	ScrollView,
-	View,
+	StyleSheet,
 	Text,
 	TouchableOpacity,
+	View,
 } from 'react-native';
-import { firebase_auth, firestore_db } from '../../../Firebase/firebaseConfig';
-import { collection, doc, getDocs, setDoc } from 'firebase/firestore';
 import { MultiSelect } from 'react-native-element-dropdown';
-import { AntDesign } from '@expo/vector-icons';
+import { firebase_auth, firestore_db } from '../../../Firebase/firebaseConfig';
 
+import AppContext from '../../../config/context';
 import { colors, CustomText } from '../../../config/theme';
 import Button from '../buttons/Buttons';
-import AppContext from '../../../config/context';
 
 interface Props {
 	routine_id: string;
@@ -44,8 +44,8 @@ export default function RoutineBuilderForm(props: Props) {
 	);
 	const [querySkills, setQuerySkills] = useState([]);
 	const [queryConnections, setQueryConnections] = useState([]);
-	let dvs: string[] = [];
-	let cvs: string[] = [];
+	const dvs: string[] = [];
+	const cvs: string[] = [];
 
 	useEffect(() => {
 		const fetchData = async () => {
@@ -58,14 +58,14 @@ export default function RoutineBuilderForm(props: Props) {
 	}, []);
 
 	function calculateSV(selectedSkills, selectedConnections) {
-		let selected_skills = selectedSkills.map((item) => item);
+		const selected_skills = selectedSkills.map((item) => item);
 		selected_skills.map((selectedId) => {
 			const doc = querySkills.find((doc) => doc.id === selectedId);
 			if (doc) {
 				dvs.push(doc.data().difficulty.value);
 			}
 		});
-		let selected_connections = selectedConnections.map((item) => item);
+		const selected_connections = selectedConnections.map((item) => item);
 		selected_connections.map((selectedId) => {
 			const doc = queryConnections.find((doc) => doc.id === selectedId);
 			if (doc) {

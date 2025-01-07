@@ -1,13 +1,13 @@
-import React, { useState } from 'react';
-import { View, TextInput, StyleSheet, Keyboard } from 'react-native';
-import { firebase_auth, firestore_db } from '../Firebase/firebaseConfig';
-import { collection, doc, setDoc } from 'firebase/firestore';
 import { LinearGradient } from 'expo-linear-gradient';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
+import { collection, doc, setDoc } from 'firebase/firestore';
+import React, { useState } from 'react';
+import { Keyboard, StyleSheet, TextInput, View } from 'react-native';
+import { firebase_auth, firestore_db } from '../Firebase/firebaseConfig';
 
-import { CustomText, colors } from '../config/theme';
-import { Logo } from '../assets/components/utilities/Logo';
 import Button from '../assets/components/buttons/Buttons';
+import { Logo } from '../assets/components/utilities/Logo';
+import { CustomText, colors } from '../config/theme';
 
 export default function SignUpScreen() {
 	const [fullName, setFullName] = useState('');
@@ -130,11 +130,15 @@ export default function SignUpScreen() {
 						width: 230,
 					}}
 					onPress={() => {
-						fullName != '' && email != '' && password != '' && type != ''
-							? type === 'Athlete'
-								? signUpAthlete()
-								: signUpCoach()
-							: alert('Please input all fields');
+						if (fullName != '' && email != '' && password != '' && type != '') {
+							if (type === 'Athlete') {
+								signUpAthlete();
+							} else {
+								signUpCoach();
+							}
+						} else {
+							alert('Please input all fields');
+						}
 					}}></Button>
 			</View>
 		</LinearGradient>
