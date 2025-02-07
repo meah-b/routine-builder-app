@@ -4,6 +4,7 @@ import React, { useEffect } from 'react';
 import { ScrollView, StyleSheet, TouchableOpacity, View } from 'react-native';
 import { firebase_auth, firestore_db } from '../Firebase/firebaseConfig';
 
+import { useNavigation } from '@react-navigation/native';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import Button from '../assets/components/buttons/Buttons';
 import AthleteCard from '../assets/components/cards/AthleteCard';
@@ -12,6 +13,8 @@ import Header from '../assets/components/utilities/Header';
 import { CustomText, colors } from '../config/theme';
 
 export default function CoachExport() {
+	const navigation = useNavigation();
+
 	const user_uid = firebase_auth.currentUser.uid;
 	const user_doc = doc(firestore_db, 'users', user_uid);
 	const [sort, setSort] = React.useState('desc');
@@ -108,11 +111,19 @@ export default function CoachExport() {
 						))}
 					</ScrollView>
 				</View>
-				<Button
-					style={styles.updateButton}
-					title='Export Selected Athletes'
-					variant='black'
-					onPress={() => setForm(1)}></Button>
+				<View style={styles.row}>
+					<Button
+						variant='black'
+						onPress={() => navigation.navigate('Menu' as never)}
+						style={styles.backButton}
+						title='Back'
+					/>
+					<Button
+						style={styles.updateButton}
+						title='Export Selected Athletes'
+						variant='black'
+						onPress={() => setForm(1)}></Button>
+				</View>
 			</View>
 		);
 	}
@@ -134,6 +145,11 @@ export default function CoachExport() {
 }
 
 const styles = StyleSheet.create({
+	backButton: {
+		height: 50,
+		width: 105,
+		marginTop: 20,
+	},
 	container: {
 		flex: 1,
 		flexDirection: 'column',
@@ -153,6 +169,11 @@ const styles = StyleSheet.create({
 		marginTop: 160,
 		height: 460,
 		width: 370,
+	},
+	row: {
+		flexDirection: 'row',
+		alignItems: 'center',
+		gap: 10,
 	},
 	scrollContainer: {
 		flexDirection: 'column',

@@ -1,20 +1,20 @@
-import React, { useEffect, useState } from 'react';
-import {
-	StyleSheet,
-	View,
-	TouchableOpacity,
-	ScrollView,
-	Share,
-} from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { collection, doc, getDocs } from 'firebase/firestore';
+import React, { useEffect, useState } from 'react';
+import {
+	ScrollView,
+	Share,
+	StyleSheet,
+	TouchableOpacity,
+	View,
+} from 'react-native';
 import { firebase_auth, firestore_db } from '../Firebase/firebaseConfig';
 
-import { CustomText, colors } from '../config/theme';
-import Button from '../assets/components/buttons/Buttons';
 import { useNavigation } from '@react-navigation/native';
-import { H1Logo } from '../assets/components/utilities/Logo';
+import Button from '../assets/components/buttons/Buttons';
 import ExportRoutineCard from '../assets/components/cards/ExportRoutineCard';
+import { H1Logo } from '../assets/components/utilities/Logo';
+import { CustomText, colors } from '../config/theme';
 
 export default function AthleteExport() {
 	const navigation = useNavigation();
@@ -193,12 +193,20 @@ export default function AthleteExport() {
 						Loading Routine Data...
 					</CustomText>
 				)}
-				<Button
-					variant='black'
-					onPress={exportRoutines}
-					style={styles.button2}
-					title='Export'
-				/>
+				<View style={styles.row}>
+					<Button
+						variant='black'
+						onPress={() => navigation.navigate('Menu' as never)}
+						style={styles.button2}
+						title='Back'
+					/>
+					<Button
+						variant='black'
+						onPress={exportRoutines}
+						style={styles.button2}
+						title='Export'
+					/>
+				</View>
 			</View>
 		</LinearGradient>
 	);
@@ -254,6 +262,11 @@ const styles = StyleSheet.create({
 	routineContainer: {
 		padding: 10,
 		marginBottom: 5,
+	},
+	row: {
+		flexDirection: 'row',
+		alignItems: 'center',
+		gap: 30,
 	},
 	scrollView: {
 		flex: 1,

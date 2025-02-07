@@ -49,10 +49,12 @@ function AthleteLayout() {
 			<InsideStack.Screen
 				name='Profile'
 				component={Profile}
+				options={{ animation: 'slide_from_bottom' }}
 			/>
 			<InsideStack.Screen
 				name='Menu'
 				component={Menu}
+				options={{ animation: 'slide_from_bottom' }}
 			/>
 			<InsideStack.Screen
 				name='Feedback'
@@ -96,10 +98,12 @@ function CoachLayout() {
 			<InsideStack.Screen
 				name='Profile'
 				component={Profile}
+				options={{ animation: 'slide_from_bottom' }}
 			/>
 			<InsideStack.Screen
 				name='Menu'
 				component={Menu}
+				options={{ animation: 'slide_from_bottom' }}
 			/>
 			<InsideStack.Screen
 				name='Feedback'
